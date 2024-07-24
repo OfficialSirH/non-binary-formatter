@@ -2,7 +2,9 @@
 mod test {
     use std::collections::HashMap;
 
-    use crate::{errors::NrbfError, record_types::class_wmat::ClassWithMembersAndTypes};
+    use crate::{
+        common::enumerations::RecordTypeEnum, errors::NrbfError, ClassWithMembersAndTypes,
+    };
 
     #[test]
     fn test_classwithmembertypes_deserialization() -> Result<(), NrbfError> {
@@ -42,6 +44,8 @@ mod test {
 
         let mut cursor = std::io::Cursor::new(data);
         let libraries = HashMap::new(); // In a real scenario, this would be populated
+        let record_type = RecordTypeEnum::read_record_type(&mut cursor)?;
+        assert_eq!(RecordTypeEnum::ClassWithMembersAndTypes, record_type);
         let class = ClassWithMembersAndTypes::deserialize(&mut cursor, &libraries)?;
 
         println!("{:?}", class);

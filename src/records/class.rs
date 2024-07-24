@@ -1,0 +1,2 @@
+mod class_with_members_and_types;
+pub use class_with_members_and_types::ClassWithMembersAndTypes;

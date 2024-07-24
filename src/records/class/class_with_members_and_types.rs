@@ -1,12 +1,11 @@
 use std::{collections::HashMap, io::Read};
 
 use crate::{
-    enums::{BinaryTypeEnum, RecordTypeEnum},
+    common::enumerations::BinaryTypeEnum,
     errors::NrbfError,
     readers::{read_i32, read_string},
+    records::member_reference::BinaryObjectString,
 };
-
-use super::binary_object_string::BinaryObjectString;
 
 #[derive(Debug)]
 pub struct ClassWithMembersAndTypes {
@@ -21,10 +20,10 @@ pub struct ClassWithMembersAndTypes {
 #[derive(Debug)]
 pub enum MemberValue {
     String(BinaryObjectString),
-    Object(i32), // Object reference
+    /// The i32 is the object ID of the object being referenced
+    Object(i32),
     Boolean(bool),
     Int32(i32),
-    // Add other types as needed
 }
 
 impl ClassWithMembersAndTypes {
@@ -32,23 +31,17 @@ impl ClassWithMembersAndTypes {
         reader: &mut R,
         _libraries: &HashMap<i32, String>, // TODO: Implement library deserialization
     ) -> Result<Self, NrbfError> {
-        let mut record_type = [0u8; 1];
-        reader.read_exact(&mut record_type)?;
-
-        if record_type[0] != RecordTypeEnum::ClassWithMembersAndTypes as u8 {
-            // 0x05 is the RecordTypeEnum for ClassWithMembersAndTypes
-            return Err(NrbfError::UnexpectedRecordType);
-        }
-
         let object_id = read_i32(reader)?;
         let name = read_string(reader)?;
 
+        // Read member names
         let member_count = read_i32(reader)?;
         let mut member_names = Vec::with_capacity(member_count as usize);
         for _ in 0..member_count {
             member_names.push(read_string(reader)?);
         }
 
+        // Read member types
         let mut member_types = Vec::with_capacity(member_count as usize);
         for _ in 0..member_count {
             let mut type_byte = [0u8; 1];
@@ -58,7 +51,7 @@ impl ClassWithMembersAndTypes {
 
         let library_id = read_i32(reader)?;
 
-        // Now, read the actual member values
+        // Read member values
         let mut member_values = Vec::with_capacity(member_count as usize);
         for type_enum in &member_types {
             let value = match type_enum {
@@ -72,7 +65,6 @@ impl ClassWithMembersAndTypes {
                     MemberValue::Boolean(bool_byte[0] != 0)
                 }
                 BinaryTypeEnum::Int32 => MemberValue::Int32(read_i32(reader)?),
-                // Add other cases
             };
             member_values.push(value);
         }
