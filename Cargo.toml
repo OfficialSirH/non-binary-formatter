@@ -1,0 +1,9 @@
+cargo-features = ["edition2024"]
+
+[package]
+name = "nonbinary-formatter"
+description = "A non-binary formatter for Rust"
+version = "0.0.1"
+edition = "2024"
+
+[dependencies]
