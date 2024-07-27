@@ -31,10 +31,7 @@ impl LengthPrefixedString {
     pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
         let mut string_length: u32 = 0;
         for i in 0..5 {
-            let byte = read_u8(reader)?;
-
-            let continues_chunk = (byte >> 7) & 1 == 1;
-            let value = (byte << 1 >> 1) as u32;
+            let (continues_chunk, value) = Self::read_chunk(reader)?;
             string_length += match i {
                 0 => value,
                 1..=4 => {
@@ -81,13 +78,13 @@ impl LengthPrefixedString {
     /// assert_eq!(false, continues_chunk);
     /// assert_eq!(11, value);
     /// ```
-    pub fn read_chunk<R: Read>(reader: &mut R) -> Result<(bool, u8), NrbfError> {
+    pub fn read_chunk<R: Read>(reader: &mut R) -> Result<(bool, u32), NrbfError> {
         let byte = read_u8(reader)?;
 
         let continues_chunk = (byte >> 7) & 1 == 1;
         let value = byte << 1 >> 1;
 
-        Ok((continues_chunk, value))
+        Ok((continues_chunk, value as u32))
     }
 }
 
