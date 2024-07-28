@@ -1,3 +1,5 @@
+#![feature(f128)]
+
 pub mod common;
 pub mod errors;
 pub mod readers;

@@ -7,3 +7,4 @@ version = "0.0.1"
 edition = "2024"
 
 [dependencies]
+f128 = "0.2.9"

@@ -5,7 +5,7 @@ pub enum NrbfError {
     IoError(IoError),
     UnexpectedRecordType,
     InvalidString,
-    // Add other error types as needed
+    InvalidDateTimeKind,
 }
 
 impl From<IoError> for NrbfError {

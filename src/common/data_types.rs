@@ -1,10 +1,18 @@
 mod char;
+pub use char::Char;
 mod class_type_info;
+pub use class_type_info::ClassTypeInfo;
 mod date_time;
+pub use date_time::DateTime;
+pub use date_time::DateTimeKind;
 mod decimal;
+pub use decimal::Decimal;
 mod double;
+pub use double::Double;
 mod length_prefixed_string;
 pub use length_prefixed_string::LengthPrefixedString;
 pub use length_prefixed_string::LENGTH_CHUNK_BIT_STEP;
 mod single;
+pub use single::Single;
 mod time_span;
+pub use time_span::TimeSpan;
