@@ -93,6 +93,7 @@ mod tests {
     use crate::common::data_types::LengthPrefixedString;
 
     #[test]
+    /// Test the deserialization of an example LengthPrefixedString
     fn hello_world_test() {
         let encoded_string = [
             0b00001011, // Length: 11
@@ -108,7 +109,7 @@ mod tests {
 
     #[ignore = "This thing is a memory monster that takes up quite some time to run"]
     #[test]
-    // Test the maximum length of a length prefixed string by generating a string of 2^31 - 1 bytes
+    /// Test the maximum length of a length prefixed string by generating a string of 2^31 - 1 bytes
     fn max_length_test() {
         let mut encoded_string = vec![
             0b11111111, 0b11111111, 0b11111111, 0b11111111, 0b00000111, // Length: 2^31 - 1
