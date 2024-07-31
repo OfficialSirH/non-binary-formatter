@@ -5,8 +5,6 @@ pub mod errors;
 pub mod readers;
 pub mod records;
 
-mod tests;
-
 use common::enumerations::RecordTypeEnum;
 use records::{
     class::ClassWithMembersAndTypes, member_reference::BinaryObjectString,
