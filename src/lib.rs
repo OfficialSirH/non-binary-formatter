@@ -31,23 +31,20 @@ impl Default for NrbfDeserialized {
 pub fn deserialize_nrbf<R: std::io::Read>(reader: &mut R) -> Result<(), errors::NrbfError> {
     let mut deserialized_data = NrbfDeserialized::default();
 
-    let record_type = RecordTypeEnum::read_record_type(reader)?;
+    let record_type = RecordTypeEnum::deserialize(reader)?;
     // ensure first record type is SerializedStreamHeader
     if record_type != RecordTypeEnum::SerializedStreamHeader {
         return Err(errors::NrbfError::UnexpectedRecordType);
     }
     deserialized_data.serialized_stream_header = SerializationHeaderRecord::deserialize(reader)?;
 
-    let record_type = RecordTypeEnum::read_record_type(reader)?;
+    let record_type = RecordTypeEnum::deserialize(reader)?;
     loop {
         match record_type {
             RecordTypeEnum::ClassWithMembersAndTypes => {
-                deserialized_data.class_with_members_and_types.push(
-                    ClassWithMembersAndTypes::deserialize(
-                        reader,
-                        &std::collections::HashMap::new(),
-                    )?,
-                );
+                deserialized_data
+                    .class_with_members_and_types
+                    .push(ClassWithMembersAndTypes::deserialize(reader)?);
             }
             RecordTypeEnum::BinaryObjectString => {
                 deserialized_data

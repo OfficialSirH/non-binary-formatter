@@ -5,6 +5,7 @@ use crate::{errors::NrbfError, readers::read_u8};
 /// The number of bits to shift for each chunk magnitude to calculate the length of the string
 pub const LENGTH_CHUNK_BIT_STEP: u32 = 7;
 
+#[derive(Debug)]
 pub struct LengthPrefixedString {
     pub value: String,
 }

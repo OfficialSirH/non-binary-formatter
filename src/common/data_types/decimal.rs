@@ -22,10 +22,11 @@ impl Decimal {
     }
 }
 
-// TODO: figure out how to actually test this (I'm using Windows and Windows is too quirky for me to get f128 to work)
 #[cfg(test)]
 mod tests {
     use std::io::Cursor;
+
+    use ::f128::f128;
 
     use crate::common::data_types::Decimal;
 
@@ -43,6 +44,7 @@ mod tests {
         assert!(result.is_ok());
         let value = result.unwrap();
         assert_eq!("69420.13377", value.string_value.value);
-        assert_eq!(69420.13377, value.value);
+        // I would prefer comparing them by their actual values than just a stringified version but it doesn't seem to take too kindly to that
+        assert_eq!(f128::from(69420.13377).to_string(), value.value.to_string());
     }
 }

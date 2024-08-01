@@ -4,6 +4,7 @@ use crate::{errors::NrbfError, readers::read_i32};
 
 use super::LengthPrefixedString;
 
+#[derive(Debug)]
 pub struct ClassTypeInfo {
     pub type_name: LengthPrefixedString,
     pub library_id: i32,

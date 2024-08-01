@@ -6,6 +6,12 @@ use crate::{
 };
 
 #[derive(Debug)]
+pub struct MemberPrimitiveTyped {}
+
+#[derive(Debug)]
+pub struct MemberPrimitiveUntyped {}
+
+#[derive(Debug)]
 pub struct BinaryObjectString {
     pub object_id: i32,
     pub value: String,

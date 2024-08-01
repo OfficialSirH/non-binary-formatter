@@ -2,23 +2,22 @@ use nonbinary_formatter::{
     common::enumerations::RecordTypeEnum, errors::NrbfError,
     records::class::ClassWithMembersAndTypes,
 };
-use std::collections::HashMap;
 
 #[test]
+// TODO: fix deserialization errors within this
 fn test_classwithmembertypes_deserialization() -> Result<(), NrbfError> {
     let data = [
         0x05, // RecordTypeEnum: ClassWithMembersAndTypes
-        0x02, 0x00, 0x00, 0x00, // ObjectId: 2
-        0x1A, 0x00, 0x00, 0x00, // Name length: 26
+        0x02, 0x00, 0x00, 0x00,       // ObjectId: 2
+        0b00011010, // Name length: 26
         b'D', b'O', b'J', b'R', b'e', b'm', b'o', b't', b'i', b'n', b'g', b'M', b'e', b't', b'a',
         b'd', b'a', b't', b'a', b'.', b'M', b'y', b'D', b'a', b't',
         b'a', // Name: "DOJRemotingMetadata.MyData"
         0x04, 0x00, 0x00, 0x00, // NumMembers: 4
-        0x06, 0x00, 0x00, 0x00, b'S', b't', b'r', b'e', b'e',
-        b't', // MemberNames[0]: "Street"
-        0x04, 0x00, 0x00, 0x00, b'C', b'i', b't', b'y', // MemberNames[1]: "City"
-        0x05, 0x00, 0x00, 0x00, b'S', b't', b'a', b't', b'e', // MemberNames[2]: "State"
-        0x03, 0x00, 0x00, 0x00, b'Z', b'i', b'p', // MemberNames[3]: "Zip"
+        0b0110, b'S', b't', b'r', b'e', b'e', b't', // MemberNames[0]: "Street"
+        0b0100, b'C', b'i', b't', b'y', // MemberNames[1]: "City"
+        0b0101, b'S', b't', b'a', b't', b'e', // MemberNames[2]: "State"
+        0b0011, b'Z', b'i', b'p', // MemberNames[3]: "Zip"
         0x01, 0x01, 0x01, 0x01, // BinaryTypeEnums: all strings
         0x03, 0x00, 0x00, 0x00, // LibraryId: 3
         0x06, // RecordTypeEnum: BinaryObjectString
@@ -41,10 +40,9 @@ fn test_classwithmembertypes_deserialization() -> Result<(), NrbfError> {
     ];
 
     let mut cursor = std::io::Cursor::new(data);
-    let libraries = HashMap::new(); // In a real scenario, this would be populated
-    let record_type = RecordTypeEnum::read_record_type(&mut cursor)?;
+    let record_type = RecordTypeEnum::deserialize(&mut cursor)?;
     assert_eq!(RecordTypeEnum::ClassWithMembersAndTypes, record_type);
-    let class = ClassWithMembersAndTypes::deserialize(&mut cursor, &libraries)?;
+    let class = ClassWithMembersAndTypes::deserialize(&mut cursor)?;
 
     println!("{:?}", class);
 
