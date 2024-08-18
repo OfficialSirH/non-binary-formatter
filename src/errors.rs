@@ -5,6 +5,7 @@ pub enum NrbfError {
     IoError(IoError),
     UnexpectedRecordType,
     InvalidString,
+    InvalidEnum,
     InvalidDateTimeKind,
 }
 

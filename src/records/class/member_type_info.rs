@@ -29,7 +29,8 @@ impl MemberTypeInfo {
         for _ in 0..member_count {
             let mut type_byte = [0u8; 1];
             reader.read_exact(&mut type_byte)?;
-            binary_type_enums.push(BinaryTypeEnum::try_from(type_byte[0])?);
+            binary_type_enums
+                .push(BinaryTypeEnum::from_repr(type_byte[0]).ok_or(NrbfError::InvalidEnum)?);
         }
 
         // Read additional info

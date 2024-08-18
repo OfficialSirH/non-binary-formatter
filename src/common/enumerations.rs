@@ -1,10 +1,11 @@
 use std::io::Read;
 
-use derive_try_from_u8::TryFromU8;
+use strum::FromRepr;
 
-use crate::errors::NrbfError;
+use crate::{errors::NrbfError, readers::read_u8};
 
-#[derive(Debug, TryFromU8, PartialEq)]
+#[derive(Debug, FromRepr, PartialEq, Eq)]
+#[repr(u8)]
 pub enum BinaryTypeEnum {
     Primitive = 0,
     String = 1,
@@ -21,12 +22,13 @@ mod binary_type_enum_tests {
     use crate::common::enumerations::BinaryTypeEnum;
 
     #[test]
-    fn try_from_u8() {
-        assert_eq!(BinaryTypeEnum::try_from(4).unwrap(), BinaryTypeEnum::Class)
+    fn from_u8_repr() {
+        assert_eq!(BinaryTypeEnum::from_repr(4).unwrap(), BinaryTypeEnum::Class)
     }
 }
 
-#[derive(Debug, TryFromU8, PartialEq)]
+#[derive(Debug, FromRepr, PartialEq, Eq)]
+#[repr(u8)]
 pub enum RecordTypeEnum {
     SerializedStreamHeader = 0,
     ClassWithId = 1,
@@ -55,11 +57,12 @@ impl RecordTypeEnum {
         let mut record_type = [0u8; 1];
         reader.read_exact(&mut record_type)?;
 
-        RecordTypeEnum::try_from(record_type[0])
+        RecordTypeEnum::from_repr(record_type[0]).ok_or(NrbfError::InvalidEnum)
     }
 }
 
-#[derive(Debug, TryFromU8)]
+#[derive(Debug, FromRepr, PartialEq, Eq)]
+#[repr(u8)]
 pub enum PrimitiveTypeEnum {
     Boolean = 1,
     Byte = 2,
@@ -82,9 +85,8 @@ pub enum PrimitiveTypeEnum {
 
 impl PrimitiveTypeEnum {
     pub fn deserialize<R: Read>(reader: &mut R) -> Result<PrimitiveTypeEnum, NrbfError> {
-        let mut buffer = vec![0u8, 1];
-        reader.read_exact(&mut buffer)?;
+        let value = read_u8(reader)?;
 
-        PrimitiveTypeEnum::try_from(buffer[0])
+        PrimitiveTypeEnum::from_repr(value).ok_or(NrbfError::InvalidEnum)
     }
 }

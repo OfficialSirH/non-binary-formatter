@@ -1,25 +1,15 @@
 use std::io::Read;
 
+use strum::FromRepr;
+
 use crate::errors::NrbfError;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, FromRepr, PartialEq)]
+#[repr(u8)]
 pub enum DateTimeKind {
-    Unspecified,
-    Utc,
-    Local,
-}
-
-impl TryFrom<u8> for DateTimeKind {
-    type Error = NrbfError;
-
-    fn try_from(value: u8) -> Result<Self, Self::Error> {
-        match value {
-            0 => Ok(DateTimeKind::Unspecified),
-            1 => Ok(DateTimeKind::Utc),
-            2 => Ok(DateTimeKind::Local),
-            _ => Err(NrbfError::InvalidDateTimeKind),
-        }
-    }
+    Unspecified = 0,
+    Utc = 1,
+    Local = 2,
 }
 
 pub struct DateTime {
@@ -35,7 +25,8 @@ impl DateTime {
         let mut buffer = [0u8; 8];
         reader.read_exact(&mut buffer)?;
 
-        let kind = DateTimeKind::try_from(buffer[7] & 0b0000_0011)?;
+        let kind =
+            DateTimeKind::from_repr(buffer[7] & 0b0000_0011).ok_or(NrbfError::InvalidEnum)?;
         buffer[7] &= 0b1111_1100;
         let value = i64::from_le_bytes(buffer);
 
