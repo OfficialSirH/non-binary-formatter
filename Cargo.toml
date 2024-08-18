@@ -7,4 +7,5 @@ version = "0.0.1"
 edition = "2024"
 
 [dependencies]
+derive_try_from_u8 = { path = "derive_try_from_u8" }
 f128 = "0.2.9"
