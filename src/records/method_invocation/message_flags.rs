@@ -1,14 +1,21 @@
 use std::io::Read;
+
 use strum::FromRepr;
 
 use crate::{errors::NrbfError, readers::read_i32};
+
+// this is for the docs
+#[allow(unused)]
+use crate::records::method_invocation::{
+    BinaryMethodCall, BinaryMethodReturn, MethodReturnCallArray,
+};
 
 #[derive(Debug, FromRepr, PartialEq)]
 #[repr(i32)]
 pub enum MessageFlags {
     /// The record contains no arguments. It is in the Arg category.
     NoArgs = 0x00000001,
-    /// The Arguments Array is in the [`BinaryMethodCall->Args`](BinaryMethodCall::args) field of the Method record. It is in the Arg category.
+    /// The Arguments Array is in the `Args`([`BinaryMethodCall`](BinaryMethodCall::args) / [`BinaryMethodReturn`](BinaryMethodReturn::args)) field of the Method record. It is in the Arg category.
     ArgsInline = 0x00000002,
     /// Each argument is an item in a separate Call Array record. It is in the Arg category.
     ArgsIsArray = 0x00000004,
@@ -16,7 +23,7 @@ pub enum MessageFlags {
     ArgsInArray = 0x00000008,
     /// The record does not contain a Call Context value. It is in the Context category.
     NoContext = 0x00000010,
-    /// Call Context contains only a Logical Call ID value and is in the `CallContext`([`BinaryMethodCall`](BinaryMethodCall::call_context) / [`BinaryMethodReturn`](BinaryMethodReturn::call_context)) [`BinaryMethodCall::CallContext`](BinaryMethodCall::call_context)/[`BinaryMethodReturn::CallContext`](BinaryMethodReturn::call_context) field of the Method record. It is in the Context category.
+    /// Call Context contains only a Logical Call ID value and is in the `CallContext`([`BinaryMethodCall`](BinaryMethodCall::call_context) / [`BinaryMethodReturn`](BinaryMethodReturn::call_context)) field of the Method record. It is in the Context category.
     ContextInline = 0x00000020,
     /// CallContext values are contained in an array that is contained in the Call Array record. It is in the Context category.
     ContextInArray = 0x00000040,
