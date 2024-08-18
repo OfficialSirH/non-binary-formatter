@@ -1,6 +1,6 @@
 use proc_macro::TokenStream;
 use quote::quote;
-use syn::{parse_macro_input, Data, DeriveInput, Expr, ExprLit, Fields, Lit};
+use syn::{parse_macro_input, Data, DeriveInput, Expr, ExprLit, Lit};
 
 #[proc_macro_derive(TryFromU8)]
 pub fn derive_try_from_u8(input: TokenStream) -> TokenStream {
