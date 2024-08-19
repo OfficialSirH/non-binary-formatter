@@ -1,15 +1,9 @@
 use std::io::Read;
 
-use crate::{common::enumerations::RecordTypeEnum, errors::NrbfError, readers::read_i32};
+use crate::{common::data_types::LengthPrefixedString, errors::NrbfError, readers::read_i32};
 
 #[derive(Debug)]
 pub struct MessageEnd {}
-
-impl Default for MessageEnd {
-    fn default() -> Self {
-        MessageEnd {}
-    }
-}
 
 #[derive(Debug)]
 pub struct SerializationHeaderRecord {
@@ -32,13 +26,6 @@ impl Default for SerializationHeaderRecord {
 
 impl SerializationHeaderRecord {
     pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
-        let mut record_type = [0u8; 1];
-        reader.read_exact(&mut record_type)?;
-
-        if record_type[0] != RecordTypeEnum::SerializedStreamHeader as u8 {
-            return Err(NrbfError::UnexpectedRecordType);
-        }
-
         let root_id = read_i32(reader)?;
         let header_id = read_i32(reader)?;
         let major_version = read_i32(reader)?;
@@ -49,6 +36,27 @@ impl SerializationHeaderRecord {
             header_id,
             major_version,
             minor_version,
+        })
+    }
+}
+
+/// The [`BinaryLibrary`] record associates an INT32 ID (as specified in [MS-DTYP] section 2.2.22) with a
+/// Library name. This allows other records to reference the Library name by using the ID. This approach
+/// reduces the wire size when there are multiple records that reference the same Library name
+pub struct BinaryLibrary {
+    pub library_id: i32,
+    pub library_name: LengthPrefixedString,
+}
+
+impl BinaryLibrary {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
+        let library_id = read_i32(reader)?;
+
+        let library_name = LengthPrefixedString::deserialize(reader)?;
+
+        Ok(BinaryLibrary {
+            library_id,
+            library_name,
         })
     }
 }
