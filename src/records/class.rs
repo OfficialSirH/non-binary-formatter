@@ -7,7 +7,6 @@ pub use class_with_members_and_types::ClassWithMembersAndTypes;
 mod class_with_members;
 pub use class_with_members::ClassWithMembers;
 mod member_type_info;
-pub use member_type_info::AdditionalInfo;
 pub use member_type_info::MemberTypeInfo;
 mod system_class_with_members_and_types;
 pub use system_class_with_members_and_types::SystemClassWithMembersAndTypes;
