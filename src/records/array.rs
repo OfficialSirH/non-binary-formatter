@@ -1,3 +1,9 @@
+mod array_single_object;
+pub use array_single_object::ArraySingleObject;
+mod array_single_primitive;
+pub use array_single_primitive::ArraySinglePrimitive;
+mod array_single_string;
+pub use array_single_string::ArraySingleString;
 mod binary_array_type_enumeration;
 pub use binary_array_type_enumeration::BinaryArrayTypeEnumeration;
 mod common;
