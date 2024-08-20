@@ -1,6 +1,6 @@
 use std::io::Read;
 
-use crate::{errors::NrbfError, readers::read_i32};
+use crate::{errors::NrbfError, readers::read_bytes};
 
 pub struct ClassWithId {
     pub object_id: i32,
@@ -9,9 +9,9 @@ pub struct ClassWithId {
 
 impl ClassWithId {
     pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
-        let object_id = read_i32(reader)?;
+        let object_id = read_bytes(reader)?;
 
-        let metadata_id = read_i32(reader)?;
+        let metadata_id = read_bytes(reader)?;
 
         Ok(ClassWithId {
             object_id,

@@ -1,4 +1,12 @@
+use crate::records::BinaryValue;
+
+use super::{ArrayOfValueWithCode, StringValueWithCode, ValueWithCode};
+
+// TODO: confirm the actual types, spec doesn't make it super obvious
 pub struct MethodReturnCallArray {
-    // TODO: change `String` to an enum type that encapsulates all binary types
-    pub return_value: Option<String>,
+    pub return_value: Option<ValueWithCode>,
+    pub output_arguments: Option<ArrayOfValueWithCode>,
+    pub exception: Option<BinaryValue>,
+    pub call_context: Option<StringValueWithCode>,
+    pub message_properties: Option<BinaryValue>,
 }

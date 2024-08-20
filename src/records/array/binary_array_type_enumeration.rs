@@ -2,7 +2,7 @@ use std::io::Read;
 
 use strum::FromRepr;
 
-use crate::{errors::NrbfError, readers::read_u8};
+use crate::{errors::NrbfError, readers::read_bytes};
 
 /// The [`BinaryArrayTypeEnumeration`] is used to denote the type of an Array. The size of the enumeration
 /// is 1 byte. It is used by the Array records.
@@ -27,7 +27,7 @@ pub enum BinaryArrayTypeEnumeration {
 
 impl BinaryArrayTypeEnumeration {
     pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
-        let value = read_u8(reader)?;
+        let value = read_bytes(reader)?;
 
         BinaryArrayTypeEnumeration::from_repr(value).ok_or(NrbfError::InvalidEnum)
     }

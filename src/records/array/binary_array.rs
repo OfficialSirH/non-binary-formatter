@@ -1,9 +1,7 @@
 use std::io::Read;
 
 use crate::{
-    common::enumerations::BinaryTypeEnum,
-    errors::NrbfError,
-    readers::{read_i32, read_u8},
+    common::enumerations::BinaryTypeEnumeration, errors::NrbfError, readers::read_bytes,
     records::AdditionalTypeInfo,
 };
 
@@ -18,21 +16,21 @@ pub struct BinaryArray {
     pub rank: i32,
     pub lengths: Vec<i32>,
     pub lower_bounds: Option<Vec<i32>>,
-    pub type_enum: BinaryTypeEnum,
+    pub type_enum: BinaryTypeEnumeration,
     pub additional_type_info: AdditionalTypeInfo,
 }
 
 impl BinaryArray {
     pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
-        let object_id = read_i32(reader)?;
+        let object_id = read_bytes(reader)?;
 
         let binary_array_type_enumeration = BinaryArrayTypeEnumeration::deserialize(reader)?;
 
-        let rank = read_i32(reader)?;
+        let rank = read_bytes(reader)?;
 
         let lengths = vec![0i32; rank as usize]
             .into_iter()
-            .map(|_| read_i32(reader))
+            .map(|_| read_bytes(reader))
             .collect::<Result<Vec<i32>, NrbfError>>()?;
 
         let lower_bounds = match binary_array_type_enumeration {
@@ -41,7 +39,7 @@ impl BinaryArray {
             | BinaryArrayTypeEnumeration::RectangularOffset => {
                 let lower_bounds = vec![0i32; rank as usize]
                     .into_iter()
-                    .map(|_| read_i32(reader))
+                    .map(|_| read_bytes(reader))
                     .collect::<Result<Vec<i32>, NrbfError>>()?;
                 Some(lower_bounds)
             }
@@ -49,7 +47,7 @@ impl BinaryArray {
         };
 
         let type_enum =
-            BinaryTypeEnum::from_repr(read_u8(reader)?).ok_or(NrbfError::InvalidEnum)?;
+            BinaryTypeEnumeration::from_repr(read_bytes(reader)?).ok_or(NrbfError::InvalidEnum)?;
 
         let additional_type_info = AdditionalTypeInfo::try_from((reader, &type_enum))?;
 

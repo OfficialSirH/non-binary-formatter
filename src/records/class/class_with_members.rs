@@ -1,6 +1,6 @@
 use std::io::Read;
 
-use crate::{errors::NrbfError, readers::read_i32};
+use crate::{errors::NrbfError, readers::read_bytes};
 
 use super::ClassInfo;
 
@@ -14,7 +14,7 @@ impl ClassWithMembers {
     pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
         let class_info = ClassInfo::deserialize(reader)?;
 
-        let library_id = read_i32(reader)?;
+        let library_id = read_bytes(reader)?;
 
         Ok(ClassWithMembers {
             class_info,

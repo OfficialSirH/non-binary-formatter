@@ -1,6 +1,6 @@
 use std::io::Read;
 
-use crate::{errors::NrbfError, readers::read_u8};
+use crate::{errors::NrbfError, readers::read_bytes};
 
 /// The number of bits to shift for each chunk magnitude to calculate the length of the string
 pub const LENGTH_CHUNK_BIT_STEP: u32 = 7;
@@ -35,10 +35,7 @@ impl LengthPrefixedString {
             let (continues_chunk, value) = Self::read_chunk(reader)?;
             string_length += match i {
                 0 => value,
-                1..=4 => {
-                    let magnitude = i * LENGTH_CHUNK_BIT_STEP;
-                    value * 2_u32.pow(magnitude as u32)
-                }
+                1..=4 => value * 2_u32.pow(i * LENGTH_CHUNK_BIT_STEP),
                 _ => 0,
             };
             if !continues_chunk {
@@ -64,7 +61,7 @@ impl LengthPrefixedString {
     /// ```
     /// use std::io::Cursor;
     /// use nrbf::common::data_types::LengthPrefixedString;
-    /// use nrbf::readers::read_u8;
+    /// use nrbf::readers::read_bytes;
     ///
     /// let encoded_string = [
     ///    0b00001011, // Length: 11
@@ -80,7 +77,7 @@ impl LengthPrefixedString {
     /// assert_eq!(11, value);
     /// ```
     pub fn read_chunk<R: Read>(reader: &mut R) -> Result<(bool, u32), NrbfError> {
-        let byte = read_u8(reader)?;
+        let byte: u8 = read_bytes(reader)?;
 
         let continues_chunk = (byte >> 7) & 1 == 1;
         let value = byte << 1 >> 1;

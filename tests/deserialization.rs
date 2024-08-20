@@ -1,5 +1,5 @@
 use nonbinary_formatter::{
-    common::enumerations::RecordTypeEnum, errors::NrbfError,
+    common::enumerations::RecordTypeEnumeration, errors::NrbfError,
     records::class::ClassWithMembersAndTypes,
 };
 
@@ -40,8 +40,8 @@ fn test_classwithmembertypes_deserialization() -> Result<(), NrbfError> {
     ];
 
     let mut cursor = std::io::Cursor::new(data);
-    let record_type = RecordTypeEnum::deserialize(&mut cursor)?;
-    assert_eq!(RecordTypeEnum::ClassWithMembersAndTypes, record_type);
+    let record_type = RecordTypeEnumeration::deserialize(&mut cursor)?;
+    assert_eq!(RecordTypeEnumeration::ClassWithMembersAndTypes, record_type);
     let class = ClassWithMembersAndTypes::deserialize(&mut cursor)?;
 
     println!("{:?}", class);

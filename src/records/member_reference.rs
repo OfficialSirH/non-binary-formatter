@@ -1,25 +1,26 @@
 use std::io::Read;
 
 use crate::{
-    common::{data_types::LengthPrefixedString, enumerations::PrimitiveTypeEnum},
+    common::{data_types::LengthPrefixedString, enumerations::PrimitiveTypeEnumeration},
     errors::NrbfError,
-    readers::{read_i32, read_u8},
+    readers::read_bytes,
 };
+
+use super::PrimitiveValue;
 
 /// The [`MemberPrimitiveTyped`] record contains a Primitive Type value other than String. The mechanism
 /// to serialize a Primitive Value is described in [\[MS-NRTP\]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp/3acb31b0-b873-4aaf-8503-9727ec40fbec) section 3.1.5.1.8.
 #[derive(Debug)]
 pub struct MemberPrimitiveTyped {
-    pub primitive_type_enum: PrimitiveTypeEnum,
-    // TODO: replace String with an actual type that changes based on PrimitiveTypeEnum
-    pub value: String,
+    pub primitive_type_enum: PrimitiveTypeEnumeration,
+    pub value: PrimitiveValue,
 }
 
 impl MemberPrimitiveTyped {
     pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
-        let primitive_type_enum = PrimitiveTypeEnum::deserialize(reader)?;
+        let primitive_type_enum = PrimitiveTypeEnumeration::deserialize(reader)?;
 
-        let value = todo!();
+        let value = PrimitiveValue::try_from((reader, &primitive_type_enum))?;
 
         Ok(MemberPrimitiveTyped {
             primitive_type_enum,
@@ -37,13 +38,16 @@ impl MemberPrimitiveTyped {
 /// serialize a Primitive Value is described in [\[MS-NRTP\]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp/3acb31b0-b873-4aaf-8503-9727ec40fbec) section 3.1.5.1.8.
 #[derive(Debug)]
 pub struct MemberPrimitiveUnTyped {
-    // TODO: replace String with an actual type that encapsulates different enums
-    pub value: String,
+    pub value: PrimitiveValue,
 }
 
-impl MemberPrimitiveUnTyped {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
-        let value = todo!();
+impl<R: Read> TryFrom<(&mut R, &PrimitiveTypeEnumeration)> for MemberPrimitiveUnTyped {
+    type Error = NrbfError;
+
+    fn try_from(
+        (reader, primitive_type_enum): (&mut R, &PrimitiveTypeEnumeration),
+    ) -> Result<Self, Self::Error> {
+        let value = PrimitiveValue::try_from((reader, primitive_type_enum))?;
 
         Ok(MemberPrimitiveUnTyped { value })
     }
@@ -60,7 +64,7 @@ pub struct MemberReference {
 
 impl MemberReference {
     pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
-        let id_ref = read_i32(reader)?;
+        let id_ref = read_bytes(reader)?;
 
         Ok(MemberReference { id_ref })
     }
@@ -81,7 +85,7 @@ pub struct ObjectNullMultiple {
 
 impl ObjectNullMultiple {
     pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
-        let null_count = read_i32(reader)?;
+        let null_count = read_bytes(reader)?;
 
         Ok(ObjectNullMultiple { null_count })
     }
@@ -97,7 +101,7 @@ pub struct ObjectNullMultiple256 {
 
 impl ObjectNullMultiple256 {
     pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
-        let null_count = read_u8(reader)?;
+        let null_count = read_bytes(reader)?;
 
         Ok(ObjectNullMultiple256 { null_count })
     }
@@ -113,7 +117,7 @@ pub struct BinaryObjectString {
 
 impl BinaryObjectString {
     pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
-        let object_id = read_i32(reader)?;
+        let object_id = read_bytes(reader)?;
         let value = LengthPrefixedString::deserialize(reader)?;
         Ok(BinaryObjectString { object_id, value })
     }

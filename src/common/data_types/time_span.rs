@@ -2,6 +2,7 @@ use std::io::Read;
 
 use crate::errors::NrbfError;
 
+#[derive(Debug)]
 pub struct TimeSpan {
     pub value: i64,
 }

@@ -12,6 +12,7 @@ pub enum DateTimeKind {
     Local = 2,
 }
 
+#[derive(Debug)]
 pub struct DateTime {
     /// first 62 bits are the number of 100-nanosecond intervals that have
     /// elapsed since 12:00:00 midnight, January 1, 0001

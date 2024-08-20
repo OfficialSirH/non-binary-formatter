@@ -1,6 +1,6 @@
 use std::io::Read;
 
-use crate::{errors::NrbfError, readers::read_i32};
+use crate::{errors::NrbfError, readers::read_bytes};
 
 use super::{ClassInfo, MemberTypeInfo};
 
@@ -17,7 +17,7 @@ impl ClassWithMembersAndTypes {
 
         let member_type_info = MemberTypeInfo::deserialize(reader, class_info.member_names.len())?;
 
-        let library_id = read_i32(reader)?;
+        let library_id = read_bytes(reader)?;
 
         Ok(ClassWithMembersAndTypes {
             class_info,

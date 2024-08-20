@@ -1,6 +1,6 @@
 use std::io::Read;
 
-use crate::{common::data_types::LengthPrefixedString, errors::NrbfError, readers::read_i32};
+use crate::{common::data_types::LengthPrefixedString, errors::NrbfError, readers::read_bytes};
 
 #[derive(Debug)]
 pub struct MessageEnd {}
@@ -26,10 +26,10 @@ impl Default for SerializationHeaderRecord {
 
 impl SerializationHeaderRecord {
     pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
-        let root_id = read_i32(reader)?;
-        let header_id = read_i32(reader)?;
-        let major_version = read_i32(reader)?;
-        let minor_version = read_i32(reader)?;
+        let root_id = read_bytes(reader)?;
+        let header_id = read_bytes(reader)?;
+        let major_version = read_bytes(reader)?;
+        let minor_version = read_bytes(reader)?;
 
         Ok(SerializationHeaderRecord {
             root_id,
@@ -50,7 +50,7 @@ pub struct BinaryLibrary {
 
 impl BinaryLibrary {
     pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
-        let library_id = read_i32(reader)?;
+        let library_id = read_bytes(reader)?;
 
         let library_name = LengthPrefixedString::deserialize(reader)?;
 

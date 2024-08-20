@@ -2,6 +2,7 @@ use std::io::Read;
 
 use crate::errors::NrbfError;
 
+#[derive(Debug)]
 pub struct Double {
     pub value: f64,
 }

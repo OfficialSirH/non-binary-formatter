@@ -9,4 +9,5 @@ edition = "2024"
 [dependencies]
 derive_try_from_u8 = { path = "derive_try_from_u8" }
 f128 = "0.2.9"
+num-traits = "0.2.19"
 strum = { version = "0.26", features = ["derive"] }

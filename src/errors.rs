@@ -4,6 +4,7 @@ use std::io::Error as IoError;
 pub enum NrbfError {
     IoError(IoError),
     UnexpectedRecordType,
+    InvalidBuffer,
     InvalidString,
     InvalidEnum,
     InvalidDateTimeKind,

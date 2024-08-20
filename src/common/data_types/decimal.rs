@@ -5,6 +5,7 @@ use crate::errors::NrbfError;
 
 use super::LengthPrefixedString;
 
+#[derive(Debug)]
 pub struct Decimal {
     pub string_value: LengthPrefixedString,
     pub value: f128,

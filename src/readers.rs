@@ -1,15 +1,17 @@
 use std::io::Read;
 
+use num_traits::FromBytes;
+
 use crate::errors::NrbfError;
 
-pub fn read_u8<R: Read>(reader: &mut R) -> Result<u8, NrbfError> {
-    let mut buffer = [0u8; 1];
+/// Will read the amount of bytes necessary for any type that implements [`FromBytes`]
+///
+/// [`read_bytes`] has an overloaded return type. If you do not specify the return type it may produce a surprising type to satisfy inference.
+pub fn read_bytes<const N: usize, T: FromBytes<Bytes = [u8; N]>, R: Read>(
+    reader: &mut R,
+) -> Result<T, NrbfError> {
+    let mut buffer = [0u8; N];
     reader.read_exact(&mut buffer)?;
-    Ok(buffer[0])
-}
 
-pub fn read_i32<R: Read>(reader: &mut R) -> Result<i32, NrbfError> {
-    let mut buffer = [0u8; 4];
-    reader.read_exact(&mut buffer)?;
-    Ok(i32::from_le_bytes(buffer))
+    Ok(T::from_le_bytes(&buffer))
 }

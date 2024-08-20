@@ -1,10 +1,12 @@
 use std::io::Read;
 
-use crate::{common::enumerations::BinaryTypeEnum, errors::NrbfError, records::AdditionalTypeInfo};
+use crate::{
+    common::enumerations::BinaryTypeEnumeration, errors::NrbfError, records::AdditionalTypeInfo,
+};
 
 #[derive(Debug)]
 pub struct MemberTypeInfo {
-    pub binary_type_enums: Vec<BinaryTypeEnum>,
+    pub binary_type_enums: Vec<BinaryTypeEnumeration>,
     pub additional_infos: Vec<AdditionalTypeInfo>,
 }
 
@@ -15,8 +17,9 @@ impl MemberTypeInfo {
         for _ in 0..member_count {
             let mut type_byte = [0u8; 1];
             reader.read_exact(&mut type_byte)?;
-            binary_type_enums
-                .push(BinaryTypeEnum::from_repr(type_byte[0]).ok_or(NrbfError::InvalidEnum)?);
+            binary_type_enums.push(
+                BinaryTypeEnumeration::from_repr(type_byte[0]).ok_or(NrbfError::InvalidEnum)?,
+            );
         }
 
         // Read additional info

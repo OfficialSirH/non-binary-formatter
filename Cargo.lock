@@ -76,6 +76,7 @@ version = "0.0.1"
 dependencies = [
  "derive_try_from_u8",
  "f128",
+ "num-traits",
  "strum",
 ]
 
