@@ -1,90 +1,82 @@
-# [Ms-Nrbf]: .Net Remoting: Binary Format Data Structure
+# [MS-NRBF]:</br>.NET Remoting: Binary Format Data Structure
 
-| Table of Contents   |                                                  |
+| Section             | Table of Contents                                |
 |---------------------|--------------------------------------------------|
 | 1                   | Introduction                                     |
-| 1.1                 | Glossary .                                       |
-| 1.2                 | References .                                     |
-| 1.2.1               | Normative References .                           |
-| 1.2.2               | Informative References .                         |
-| 1.3                 | Overview .                                       |
-| 1.4                 | Relationship to Protocols and Other Structures . |
+| 1.1                 | Glossary                                         |
+| 1.2                 | References                                       |
+| 1.2.1               | Normative References                             |
+| 1.2.2               | Informative References                           |
+| 1.3                 | Overview                                         |
+| 1.4                 | Relationship to Protocols and Other Structures   |
 | 1.5                 | Applicability Statement                          |
 | 1.6                 | Versioning and Localization                      |
-| 1.7                 | Vendor-Extensible Fields .                       |
-| 2                   | Structures .                                     |
-| 2.1                 | Common Definitions .                             |
+| 1.7                 | Vendor-Extensible Fields                         |
+| 2                   | Structures                                       |
+| 2.1                 | Common Definitions                               |
 | 2.1.1               | Common Data Types                                |
-| 2.1.1.1             | Char .                                           |
-| 2.1.1.2             | Double .                                         |
-| 2.1.1.3             | Single .                                         |
-| 2.1.1.4             | TimeSpan .                                       |
-| 2.1.1.5             | DateTime .                                       |
-| 2.1.1.6             | LengthPrefixedString .                           |
+| 2.1.1.1             | Char                                             |
+| 2.1.1.2             | Double                                           |
+| 2.1.1.3             | Single                                           |
+| 2.1.1.4             | TimeSpan                                         |
+| 2.1.1.5             | DateTime                                         |
+| 2.1.1.6             | LengthPrefixedString                             |
 | 2.1.1.7             | Decimal                                          |
 | 2.1.1.8             | ClassTypeInfo                                    |
-| 2.1.2               | Enumerations .                                   |
+| 2.1.2               | Enumerations                                     |
 | 2.1.2.1             | RecordTypeEnumeration                            |
 | 2.1.2.2             | BinaryTypeEnumeration                            |
-| 2.1.2.3             | PrimitiveTypeEnumeration .                       |
+| 2.1.2.3             | PrimitiveTypeEnumeration                         |
 | 2.2                 | Method Invocation Records                        |
-| 2.2.1               | Enumerations .                                   |
-| 2.2.1.1             | MessageFlags .                                   |
+| 2.2.1               | Enumerations                                     |
+| 2.2.1.1             | MessageFlags                                     |
 | 2.2.2               | Common Structures                                |
 | 2.2.2.1             | ValueWithCode                                    |
 | 2.2.2.2             | StringValueWithCode                              |
-| 2.2.2.3             | ArrayOfValueWithCode .                           |
-| 2.2.3               | Record Definitions .                             |
-| 2.2.3.1             | BinaryMethodCall .                               |
+| 2.2.2.3             | ArrayOfValueWithCode                             |
+| 2.2.3               | Record Definitions                               |
+| 2.2.3.1             | BinaryMethodCall                                 |
 | 2.2.3.2             | MethodCallArray                                  |
-| 2.2.3.3             | BinaryMethodReturn .                             |
+| 2.2.3.3             | BinaryMethodReturn                               |
 | 2.2.3.4             | MethodReturnCallArray                            |
 | 2.3                 | Class Records                                    |
 | 2.3.1               | Common Structures                                |
 | 2.3.1.1             | ClassInfo                                        |
-| 2.3.1.2             | MemberTypeInfo .                                 |
-| 2.3.2               | Record Definitions .                             |
-|                     | ClassWithMembersAndTypes .                       |
-| 2.3.2.1             |                                                  |
-| 2.3.2.2             | ClassWithMembers .                               |
-| 2.3.2.3             | SystemClassWithMembersAndTypes .                 |
+| 2.3.1.2             | MemberTypeInfo                                   |
+| 2.3.2               | Record Definitions                               |
+| 2.3.2.1             | ClassWithMembersAndTypes                         |
+| 2.3.2.2             | ClassWithMembers                                 |
+| 2.3.2.3             | SystemClassWithMembersAndTypes                   |
 | 2.3.2.4             | SystemClassWithMembers                           |
 | 2.3.2.5             | ClassWithId                                      |
 | 2.4                 | Array Records                                    |
-| 2.4.1               | Enumerations .                                   |
-| 2.4.1.1             | BinaryArrayTypeEnumeration .                     |
-| 2.4.2               | Common Definitions .                             |
+| 2.4.1               | Enumerations                                     |
+| 2.4.1.1             | BinaryArrayTypeEnumeration                       |
+| 2.4.2               | Common Definitions                               |
 | 2.4.2.1             | ArrayInfo                                        |
-| 2.4.3               | Record Definitions .                             |
+| 2.4.3               | Record Definitions                               |
 | 2.4.3.1             | BinaryArray                                      |
-
-[MS-NRBF] - v20190313 .NET Remoting: Binary Format Data Structure Copyright © 2019 Microsoft Corporation Release: March 13, 2019
-
-| 2.4.3.2          | ArraySingleObject              |
-|------------------|--------------------------------|
-| 2.4.3.3          | ArraySinglePrimitive .         |
-| 2.4.3.4          | ArraySingleString              |
-|                  | Member Reference Records .     |
-| 2.5              |                                |
-| 2.5.1            | MemberPrimitiveTyped .         |
-| 2.5.2            | MemberPrimitiveUnTyped .       |
-|                  | MemberReference                |
-| 2.5.3            |                                |
-| 2.5.4            | ObjectNull .                   |
-| 2.5.5            | ObjectNullMultiple .           |
-| 2.5.6            | ObjectNullMultiple256          |
-| 2.5.7            | BinaryObjectString .           |
-| 2.6              | Other Records                  |
-| 2.6.1            | SerializationHeaderRecord      |
-| 2.6.2            | BinaryLibrary                  |
-| 2.6.3            | MessageEnd .                   |
-| 2.7              | Binary Record Grammar          |
-| 3                | Structure Examples .           |
-| 4                | Security Considerations.       |
-| 5                | Appendix A: Product Behavior . |
-| Change Tracking. |                                |
-| б                |                                |
-| 7                | Index.                         |
+| 2.4.3.2             | ArraySingleObject                                |
+| 2.4.3.3             | ArraySinglePrimitive                             |
+| 2.4.3.4             | ArraySingleString                                |
+| 2.5                 | Member Reference Records                         |
+| 2.5.1               | MemberPrimitiveTyped                             |
+| 2.5.2               | MemberPrimitiveUnTyped                           |
+| 2.5.3               | MemberReference                                  |
+| 2.5.4               | ObjectNull                                       |
+| 2.5.5               | ObjectNullMultiple                               |
+| 2.5.6               | ObjectNullMultiple256                            |
+| 2.5.7               | BinaryObjectString                               |
+| 2.6                 | Other Records                                    |
+| 2.6.1               | SerializationHeaderRecord                        |
+| 2.6.2               | BinaryLibrary                                    |
+| 2.6.3               | MessageEnd                                       |
+| 2.7                 | Binary Record Grammar                            |
+| 3                   | Structure Examples                               |
+| 4                   | Security Considerations                          |
+| 5                   | Appendix A: Product Behavior                     |
+| 6                   | Change Tracking                                  |
+| 7                   | Index                                            |
 
 ## 1 Introduction
 
@@ -95,77 +87,90 @@ The .NET Remoting: Binary Format Data Structure defines a set of structures that
 This document uses the following terms:
 argument: A named **Data Value** that is passed as part of a **Remote Method** invocation or returned as part of the results of a **Remote Method** invocation. For more information about Remote Method invocation, see [MS-NRTP] section 3.1.1.
 
-array: A **Remoting Type** that is an ordered collection of values. The values are identified by their position and position is determined by a set of integer indices. The number of indices required to represent the position is called the Rank of the **Array**. An **Array** is part of the **Remoting Data** Model and also specifies the **Remoting Type** of its items. For more information, [MS-NRTP] section 3.1.1.
+**array**: A **Remoting Type** that is an ordered collection of values. The values are identified by their position and position is determined by a set of integer indices. The number of indices required to represent the position is called the Rank of the **Array**. An **Array** is part of the **Remoting Data** Model and also specifies the **Remoting Type** of its items. For more information, [MS-NRTP] section 3.1.1.
 
-Call Context: A mechanism to pass data that is not part of the method **Arguments** between client and server. It is a collection of name-value pairs that is carried with the execution of a **Remote** Method. This collection is sent along with other method **Arguments** from client to server, and is transmitted back, along with the **Return Values** and output **Arguments**, from the server to the client. For more information, see [MS-NRTP] section 1.3.
+**Call Context**: A mechanism to pass data that is not part of the method **Arguments** between client and server. It is a collection of name-value pairs that is carried with the execution of a **Remote** Method. This collection is sent along with other method **Arguments** from client to server, and is transmitted back, along with the **Return Values** and output **Arguments**, from the server to the client. For more information, see [MS-NRTP] section 1.3.
 
-class: (1) A **Remoting Type** that encapsulates a set of named values and a set of methods that operate on those values. The named values are called Members of the Class. A Class is part of the **Remoting Data Model**. For more information, see [MS-NRTP] section 3.1.1. (2) See System.Object.
+**class**: (1) A **Remoting Type** that encapsulates a set of named values and a set of methods that operate on those values. The named values are called Members of the Class. A Class is part of the **Remoting Data Model**. For more information, see [MS-NRTP] section 3.1.1. (2) See System.Object.
 
-Class Metadata: Information about a Class that includes the Class name, its Library name, and the names and Remoting Types of its Members.
+**Class Metadata**: Information about a Class that includes the Class name, its Library name, and the names and Remoting Types of its Members.
 
-Coordinated Universal Time (UTC): A high-precision atomic time standard that approximately tracks Universal Time (UT). It is the basis for legal, civil time all over the Earth. Time zones around the world are expressed as positive and negative offsets from UTC. In this role, it is also referred to as Zulu time (Z) and Greenwich Mean Time (GMT). In these specifications, all references to UTC refer to the time at UTC-0 (or GMT).
+**Coordinated Universal Time (UTC)**: A high-precision atomic time standard that approximately tracks Universal Time (UT). It is the basis for legal, civil time all over the Earth. Time zones around the world are expressed as positive and negative offsets from UTC. In this role, it is also referred to as Zulu time (Z) and Greenwich Mean Time (GMT). In these specifications, all references to UTC refer to the time at UTC-0 (or GMT).
 
-data value: An instance of a **Remoting Type**, which may be a Class, Array, **Enum**, or Primitive. 
+**data value**: An instance of a **Remoting Type**, which may be a Class, Array, **Enum**, or Primitive. A **Data Value** is part of the **Remoting Data Model**. For more information, see [MS-NRTP] section 3.1.1.
 
-A **Data Value** is part of the **Remoting Data Model**. For more information, see [MS-NRTP] section 3.1.1.
+**deserialize**: See unmarshal.
 
-deserialize: See unmarshal. Enum: A Primitive type whose members are constrained to a set of values. The Primitive type is considered to be an underlying **Remoting Type** of the **Enum**. Each value has a name associated with it. An **Enum** is part of the **Remoting Data Model**, and an abbreviation for "enumeration." For more information, see [MS-NRTP] section 3.1.1.
+**Enum**: A Primitive type whose members are constrained to a set of values. The Primitive type is considered to be an underlying **Remoting Type** of the **Enum**. Each value has a name associated with it. An **Enum** is part of the **Remoting Data Model**, and an abbreviation for "enumeration." For more information, see [MS-NRTP] section 3.1.1.
 
-Exception: A **Class** that indicates an error in the execution of a **Remote Method**. It is sent as part of the return message from a server to a client. An **Exception** contains a human-readable message that indicates what the error is, and can also have additional data to identify the error. An **Exception** is part of the **Remoting Data Model**. For more information, see [MS-NRTP] section 3.1.1.
+**Exception**: A **Class** that indicates an error in the execution of a **Remote Method**. It is sent as part of the return message from a server to a client. An **Exception** contains a human-readable message that indicates what the error is, and can also have additional data to identify the error. An **Exception** is part of the **Remoting Data Model**. For more information, see [MS-NRTP] section 3.1.1.
 
-Generic Argument: A formal argument used in a **Generic Type** or a **Generic Remote Method**
+**Generic Argument**: A formal argument used in a **Generic Type** or a **Generic Remote Method**
 to represent a parameterized Remoting Type. **Generic Arguments** can be referenced in the Class or the method as opaque **Remoting Types**. They are replaced by the actual types when the **Class** or the method is used. For more information, see Generic Type and Methods in [ECMA-335].
 
-Generic Remote Method: A **Remote Method** that is parameterized by one or more Remoting Types. The method caller must provide the actual **Remoting Types** (in addition to the Input Arguments). For more information, see [MS-NRTP] section 3.1.1.
+**Generic Remote Method**: A **Remote Method** that is parameterized by one or more Remoting Types. The method caller must provide the actual **Remoting Types** (in addition to the Input Arguments). For more information, see [MS-NRTP] section 3.1.1.
 
-Generic Type: A Class, **Server Type**, or Server Interface that is parameterized by one or more Remoting Types. A **Generic Type** contains GenericArguments as a placeholder for the parameterized **Remoting Types**. A **Generic Type** cannot have any instances. For more information, see Generic Types and Methods in [ECMA-335].
+**Generic Type**: A Class, **Server Type**, or Server Interface that is parameterized by one or more Remoting Types. A **Generic Type** contains GenericArguments as a placeholder for the parameterized **Remoting Types**. A **Generic Type** cannot have any instances. For more information, see Generic Types and Methods in [ECMA-335].
 
-Input Argument: A named **Data Value** that is passed as part of a **Remote Method** invocation from the client to the server. For more information, see **Remote Method** in the Abstract Data Model (section 3.1.1).
+**Input Argument**: A named **Data Value** that is passed as part of a **Remote Method** invocation from the client to the server. For more information, see **Remote Method** in the Abstract Data Model (section 3.1.1).
 
-Library: Part of the **Remoting Data Model**. A **Library** is a named unit that contains a collection of **Remoting Types**. For more information, see Library in [MS-NRTP] section 3.1.1.
+**Library**: Part of the **Remoting Data Model**. A **Library** is a named unit that contains a collection of **Remoting Types**. For more information, see Library in [MS-NRTP] section 3.1.1.
 
-little-endian: Multiple-byte values that are byte-ordered with the least significant byte stored in the memory location with the lowest address.
+**little-endian**: Multiple-byte values that are byte-ordered with the least significant byte stored in the memory location with the lowest address.
 
-local time zone: The time zone in which the computer running the implementation is configured. logical call ID: An optional string value that identifies the logical thread of execution. This value is passed as part of the **Call Context** and can be used in implementation-specific local threading models on the server.
+**local time zone**: The time zone in which the computer running the implementation is configured.
 
-member: See **Class**. message content: The **serialized** body of a message. Message Properties: A collection of implementation-specific, name-value pairs that are transmitted as part of a **Remote Method** invocation. **Message Properties** are used to exchange implementation-specific data between clients and servers.
+**logical call ID**: An optional string value that identifies the logical thread of execution. This value is passed as part of the **Call Context** and can be used in implementation-specific local threading models on the server.
 
-method signature: A list of the remoting types of the arguments of a remote method.
+**member**: See **Class**.
 
-Null Object: Part of the Remoting Data Model. **Null Object** is a special value that can be used in place of an instance of a Class, **Array**, or String. It indicates that no instance is being specified. For more information, see [MS-NRTP] section 3.1.1.
+**message content**: The **serialized** body of a message. 
 
-object graph: In object-oriented programming, groups of interrelated objects that form a network through often complex relationships with each other are known as an object graph. In an object graph, objects can be linked to each other by a specific object, by owning or containing another object, or by holding a reference to another object. Such an abstract structure can be used to represent the state of an application.
+**Message Properties**: A collection of implementation-specific, name-value pairs that are transmitted as part of a **Remote Method** invocation. **Message Properties** are used to exchange implementation-specific data between clients and servers.
 
-Output Argument: A named **Data Value** that is returned as part of the results of a Remote Method invocation. For more information, see **Remote Method** in Abstract Data Model (section 3.1.1).
+**method signature**: A list of the remoting types of the arguments of a remote method.
 
-Primitive Type: Part of the Remoting Data Model. **Primitive Types** are predefined **Remoting** 
-Types such as Byte, Int16, Int32, Int64, and so on. For more information, see [MS-NRTP] section 3.1.1 Primitive Value: Part of the **Remoting Data Model**. A **Primitive Value** is an instance of a Primitive Type.
+**Null Object**: Part of the Remoting Data Model. **Null Object** is a special value that can be used in place of an instance of a Class, **Array**, or String. It indicates that no instance is being specified. For more information, see [MS-NRTP] section 3.1.1.
 
-record: A variable-length sequence of bytes with a predefined structure. Remote Method: Part of the **Remoting Data Model**. A **Remote Method** is a remotely callable operation. A **Remote Method** can either be One-Way or Two-Way. In the case of a One-Way Method, there is no reply from the implementation. For more information, see [MS-NRTP] section 3.1.1 Remoting Data Model: A model that is used to represent higher-layer–defined data structures and values, and to represent a **Remote Method** invocation and the **Return Value** or error information from that invocation. A protocol, such as [MS-NRLS], that is built on top of this protocol can be defined by using the **Remoting Data Model**, and can be agnostic to the serialization format. For more information, see Abstract Data Model (section 3.1.1).
+**object graph**: In object-oriented programming, groups of interrelated objects that form a network through often complex relationships with each other are known as an object graph. In an object graph, objects can be linked to each other by a specific object, by owning or containing another object, or by holding a reference to another object. Such an abstract structure can be used to represent the state of an application.
 
-Remoting Type: Part of the Remoting Data Model. Class, Array, **Enum**, and Primitive are different kinds of **Remoting Types**. All **Remoting Types** are identified by a name that is case sensitive. For more information, see [MS-NRTP] section 3.1.1 Return Value: A **Data Value** that is returned as part of the results of a **Remote Method**
+**Output Argument**: A named **Data Value** that is returned as part of the results of a Remote Method invocation. For more information, see **Remote Method** in Abstract Data Model (section 3.1.1).
+
+**Primitive Type**: Part of the Remoting Data Model. **Primitive Types** are predefined **Remoting Types** such as Byte, Int16, Int32, Int64, and so on. For more information, see [MS-NRTP] section 3.1.1
+
+**Primitive Value**: Part of the **Remoting Data Model**. A **Primitive Value** is an instance of a Primitive Type.
+
+**record**: A variable-length sequence of bytes with a predefined structure.
+
+**Remote Method**: Part of the **Remoting Data Model**. A **Remote Method** is a remotely callable operation. A **Remote Method** can either be One-Way or Two-Way. In the case of a One-Way Method, there is no reply from the implementation. For more information, see [MS-NRTP] section 3.1.1
+
+**Remoting Data Model**: A model that is used to represent higher-layer–defined data structures and values, and to represent a **Remote Method** invocation and the **Return Value** or error information from that invocation. A protocol, such as [MS-NRLS], that is built on top of this protocol can be defined by using the **Remoting Data Model**, and can be agnostic to the serialization format. For more information, see Abstract Data Model (section 3.1.1).
+
+**Remoting Type**: Part of the Remoting Data Model. Class, Array, **Enum**, and Primitive are different kinds of **Remoting Types**. All **Remoting Types** are identified by a name that is case sensitive. For more information, see [MS-NRTP] section 3.1.1 
+
+**Return Value**: A **Data Value** that is returned as part of the results of a **Remote Method**
 invocation. For more information, see **Remote Method** in Abstract Data Model (section 3.1.1).
 
-serialization: A mechanism by which an application converts an object into an XML 
+**serialization**: A mechanism by which an application converts an object into an XML 
 representation.
 
-Serialization Format: The structure of the serialized message content, which can be either binary or SOAP. Binary serialization format is specified in [MS-NRBF]. SOAP serialization format is specified in [MS-NRTP].
+**Serialization Format**: The structure of the serialized message content, which can be either binary or SOAP. Binary serialization format is specified in [MS-NRBF]. SOAP serialization format is specified in [MS-NRTP].
 
-Serialization Stream: An octet stream that contains a sequence of records defined in this document.
+**Serialization Stream**: An octet stream that contains a sequence of records defined in this document.
 
-serialize: The process of taking an in-memory data structure, flat or otherwise, and turning it into a flat stream of bytes. See also marshal.
+**serialize**: The process of taking an in-memory data structure, flat or otherwise, and turning it into a flat stream of bytes. See also marshal.
 
-Server Type: Part of the **Remoting Data Model**. A **Server Type** contains **Remote Methods**. System Library: A specially designated **library** that can be used to reduce the wire size for commonly used data types. The name of the **library** is agreed to by both the server and the client.
+**Server Type**: Part of the **Remoting Data Model**. A **Server Type** contains **Remote Methods**.
 
-System.Object: Part of the Remoting Data Model. **System.Object** is a **Class** that has no Members. A **Class** that does not extend another **Class** is considered to extend System.Object.
+**System Library**: A specially designated **library** that can be used to reduce the wire size for commonly used data types. The name of the **library** is agreed to by both the server and the client.
 
-Ultimate Array Item Type: The Item Type of the innermost Array in a recursive construction of Array of Arrays. For instance, an "Array of TypeA" has an Ultimate Array Item Type of TypeA. An "Array of Array of TypeA" also has an Ultimate Array Item Type of TypeA, as does an "Array of Array of Array of TypeA".
+**System.Object**: Part of the Remoting Data Model. **System.Object** is a **Class** that has no Members. A **Class** that does not extend another **Class** is considered to extend System.Object.
 
-Unicode: A character encoding standard developed by the Unicode Consortium that represents almost all of the written languages of the world. The **Unicode** standard [UNICODE5.0.0/2007] provides three forms (UTF-8, UTF-16, and UTF-32) and seven schemes (UTF-8, UTF-16, UTF-16 BE, UTF-16 LE, UTF-32, UTF-32 LE, and UTF-32 BE).
+**Ultimate Array Item Type**: The Item Type of the innermost Array in a recursive construction of Array of Arrays. For instance, an "Array of TypeA" has an Ultimate Array Item Type of TypeA. An "Array of Array of TypeA" also has an Ultimate Array Item Type of TypeA, as does an "Array of Array of Array of TypeA".
 
-UTF-8: A byte-oriented standard for encoding Unicode characters, defined in the Unicode standard. 
+**Unicode**: A character encoding standard developed by the Unicode Consortium that represents almost all of the written languages of the world. The **Unicode** standard [UNICODE5.0.0/2007] provides three forms (UTF-8, UTF-16, and UTF-32) and seven schemes (UTF-8, UTF-16, UTF-16 BE, UTF-16 LE, UTF-32, UTF-32 LE, and UTF-32 BE).
 
-Unless specified otherwise, this term refers to the UTF-8 encoding form specified in [UNICODE5.0.0/2007] section 3.9.
+**UTF-8**: A byte-oriented standard for encoding Unicode characters, defined in the Unicode standard. Unless specified otherwise, this term refers to the UTF-8 encoding form specified in [UNICODE5.0.0/2007] section 3.9.
 
 MAY, SHOULD, MUST, SHOULD NOT, MUST NOT: These terms (in all caps) are used as defined in [RFC2119]. All statements of optional behavior use either MAY, SHOULD, or SHOULD NOT.
 
@@ -175,37 +180,48 @@ Links to a document in the Microsoft Open Specifications library point to the co
 
 ## 1.2.1 Normative References
 
-We conduct frequent surveys of the normative references to assure their continued availability. If you have any issue with finding a normative reference, please contact dochelp@microsoft.com. We will assist you in finding the relevant information. [IEEE754] IEEE, "IEEE Standard for Binary Floating-Point Arithmetic", IEEE 754-1985, October 1985, http://ieeexplore.ieee.org/servlet/opac?punumber=2355
-[MS-DTYP] Microsoft Corporation, "Windows Data Types". [MS-NRTP] Microsoft Corporation, ".NET Remoting: Core Protocol". [RFC2119] Bradner, S., "Key words for use in RFCs to Indicate Requirement Levels", BCP 14, RFC 2119, March 1997, http://www.rfc-editor.org/rfc/rfc2119.txt [RFC4234] Crocker, D., Ed., and Overell, P., "Augmented BNF for Syntax Specifications: ABNF", RFC 4234, October 2005, http://www.rfc-editor.org/rfc/rfc4234.txt
+- [IEEE754] IEEE, "IEEE Standard for Binary Floating-Point Arithmetic", IEEE 754-1985, October 1985, http://ieeexplore.ieee.org/servlet/opac?punumber=2355
+- [MS-DTYP] Microsoft Corporation, "Windows Data Types". 
+- [MS-NRTP] Microsoft Corporation, ".NET Remoting: Core Protocol". 
+- [RFC2119] Bradner, S., "Key words for use in RFCs to Indicate Requirement Levels", BCP 14, RFC 2119, March 1997, http://www.rfc-editor.org/rfc/rfc2119.txt 
+- [RFC4234] Crocker, D., Ed., and Overell, P., "Augmented BNF for Syntax Specifications: ABNF", RFC 4234, October 2005, http://www.rfc-editor.org/rfc/rfc4234.txt
 
 ## 1.2.2 Informative References
 
-[MS-NETOD] Microsoft Corporation, "Microsoft .NET Framework Protocols Overview". [MSDN-.NET-FRAMEWORK] Microsoft Corporation, "Overview of the .NET Framework", http://msdn.microsoft.com/en-us/library/zw4w595w.aspx
+- [MS-NETOD] Microsoft Corporation, "Microsoft .NET Framework Protocols Overview". 
+- [MSDN-.NET-FRAMEWORK] Microsoft Corporation, "Overview of the .NET Framework", http://msdn.microsoft.com/en-us/library/zw4w595w.aspx
 
 ## 1.3 Overview
 
-The .NET Remoting: Binary Format Data Structure defines a set of structures that represent **object** graph or method invocation information as an octet stream. One possible application of the structure is as the serialization format for the data model as specified in [MS-NRTP] section 3.1.1. This specification defines the **records** used by this format, and the grammar for writing the records to the **serialization stream**. The format provides structures for mapping instances of data that conform to the **Remoting Data** Model into octets. The Remoting Data Model is specified in [MS-NRTP] section 3.1.1. The format consists of a sequence of variable-length records. The records are used to hold the serialized instances of Classes (2), Arrays, **Primitive Types**, and method invocations. There are multiple record types to represent each of these instances. The various record types optimize the wire size of the serialized instance. This section specifies the structure of each record in detail. For clarity, the records are grouped as follows:
- Class (2) records contain Class (2) instances. The format allows serialization of **Class Metadata**, 
+The .NET Remoting: Binary Format Data Structure defines a set of structures that represent **object graph** or method invocation information as an octet stream. One possible application of the structure is as the serialization format for the data model as specified in [MS-NRTP] section 3.1.1. 
+
+This specification defines the **records** used by this format, and the grammar for writing the records to the **serialization stream**. 
+
+The format provides structures for mapping instances of data that conform to the **Remoting Data Model** into octets. The Remoting Data Model is specified in [MS-NRTP] section 3.1.1. 
+
+The format consists of a sequence of variable-length records. The records are used to hold the **serialized** instances of **Classes (2)**, **Arrays**, **Primitive Types**, and method invocations. There are multiple record types to represent each of these instances. The various record types optimize the wire size of the serialized instance. This section specifies the structure of each record in detail. For clarity, the records are grouped as follows:
+
+- Class (2) records contain Class (2) instances. The format allows serialization of **Class Metadata**, 
 in addition to the actual data. Richness of metadata directly contributes to the wire size. The amount of metadata can be reduced by conveying implicit information through special record types and by sharing metadata across records.
 
- Array records contain Array instances. There is a general record type for Array that can represent multiple dimensions and nonzero lower bound. There are more compact Array records for frequently used Array types such as single-dimensional Array of String, Object, and **Primitive** Values.
+- Array records contain Array instances. There is a general record type for Array that can represent multiple dimensions and nonzero lower bound. There are more compact Array records for frequently used Array types such as single-dimensional Array of String, Object, and **Primitive Values**.
 
- **Members** reference records contain **Data Values** of Class (2) Members or Array items. There are different record types for **Null Object**, string values, Primitive Type values, and instances of Classes (2) and Arrays.
+- **Members** reference records contain **Data Values** of Class (2) Members or Array items. There are different record types for **Null Object**, string values, Primitive Type values, and instances of Classes (2) and Arrays.
 
- Method invocation records contain information about Remote Method, **Server Type**, 
-Arguments, Return Value, Exception, **Message Properties**, and **Call Context**.
+- Method invocation records contain information about **Remote Method**, **Server Type**, 
+**Arguments**, **Return Value**, **Exception**, **Message Properties**, and **Call Context**.
 
- Other records include records that are used to mark the beginning and end of the format.
+- Other records include records that are used to mark the beginning and end of the format.
 
 ## 1.4 Relationship To Protocols And Other Structures
 
-This format is part of the .NET Remoting protocols. The .NET Remoting Protocol (as specified in [MSNRTP]) uses this format to encode **message content** before transmission, as specified in [MS-NRTP] 
-section 3. The **serialized** content is transmitted over either HTTP or TCP, by using headers and framing as 
+This format is part of the .NET Remoting protocols. The .NET Remoting Protocol (as specified in [MSNRTP]) uses this format to encode **message content** before transmission, as specified in [MS-NRTP] section 3. 
 
-![9_image_0.png](9_image_0.png) specified in [MS-NRTP] section 3. The following block diagram illustrates the relationship.
+The **serialized** content is transmitted over either HTTP or TCP, by using headers and framing as specified in [MS-NRTP] section 3. The following block diagram illustrates the relationship.
 
 | Figure 1: The .NET Remoting protocols   |
 |-----------------------------------------|
+![NET_Remote_Protocols](https://github.com/OfficialSirH/non-binary-formatter/blob/main/documentation/NET_Remoting_Protocols?raw=true)
 
 ## 1.5 Applicability Statement
 
@@ -214,17 +230,20 @@ The .NET Remoting: Binary Format Data Structure can be used as part of a **Remot
 ## 1.6 Versioning And Localization
 
 This document covers versioning issues in the following areas:
- Protocol Versions: The Serialization Header record has fields called **MajorVersion** and MinorVersion that denote the version of the .NET Remoting: Binary Format Data Structure in use. Because only one version of the .NET Remoting: Binary Format Data Structure has been defined to date, the value of **MajorVersion** is always set to 1 and **MinorVersion** to 0. Future revisions of the format would increment this value. The Serialization Header record is specified in section 2.6.1.
 
- Message Versions: MessageFlags (section 2.2.1.1) defines a flag named "Generic Method". The flag indicates that the method being invoked is a **Generic Remote Method**. The flag is valid only in Microsoft .NET Framework 2.0, Microsoft .NET Framework 3.0, Microsoft .NET Framework 3.5, and Microsoft .NET Framework 4.0. For more information, see [MSDN-.NET-FRAMEWORK]. 
+- Protocol Versions: The Serialization Header record has fields called **MajorVersion** and **MinorVersion** that denote the version of the .NET Remoting: Binary Format Data Structure in use. Because only one version of the .NET Remoting: Binary Format Data Structure has been defined to date, the value of **MajorVersion** is always set to 1 and **MinorVersion** to 0. Future revisions of the format would increment this value. The Serialization Header record is specified in section 2.6.1.
+
+- Message Versions: MessageFlags (section 2.2.1.1) defines a flag named "Generic Method". The flag indicates that the method being invoked is a **Generic Remote Method**. The flag is valid only in Microsoft .NET Framework 2.0, Microsoft .NET Framework 3.0, Microsoft .NET Framework 3.5, and Microsoft .NET Framework 4.0. For more information, see [MSDN-.NET-FRAMEWORK]. 
 
 There are no localization-dependent structures described in this document.
 
 ## 1.7 Vendor-Extensible Fields
 
 This format allows implementation-specific name-value pairs called **Message Properties** to be added to the MethodCallArray (section 2.2.3.2) and MethodReturnCallArray (section 2.2.3.4) records. 
+___
+# 2 Structures
 
-## 2 Structures 2.1 Common Definitions
+## 2.1 Common Definitions
 
 The following sections specify the common structures and enumerations that are used by all records.
 
