@@ -221,7 +221,7 @@ The **serialized** content is transmitted over either HTTP or TCP, by using head
 
 | Figure 1: The .NET Remoting protocols   |
 |-----------------------------------------|
-![NET_Remote_Protocols](https://github.com/OfficialSirH/non-binary-formatter/blob/main/documentation/NET_Remoting_Protocols?raw=true)
+![NET_Remote_Protocols](https://github.com/OfficialSirH/non-binary-formatter/blob/main/documentation/NET_Remoting_Protocols.png?raw=true)
 
 ## 1.5 Applicability Statement
 
