@@ -239,7 +239,8 @@ There are no localization-dependent structures described in this document.
 
 ## 1.7 Vendor-Extensible Fields
 
-This format allows implementation-specific name-value pairs called **Message Properties** to be added to the MethodCallArray (section 2.2.3.2) and MethodReturnCallArray (section 2.2.3.4) records. 
+This format allows implementation-specific name-value pairs called **Message Properties** to be added to the MethodCallArray (section 2.2.3.2) and MethodReturnCallArray (section 2.2.3.4) records.
+
 ___
 # 2 Structures
 
@@ -249,258 +250,801 @@ The following sections specify the common structures and enumerations that are u
 
 ## 2.1.1 Common Data Types
 
-This section specifies the structures of the common **Remoting Types** that are supported by this format. The format supports the following **Primitive Types** as specified in [MS-DTYP].
+This section specifies the structures of the common **Remoting Types** that are supported by this format. The format supports the following **Primitive Types** as specified in [MS-DTYP]:
 
- BOOLEAN
- BYTE INT8 INT16 INT32 INT64 UINT16 UINT32 UINT64 The byte-ordering of the multibyte data types is **little-endian**. The signed data types use two's complement to represent the negative numbers. In addition, this format defines the following common types.
+- BOOLEAN
+- BYTE 
+- INT8 
+- INT16 
+- INT32 
+- INT64 
+- UINT16 
+- UINT32 
+- UINT64 
+
+The byte-ordering of the multibyte data types is **little-endian**. The signed data types use two's complement to represent the negative numbers.</br>
+In addition, this format defines the following common types.
 
 ## 2.1.1.1 Char
 
 The Char represents a **Unicode** character value.
 
-![11_image_1.png](11_image_1.png)
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td align="center" colspan="32">Value (variable)</td>
+    </tr>
+    <td align="center" colspan="32">...</td>
+  </tbody>
+</table>
 
-0 1 2 3 4 5 6 7 8 9
-
-2
-
-0 1 2 3 4 5 6 7 8 9
-
-![11_image_0.png](11_image_0.png)
-
-0 1
-
-| ...   |
-|-------|
-
-| 1                | 2   |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|------------------|-----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 0                | 1   | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  |
-| Value (variable) |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-
-Value (variable): UTF-8-encoded bytes.
+**Value (variable):** UTF-8-encoded bytes.
 
 ## 2.1.1.2 Double
 
 The Double represents a 64-bit double-precision floating-point value.
 
-![11_image_2.png](11_image_2.png)
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td align="center" colspan="32">Value</td>
+    </tr>
+    <td align="center" colspan="32">...</td>
+  </tbody>
+</table>
 
-![11_image_4.png](11_image_4.png)
-
-0 1 2 3 4 5 6 7 8 9 2 0 1 2 3 4 5 6 7 8 9
-
-![11_image_3.png](11_image_3.png) 0 1
-Value
-...
-
-Value (8 bytes): A 64-bit double-precision floating-point value, as specified in [IEEE754].
+**Value (8 bytes):** A 64-bit double-precision floating-point value, as specified in [IEEE754].
 
 ## 2.1.1.3 Single
 
 The Single represents a 32-bit single-precision floating-point value.
 
-![12_image_0.png](12_image_0.png)
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="32">Value</td>
+  </tbody>
+</table>
 
-0 1 2 3 4 5 6 7 8 9 2 0 1 2 3 4 5 6 7 8 9 3 0 1
-Value
-
-![12_image_1.png](12_image_1.png)
-
-Value (4 bytes): A 32-bit single-precision floating-point value, as specified in [IEEE754].
+**Value (4 bytes):** A 32-bit single-precision floating-point value, as specified in [IEEE754].
 
 ## 2.1.1.4 Timespan
 
 The TimeSpan represents time duration.
 
-![12_image_2.png](12_image_2.png)
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td align="center" colspan="32">Value</td>
+    </tr>
+    <td align="center" colspan="32">...</td>
+  </tbody>
+</table>
 
-0 1 2 3 4 5 6 7 8 9 2 ![12_image_3.png](12_image_3.png)
-
-3 0 1
-Value (8 bytes): A 64-bit signed-integer value that specifies duration as the number of 100 nanoseconds. The values range from -10675199 days, 2 hours, 48 minutes, and 05.4775808 seconds to 10675199 days, 2 hours, 48 minutes, and 05.4775807 seconds inclusive.
+**Value (8 bytes):** A 64-bit signed-integer value that specifies duration as the number of 100 nanoseconds. The values range from -10675199 days, 2 hours, 48 minutes, and 05.4775808 seconds to 10675199 days, 2 hours, 48 minutes, and 05.4775807 seconds inclusive.
 
 ## 2.1.1.5 Datetime
 
 The DateTime represents an instant of time.
 
-![12_image_6.png](12_image_6.png)
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td align="center" colspan="32">Ticks</td>
+    </tr>
+    <td align="center" colspan="30">...</td>
+    <td align="center" colspan="2">Kind</td>
+  </tbody>
+</table>
 
-![12_image_7.png](12_image_7.png)
+**Ticks (62 bits):** A 62-bit signed-integer value that specifies the number of 100 nanoseconds that have elapsed since 12:00:00, January 1, 0001. The value can represent time instants in a granularity of 100 nanoseconds until 23:59:59.9999999, December 31, 9999.
 
-0 1 2 3 4 5 6 7 8 9
-
-2 0 1 2 3 4 5 6 7 8 9
-
-![12_image_5.png](12_image_5.png)
-
-| 1     | 2    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|-------|------|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 0     | 1    | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  |
-| Ticks |      |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-| ...   | Kind |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-
-Ticks (62 bits): A 62-bit signed-integer value that specifies the number of 100 nanoseconds that 
-
-![12_image_9.png](12_image_9.png)
-
-have elapsed since 12:00:00, January 1, 0001. The value can represent time instants in a granularity of 100 nanoseconds until 23:59:59.9999999, December 31, 9999.
+**Kind (2 bits):** Provides the time-zone information as follows. The value can range from 0 to 2, inclusive<1>. The following table maps values with the meaning of the **Ticks** field.
 
 | Value   | Meaning                                                                  |
 |---------|--------------------------------------------------------------------------|
 | 0       | Time-zone information is not specified.                                  |
 | 1       | The time specified is in the Coordinated Universal Time (UTC) time zone. |
+| 2       | The time specified is in the local time zone.                            |
 
-Kind (2 bits): Provides the time-zone information as follows. The value can range from 0 to 2, inclusive<1>. The following table maps values with the meaning of the **Ticks** field.
-
-![12_image_4.png](12_image_4.png)
-
-![12_image_8.png](12_image_8.png)
-
-Value
-
-| Value   | Meaning                                       |
-|---------|-----------------------------------------------|
-| 2       | The time specified is in the local time zone. |
-
-## 2.1.1.6 Lengthprefixedstring
+## 2.1.1.6 LengthPrefixedString
 
 The LengthPrefixedString represents a string value. The string is prefixed by the length of the **UTF-8** encoded string in bytes. The length is encoded in a variable-length field with a minimum of 1 byte and a maximum of 5 bytes. To minimize the wire size, length is encoded as a variable-length field.
 
-![13_image_0.png](13_image_0.png)
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td align="center" colspan="32">Length (variable)</td>
+    </tr>
+    <td align="center" colspan="32">...</td>
+    <tr>
+        <td align="center" colspan="32">String (variable)</td>
+    </tr>
+    <td align="center" colspan="32">...</td>
+  </tbody>
+</table>
 
-![13_image_5.png](13_image_5.png)
-
-0 1 2 3 4 5 6 7 8 9
-
-![13_image_1.png](13_image_1.png)
-
-| ...   |
-|-------|
-
-![13_image_2.png](13_image_2.png)
-
-| ...               |
-|-------------------|
-| String (variable) |
-
-![13_image_6.png](13_image_6.png)
-
-![13_image_3.png](13_image_3.png)
-
-![13_image_4.png](13_image_4.png)
-
-Length (variable): A numerical value that can range from 0 to 2147483647 (2^31) inclusive.
-
-![13_image_7.png](13_image_7.png)
+**Length (variable):** A numerical value that can range from 0 to 2147483647 (2^31) inclusive.
 
 To minimize the wire size, the encoding of the length MUST be encoded as follows:
- The **Length** field MUST be at least 1 byte and MUST NOT be more than 5 bytes.
 
- Each byte MUST hold the **Length** value in its lower 7 bits.
+- The **Length** field MUST be at least 1 byte and MUST NOT be more than 5 bytes.
+ 
+- Each byte MUST hold the **Length** value in its lower 7 bits.
+ 
+- The high bit MUST be used to indicate that the length continues in the next byte.
 
- The high bit MUST be used to indicate that the length continues in the next byte.
+- In the case that all 5 bytes are used, the high 5 bits in the fifth byte MUST be 0.
 
- In the case that all 5 bytes are used, the high 5 bits in the fifth byte MUST be 0.
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="7">Length_0-6</td>
+    <td align="center" colspan="1">A</td>
+  </tbody>
+</table>
 
-![13_image_8.png](13_image_8.png)
+**Length_0-6 (7 bits):** Length values range from 0 to 127 (7 bits).
 
-0 1 2 3 4 5 6 7 8 9 2 0 1 2 3 4 5 6 7 8 9 3 0 1 Length_0-6 (7 bits): Length values range from 0 to 127 (7 bits). A - **Reserved_7 (1 bit):** The value MUST be 0.
+**A - Reserved_7 (1 bit):** The value MUST be 0.
 
-![13_image_9.png](13_image_9.png)
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="7">Length_0-6</td>
+    <td align="center" colspan="1">A</td>
+    <td align="center" colspan="7">Length_8-14</td>
+    <td align="center" colspan="1">B</td>
+  </tbody>
+</table>
 
-0 1 2 3 4 5 6 7 8 9 2 0 1 2 3 4 5 6 7 8 9 3 0 1
-Length_0-6 (7 bits): Length values range from 128 to 16383 (14 bits). A - **Reserved_7 (1 bit):** The value MUST be 1. Length_8-14 (7 bits): Length values range from 128 to 16383 (14 bits). B - **Reserved_15 (1 bit):** The value MUST be 0.
+**Length_0-6 (7 bits)**: Length values range from 128 to 16383 (14 bits).
 
-![14_image_1.png](14_image_1.png)
+**A - Reserved_7 (1 bit):** The value MUST be 1.
 
-1 0 1 2 3 4 5 6 7 8 9
+**Length_8-14 (7 bits):** Length values range from 128 to 16383 (14 bits).
 
-2 0 1 2 3 4 5 6 7 8 9
+**B - Reserved_15 (1 bit):** The value MUST be 0.
 
-3 0 1
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="7">Length_0-6</td>
+    <td align="center" colspan="1">A</td>
+    <td align="center" colspan="7">Length_8-14</td>
+    <td align="center" colspan="1">B</td>
+    <td align="center" colspan="7">Length_16-22</td>
+    <td align="center" colspan="1">C</td>
+  </tbody>
+</table>
 
-Length_0-6 A Length_8-14 B Length_16-22 C
+**Length_0-6 (7 bits):** Length values range from 16384 to 2097151 (21 bits).
 
-![14_image_0.png](14_image_0.png)
+**A - Reserved_7 (1 bit):** The value MUST be 1.
 
-![14_image_2.png](14_image_2.png)
+**Length_8-14 (7 bits):** Length values range from 16384 to 2097151 (21 bits).
 
-![14_image_3.png](14_image_3.png)
+**B - Reserved_15 (1 bit):** The value MUST be 1.
 
-Length_0-6 (7 bits): Length values range from 16384 to 2097151 (21 bits). A - **Reserved_7 (1 bit):** The value MUST be 1. Length_8-14 (7 bits): Length values range from 16384 to 2097151 (21 bits). B - **Reserved_15 (1 bit):** The value MUST be 1. Length_16-22 (7 bits): Length values range from 16384 to 2097151 (21 bits). C - **Reserved_23 (1 bit):** The value MUST be 0.
+**Length_16-22 (7 bits):** Length values range from 16384 to 2097151 (21 bits).
 
-| 1          | 2   | 3           |    |              |    |              |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|------------|-----|-------------|----|--------------|----|--------------|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 0          | 1   | 2           | 3  | 4            | 5  | 6            | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  |
-| Length_0-6 | A   | Length_8-14 | B  | Length_16-22 | C  | Length_24-30 | D  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+**C - Reserved_23 (1 bit):** The value MUST be 0.
 
-Length_0-6 (7 bits): Length values range from 2097152 to 268435445 (28 bits). A - **Reserved_7 (1 bit):** The value MUST be 1. Length_8-14 (7 bits): Length values range from 2097152 to 268435445 (28 bits). B - **Reserved_15 (1 bit):** The value MUST be 1. Length_16-22 (7 bits): Length values range from 2097152 to 268435445 (28 bits). C - **Reserved_23 (1 bit):** The value MUST be 1.
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="7">Length_0-6</td>
+    <td align="center" colspan="1">A</td>
+    <td align="center" colspan="7">Length_8-14</td>
+    <td align="center" colspan="1">B</td>
+    <td align="center" colspan="7">Length_16-22</td>
+    <td align="center" colspan="1">C</td>
+    <td align="center" colspan="7">Length_24-30</td>
+    <td align="center" colspan="1">D</td>
+  </tbody>
+</table>
 
-| D - Reserved_31 (1 bit): The value MUST be 0. 1   | 2   |             |    |              |    |              |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|---------------------------------------------------|-----|-------------|----|--------------|----|--------------|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 0                                                 | 1   | 2           | 3  | 4            | 5  | 6            | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  |
-| Length_0-6                                        | A   | Length_8-14 | B  | Length_16-22 | C  | Length_24-30 | D  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-| Length_32-38                                      | E   |             |    |              |    |              |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+**Length_0-6 (7 bits):** Length values range from 2097152 to 268435445 (28 bits).
 
-Length_24-30 (7 bits): Length values range from 2097152 to 268435445 (28 bits). Length_0-6 (7 bits): Length values range from 268435456 to 2147483647 (31 bits). A - **Reserved_7 (1 bit):** The value MUST be 1. Length_8-14 (7 bits): Length values range from 268435456 to 2147483647 (31 bits). B - **Reserved_15 (1 bit):** The value MUST be 1. Length_16-22 (7 bits): Length values range from 268435456 to 2147483647 (31 bits). C - **Reserved_23 (1 bit):** The value MUST be 1. Length_24-30 (7 bits): Length values range from 268435456 to 2147483647 (31 bits).
+**A - Reserved_7 (1 bit):** The value MUST be 1.
 
-![14_image_4.png](14_image_4.png)
+**Length_8-14 (7 bits):** Length values range from 2097152 to 268435445 (28 bits).
 
-![14_image_5.png](14_image_5.png)
+**B - Reserved_15 (1 bit):** The value MUST be 1.
 
-D - **Reserved_31 (1 bit):** The value MUST be 1. Length_32-38 (7 bits): Length values range from 268435456 to 2147483647 (31 bits). E - **Reserved_39 (1 bit):** The value MUST be 0.
+**Length_16-22 (7 bits):** Length values range from 2097152 to 268435445 (28 bits).
 
-String (variable): A UTF-8 encoded string value. The number of bytes of the encoded string MUST 
-be equal to the value specified in the **Length** field.
+**C - Reserved_23 (1 bit):** The value MUST be 1.
+
+**Length_24-30 (7 bits):** Length values range from 2097152 to 268435445 (28 bits).
+
+**D - Reserved_31 (1 bit):** The value MUST be 0.
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="7">Length_0-6</td>
+    <td align="center" colspan="1">A</td>
+    <td align="center" colspan="7">Length_8-14</td>
+    <td align="center" colspan="1">B</td>
+    <td align="center" colspan="7">Length_16-22</td>
+    <td align="center" colspan="1">C</td>
+    <td align="center" colspan="7">Length_24-30</td>
+    <td align="center" colspan="1">D</td>
+    <tr>
+        <td align="center" colspan="7">Length_32-38</td>
+        <td align="center" colspan="1">E</td>
+    </tr>
+  </tbody>
+</table>
+
+**Length_0-6 (7 bits):** Length values range from 268435456 to 2147483647 (31 bits).
+
+**A - Reserved_7 (1 bit):** The value MUST be 1.
+
+**Length_8-14 (7 bits):** Length values range from 268435456 to 2147483647 (31 bits).
+
+**B - Reserved_15 (1 bit):** The value MUST be 1.
+
+**Length_16-22 (7 bits):** Length values range from 268435456 to 2147483647 (31 bits).
+
+**C - Reserved_23 (1 bit):** The value MUST be 1.
+
+**Length_24-30 (7 bits):** Length values range from 268435456 to 2147483647 (31 bits).
+
+**D - Reserved_31 (1 bit):** The value MUST be 1.
+
+**Length_32-38 (7 bits):** Length values range from 268435456 to 2147483647 (31 bits).
+
+**E - Reserved_39 (1 bit):** The value MUST be 0.
+
+**String (variable):** A UTF-8 encoded string value. The number of bytes of the encoded string MUST be equal to the value specified in the **Length** field.
 
 ## 2.1.1.7 Decimal
 
 The Decimal represents a decimal value. It has the following format.
 
-![15_image_0.png](15_image_0.png)
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="32">Value (variable)</td>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+  </tbody>
+</table>
 
-0 1 2 3 4 5 6 7 8 9
-
-![15_image_1.png](15_image_1.png)
-
-0 1
-Value (variable)
-Value (variable): A LengthPrefixedString value that is the string representation of the decimal value. 
+**Value (variable):** A LengthPrefixedString value that is the string representation of the decimal value.
 
 The string MUST be of the following format.
 
-| Formats for decimal value Value = 0*1(MINUS)IntegralPart 0*1(FractionalPart) IntegralPart = 1*(DIGIT) FractionalPart = DECIMALPOINT 1*(DIGIT)  MINUS = '-' DECIMALPOINT = '.'   |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+<table border="1">
+  <thead>
+    <tr>
+      <th colspan="3">Formats for decimal value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td>Value</td>
+        <td>=</td>
+        <td>0*1(MINUS)IntegralPart 0*1(FractionalPart)</td>
+    </tr>
+    <tr>
+        <td>IntegralPart</td>
+        <td>=</td>
+        <td>1*(DIGIT)</td>
+    </tr>
+    <tr>
+        <td>FractionalPart</td>
+        <td>=</td>
+        <td>DECIMALPOINT 1*(DIGIT)</td>
+    </tr>
+    <tr>
+        <td>MINUS</td>
+        <td>=</td>
+        <td>'-'</td>
+    </tr>
+    <tr>
+        <td>DECIMALPOINT</td>
+        <td>=</td>
+        <td>'.'</td>
+    </tr>
+  </tbody>
+</table>
 
-The decimal value ranges from positive 79,228,162,514,264,337,593,543,950,335 to negative 79,228,162,514,264,337,593,543,950,335 inclusive. When reading this value, if all of the following are true:
- The string has more than 29 digits, including both the IntegralPart and the FractionalPart.
+The decimal value ranges from positive 79,228,162,514,264,337,593,543,950,335 to negative 79,228,162,514,264,337,593,543,950,335 inclusive.
 
- The net value is within the decimal value range. The number of digits in the Integral part is less than or equal to 29.
+When reading this value, if all of the following are true:
+
+- The string has more than 29 digits, including both the IntegralPart and the FractionalPart.
+
+- The net value is within the decimal value range. The number of digits in the Integral part is less than or equal to 29.
 
 then the decimal value MUST be rounded to the nearest value such that the total number of digits is 29.
 
-## 2.1.1.8 Classtypeinfo
+## 2.1.1.8 ClassTypeInfo
 
-The ClassTypeInfo identifies a **Class (2)** by its name and reference to BinaryLibrary record.
+The ClassTypeInfo identifies a **Class (2)** by its name and reference to **BinaryLibrary** record.
 
-![15_image_3.png](15_image_3.png)
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="32">TypeName (variable)</td>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+    <td align="center" colspan="32">LibraryId</td>
+  </tbody>
+</table>
 
-0 1 2 3 4 5 6 7 8 9 2 0 1 2 3 4 5 6 7 8 9
+**TypeName (variable):** A **LengthPrefixedString** value that contains the name of the Class (2). The format of the string is specified in [MS-NRTP] section 2.2.1.2.
 
-![15_image_4.png](15_image_4.png)
+**LibraryId (4 bytes):** An INT32 (as specified in [MS-DTYP] section 2.2.22) value that represents the ID that identifies the **Library** name. The record that contains this field in a **serialization stream** MUST be preceded by a BinaryLibrary record that defines the Library name for the ID.
 
-TypeName (variable)
+# 2.1.2 Enumerations
 
-![15_image_2.png](15_image_2.png)
-
-...
-
-LibraryId TypeName (variable): A LengthPrefixedString value that contains the name of the Class (2). The format of the string is specified in [MS-NRTP] section 2.2.1.2.
-
-LibraryId (4 bytes): An INT32 (as specified in [MS-DTYP] section 2.2.22) value that represents the ID that identifies the **Library** name. The record that contains this field in a **serialization stream** MUST be preceded by a BinaryLibrary record that defines the Library name for the ID.
-
-## 2.1.2 Enumerations 2.1.2.1 Recordtypeenumeration
+## 2.1.2.1 RecordTypeEnumeration
 
 This enumeration identifies the type of the **record**. Each record (except for MemberPrimitiveUnTyped) starts with a record type enumeration. The size of the enumeration is one BYTE. 
 
