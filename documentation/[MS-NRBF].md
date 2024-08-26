@@ -1151,62 +1151,108 @@ The PrimitiveTypeEnumeration identifies a **Primitive Type** value. The size of 
 
 This section specifies **records** that define the format for information required for a **Remote Method** invocation. [MS-NRTP] sections 3.1.5.1.1 and 3.1.5.1.2 describe the mechanism to map a method invocation to the records defined in this section.
 
-## 2.2.1 Enumerations 2.2.1.1 Messageflags
+## 2.2.1 Enumerations
+
+### 2.2.1.1 Messageflags
 
 The MessageFlags enumeration is used by the BinaryMethodCall (section 2.2.3.1) or BinaryMethodReturn (section 2.2.3.3) **records** to provide information about the structure of the record. The type of the enumeration is INT32, as specified in [MS-DTYP] section 2.2.22.
 
-| Constant/value           | Description                                                                                                                     |
-|--------------------------|---------------------------------------------------------------------------------------------------------------------------------|
-| NoArgs                   | The record contains no arguments. It is in the Arg category.                                                                    |
-| 0x00000001 ArgsInline    | The Arguments Array is in the Args field of the Method record. It is in the Arg  category.                                      |
-| 0x00000002 ArgsIsArray   | Each argument is an item in a separate Call Array record. It is in the Arg category.                                            |
-| 0x00000004 ArgsInArray   | The Arguments Array is an item in a separate Call Array record. It is in the Arg  category.                                     |
-| 0x00000008 NoContext     | The record does not contain a Call Context value. It is in the Context category.                                                |
-| 0x00000010 ContextInline | Call Context contains only a Logical Call ID value and is in the CallContext field of                                           |
-| 0x00000020               | the Method record. It is in the Context category.                                                                               |
-| ContextInArray           | CallContext values are contained in an array that is contained in the Call Array record.  It is in the Context category.20 / 49 |
-
 The following table is common for both the BinaryMethodCall and BinaryMethodReturn records. The term "Method record" is used in the description when it is applicable to both the records. The term "Call Array record" is used in the description when it is applicable to both MethodCallArray (section 2.2.3.2) and MethodReturnCallArray (section 2.2.3.4).
 
-| Constant/value                    | Description                                                                                                                                              |
-|-----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 0x00000040 MethodSignatureInArray | The Method Signature is contained in the Call Array record. It is in the Signature                                                                       |
-| 0x00000080                        | category.                                                                                                                                                |
-| PropertiesInArray                 | Message Properties is contained in the Call Array record. It is in the Property  category.                                                               |
-| 0x00000100 NoReturnValue          | The Return Value is a Null object. It is in the Return category.                                                                                         |
-| 0x00000200 ReturnValueVoid        | The method has no Return Value. It is in the Return category.                                                                                            |
-| 0x00000400 ReturnValueInline      | The Return Value is in the ReturnValue field of the MethodReturnCallArray record. It  is in the Return category.                                         |
-| 0x00000800 ReturnValueInArray     | The Return Value is contained in the MethodReturnCallArray record. It is in the Return                                                                   |
-| 0x00001000                        | category.                                                                                                                                                |
-| ExceptionInArray                  | An Exception is contained in the MethodReturnCallArray record. It is in the Exception  category.                                                         |
-| 0x00002000 GenericMethod          | The Remote Method is generic and the actual Remoting Types for the Generic  Arguments are contained in the Call Array. It is in the Generic category.<2> |
-| 0x00008000                        |                                                                                                                                                          |
+<table border="1">
+    <thead>
+        <th align="center">Constant/value</th>
+        <th align="center">Description</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>NoArgs</br>0x00000001</td>
+            <td>The record contains no arguments. It is in the Arg category.</td>
+        </tr>
+        <tr>
+            <td>ArgsInline</br>0x00000002</td>
+            <td>The Arguments Array is in the Args field of the Method record. It is in the Arg               category.</td>
+        </tr>
+        <tr>
+            <td>ArgsIsArray</br>0x00000004</td>
+            <td>Each argument is an item in a separate Call Array record. It is in the Arg category</td>
+        </tr>
+        <tr>
+            <td>ArgsInArray</br>0x00000008</td>
+            <td>The Arguments Array is an item in a separate Call Array record. It is in the Arg category.</td>
+        </tr>
+        <tr>
+            <td>NoContext</br>0x00000010</td>
+            <td>The record does not contain a Call Context value. It is in the Context category.</td>
+        </tr>
+        <tr>
+            <td>ContextInline</br>0x00000020</td>
+            <td>Call Context contains only a Logical Call ID value and is in the                              <b>CallContext</b> field of the Method record. It is in the Context category.</td>
+        </tr>
+        <tr>
+            <td>ContextInArray</br>0x00000040</td>
+            <td>CallContext values are contained in an array that is contained in the Call Array              record. It is in the Context category.</td>
+        </tr>
+        <tr>
+            <td>MethodSignatureInArray</br>0x00000080</td>
+            <td>The Method Signature is contained in the Call Array record. It is in the Signature             category.</td>
+        </tr>
+        <tr>
+            <td>PropertiesInArray</br>0x00000100</td>
+            <td>Message Properties is contained in the Call Array record. It is in the Property               category.</td>
+        </tr>
+        <tr>
+            <td>NoReturnValue</br>0x00000200</td>
+            <td>The **Return Value** is a **Null object**. It is in the Return category.</td>
+        </tr>
+        <tr>
+            <td>ReturnValueVoid</br>0x00000400</td>
+            <td>The method has no Return Value. It is in the Return category.</td>
+        </tr>
+        <tr>
+            <td>ReturnValueInline</br>0x00000800</td>
+            <td>The Return Value is in the **ReturnValue** field of the MethodReturnCallArray                 record. It is in the Return category.</td>
+        </tr>
+        <tr>
+            <td>ReturnValueInArray</br>0x00001000</td>
+            <td>The Return Value is contained in the MethodReturnCallArray record. It is in the               Return category.</td>
+        </tr>
+        <tr>
+            <td>ExceptionInArray</br>0x00002000</td>
+            <td>An **Exception** is contained in the MethodReturnCallArray record. It is in the                   Exception category.</td>
+        </tr>
+        <tr>
+            <td>GenericMethod</br>0x00008000</td>
+            <td>The **Remote Method** is generic and the actual **Remoting Types** for the                    **Generic Arguments** are contained in the Call Array. It is in the Generic                       category.</td>
+        </tr>
+    </tbody>
+</table>
 
-The preceding table lists the possible values of the enumeration. The category designation for each value provides the grouping of these values. It is a flags enumeration. However, not all combinations are valid. To be valid, a **MessageFlags** value is required to conform to the following:
- For each flags category given in the preceding table (Arg, Context, Signature, Return, Exception, Property, and Generic), the value MUST NOT have more than one flag from the Category set.
+The preceding table lists the possible values of the enumeration. The category designation for each value provides the grouping of these values. It is a flags enumeration. However, not all combinations are valid. 
 
- The Args and Exception flag categories are exclusive: if a flag from the Args category is set, the value MUST NOT have any flag from the Exception category set, and vice versa.
+To be valid, a **MessageFlags** value is required to conform to the following:
 
- The Return and Exception flag categories are exclusive: if a flag from the Return category is set, the value MUST NOT have any flag from the Exception category set, and vice versa.
+- For each flags category given in the preceding table (Arg, Context, Signature, Return, Exception, Property, and Generic), the value MUST NOT have more than one flag from the Category set.
 
- The Return and Signature categories are exclusive: if a flag from the Return category is set, the value MUST NOT have any flag from the Signature category set, and vice versa.
+- The Args and Exception flag categories are exclusive: if a flag from the Args category is set, the value MUST NOT have any flag from the Exception category set, and vice versa.
 
- The Exception and Signature categories are exclusive: if a flag from the Signature category is set, the value MUST NOT have any flag from the Exception category set, and vice versa.
+- The Return and Exception flag categories are exclusive: if a flag from the Return category is set, the value MUST NOT have any flag from the Exception category set, and vice versa.
 
-|           | Arg     | Context   | Signature   | Return   | Exception   | Property   | Generic   |
-|-----------|---------|-----------|-------------|----------|-------------|------------|-----------|
-| Arg       | Invalid | Valid     | Valid       | Valid    | Invalid     | Valid      | Valid     |
-| Context   | Valid   | Invalid   | Valid       | Valid    | Valid       | Valid      | Valid     |
-| Signature | Valid   | Valid     | N/A         | Invalid  | Invalid     | Valid      | Valid     |
-| Return    | Valid   | Valid     | Invalid     | Invalid  | Invalid     | Valid      | Valid     |
+- The Return and Signature categories are exclusive: if a flag from the Return category is set, the value MUST NOT have any flag from the Signature category set, and vice versa.
+
+- The Exception and Signature categories are exclusive: if a flag from the Signature category is set, the value MUST NOT have any flag from the Exception category set, and vice versa.
 
 The following table summarizes the preceding rules.
 
-| Arg       | Context   | Signature   | Return   | Exception   | Property   | Generic   |       |
-|-----------|-----------|-------------|----------|-------------|------------|-----------|-------|
-| Exception | Invalid   | Valid       | Invalid  | Invalid     | N/A        | Valid     | Valid |
-| Property  | Valid     | Valid       | Valid    | Valid       | Valid      | N/A       | Valid |
-| Generic   | Valid     | Valid       | Valid    | Valid       | Valid      | Valid     | N/A   |
+|           | Arg     | Context   | Signature | Return   | Exception  | Property   | Generic |
+|-----------|---------|-----------|-----------|----------|------------|------------|---------|
+| Arg       | Invalid | Valid     | Valid     | Valid    | Invalid    | Valid      | Valid   |
+| Context   | Valid   | Invalid   | Valid     | Valid    | Valid      | Valid      | Valid   |
+| Signature | Valid   | Valid     | N/A       | Invalid  | Invalid    | Valid      | Valid   |
+| Return    | Valid   | Valid     | Invalid   | Invalid  | Invalid    | Valid      | Valid   |
+| Exception | Invalid | Valid     | Invalid   | Invalid  | N/A        | Valid      | Valid   |
+| Property  | Valid   | Valid     | Valid     | Valid    | Valid      | N/A        | Valid   |
+| Generic   | Valid   | Valid     | Valid     | Valid    | Valid      | Valid      | N/A     |
 
 The combination of Signature and Signature, Property and Property, Generic and Generic, or Exception and Exception is not applicable because there is only one bit in the **Enum** for each of these categories. 
 
