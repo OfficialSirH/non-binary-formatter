@@ -1256,48 +1256,175 @@ The following table summarizes the preceding rules.
 
 The combination of Signature and Signature, Property and Property, Generic and Generic, or Exception and Exception is not applicable because there is only one bit in the **Enum** for each of these categories. 
 
-## 2.2.2 Common Structures 2.2.2.1 Valuewithcode
+## 2.2.2 Common Structures
+
+## 2.2.2.1 Valuewithcode
 
 The ValueWithCode structure is used to associate a **Primitive Value** with an **Enum** that identifies the Primitive Type of the Primitive Value. 
 
-![21_image_0.png](21_image_0.png)
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="8">PrimitiveTypeEnum</td>
+    <td align="center" colspan="24">Value (variable)</td>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+  </tbody>
+</table>
 
-![21_image_1.png](21_image_1.png)
+**PrimitiveTypeEnum (1 byte):** A PrimitiveTypeEnumeration value that specifies the type of the data.
 
-PrimitiveTypeEnum Value (variable)
+**Value (variable):** A Primitive Value whose Primitive Type is identified by the **PrimitiveTypeEnum** field. For example, if the value of the **PrimitiveTypeEnum** field is the PrimitiveTypeEnumeration value INT32, the **Value** field MUST contain a valid INT32 (as specified in [MS-DTYP] section 2.2.22) instance. The length of the field is determined by the Primitive Type of the **Value**. This field MUST NOT be present if the value of **PrimitiveTypeEnum** is Null (17).
 
-![21_image_3.png](21_image_3.png)
-
-PrimitiveTypeEnum (1 byte): A PrimitiveTypeEnumeration value that specifies the type of the data. Value (variable): A Primitive Value whose Primitive Type is identified by the **PrimitiveTypeEnum**
-field. For example, if the value of the **PrimitiveTypeEnum** field is the PrimitiveTypeEnumeration value INT32, the **Value** field MUST contain a valid INT32 (as specified in [MS-DTYP] section 2.2.22) instance. The length of the field is determined by the Primitive Type of the **Value**. This field MUST NOT be present if the value of **PrimitiveTypeEnum** is Null (17).
-
-## 2.2.2.2 Stringvaluewithcode
+## 2.2.2.2 StringValueWithCode
 
 The StringValueWithCode structure is a ValueWithCode where PrimitiveTypeEnumeration is String (18).
 
-![21_image_4.png](21_image_4.png)
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="8">PrimitiveTypeEnum</td>
+    <td align="center" colspan="24">StringValue (variable)</td>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+  </tbody>
+</table>
 
-PrimitiveTypeEnum (1 byte): A PrimitiveTypeEnumeration value that specifies the **Primitive Type**
-of the data. The value MUST be 18 (String).
+**PrimitiveTypeEnum (1 byte):** A PrimitiveTypeEnumeration value that specifies the **Primitive Type** of the data. The value MUST be 18 (String).
 
-StringValue (variable): A LengthPrefixedString that contains the string value.
+**StringValue (variable):** A LengthPrefixedString that contains the string value.
 
-## 2.2.2.3 Arrayofvaluewithcode
+## 2.2.2.3 ArrayOfValueWithCode
 
-The ArrayOfValueWithCode structure contains a list of ValueWithCode records. The list is prefixed with the length of the Array.
+The ArrayOfValueWithCode structure contains a list of ValueWithCode records. The list is prefixed with the length of the **Array**.
 
-![21_image_2.png](21_image_2.png)
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="32">Length</td>
+    <tr>
+        <td align="center" colspan="32">ListOfValueWithCode (variable)</td>
+    </tr>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+  </tbody>
+</table>
 
-# 0 1 2 3 4 5 6 7 8 9 1 0 1 2 3 4 5 6 7 8 9 2 0 1 2 3 4 5 6 7 8 9 3 0 1
+**Length (4 bytes):** An INT32 value (as specified in [MS-DTYP] section 2.2.22) that indicates the number of items in the Array. The value can range from 0 to 2147483647 (2^31) inclusive.
 
-Length ListOfValueWithCode (variable)
-...
+**ListOfValueWithCode (variable):** A sequence of ValueWithCode records. The number of items in the sequence MUST be equal to the value specified in the **Length** field.
 
-Length (4 bytes): An INT32 value (as specified in [MS-DTYP] section 2.2.22) that indicates the number of items in the Array. The value can range from 0 to 2147483647 (2^31) inclusive.
+## 2.2.3 Record Definitions
 
-ListOfValueWithCode (variable): A sequence of ValueWithCode records. The number of items in the sequence MUST be equal to the value specified in the **Length** field.
-
-## 2.2.3 Record Definitions 2.2.3.1 Binarymethodcall
+## 2.2.3.1 BinaryMethodCall
 
 The BinaryMethodCall record contains information that is required to perform a **Remote Method** invocation.
 
