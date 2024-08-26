@@ -1428,35 +1428,77 @@ The ArrayOfValueWithCode structure contains a list of ValueWithCode records. The
 
 The BinaryMethodCall record contains information that is required to perform a **Remote Method** invocation.
 
-| Args (variable)   |
-|-------------------|
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="8">BinaryTypeEnumeration</td>
+    <td align="center" colspan="24">MessageEnum</td>
+    <tr>
+        <td align="center" colspan="8">...</td>
+        <td align="center" colspan="24">MethodName (variable)</td>
+    </tr>
+    <td align="center" colspan="32">...</td>
+    <tr>
+        <td align="center" colspan="32">TypeName (variable)</td>
+    </tr>
+    <td align="center" colspan="32">...</td>
+    <tr>
+        <td align="center" colspan="32">CallContext (variable)</td>
+    </tr>
+    <td align="center" colspan="32">...</td>
+    <tr>
+        <td align="center" colspan="32">Args (variable)</td>
+    </tr>
+    <td align="center" colspan="32">...</td>
+  </tbody>
+</table>
 
-| ...   |
-|-------|
+**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 21.
 
-| ...                                            | MethodName (variable)   |
-|------------------------------------------------|-------------------------|
-| ...                                            |                         |
-| TypeName (variable) ... CallContext (variable) |                         |
+**MessageEnum (4 bytes):** A MessageFlags value that indicates whether the arguments and **Call Context**, **Message Properties**, **Generic Arguments**, and **Method Signature** are present. It also specifies whether the arguments and Call Context are present in this record or in the following MethodCallArray record. For this record type, the field MUST NOT contain the values from the Return and the **Exception** categories.
 
-| 1              | 2           | 3   |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|----------------|-------------|-----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 0              | 1           | 2   | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  |
-| RecordTypeEnum | MessageEnum |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+**MethodName (variable):** A StringValueWithCode that represents the Remote Method name. The format of the string is as specified in [MS-NRTP] section 2.2.1.1.
 
-...
+**TypeName (variable):** A StringValueWithCode that represents the **Server Type** name. The format of the string is specified as QualifiedTypeName, as specified in [MS-NRTP] section 2.2.1.2.
 
-RecordTypeEnum (1 byte): A RecordTypeEnumeration value that identifies the record type. The value MUST be 21.
+**CallContext (variable):** A StringValueWithCode that represents the **Logical Call ID**. This field is conditional. If the **MessageEnum** field has the ContextInline bit set, the field MUST be present; otherwise, the field MUST NOT be present. The presence of this field indicates that the Call Context contains a single entry with the Name as "__RemotingData" and the value is an instance of the **Remoting Type** CallContextRemotingData, as specified in [MS-NRTP] section 2.2.2.16. The value of this field MUST be interpreted as the value of the **logicalCallID** field in the CallContextRemotingData **Class (2)**.
 
-MessageEnum (4 bytes): A MessageFlags value that indicates whether the arguments and Call Context, Message Properties, **Generic Arguments**, and **Method Signature** are present. It also specifies whether the arguments and Call Context are present in this record or in the following MethodCallArray record. For this record type, the field MUST NOT contain the values from the Return and the **Exception** categories.
-
-MethodName (variable): A StringValueWithCode that represents the Remote Method name. The format of the string is as specified in [MS-NRTP] section 2.2.1.1.
-
-TypeName (variable): A StringValueWithCode that represents the **Server Type** name. The format of the string is specified as QualifiedTypeName, as specified in [MS-NRTP] section 2.2.1.2.
-
-CallContext (variable): A StringValueWithCode that represents the **Logical Call ID**. This field is conditional. If the **MessageEnum** field has the ContextInline bit set, the field MUST be present; otherwise, the field MUST NOT be present. The presence of this field indicates that the Call Context contains a single entry with the Name as "__RemotingData" and the value is an instance of the **Remoting Type** CallContextRemotingData, as specified in [MS-NRTP] section 2.2.2.16. The value of this field MUST be interpreted as the value of the **logicalCallID** field in the CallContextRemotingData **Class (2)**.
-
-Args (variable): An ArrayOfValueWithCode where each item of the **Array** corresponds to an input argument of the method. The items of the Array MUST be in the same order as the input arguments. This field is conditional. If the **MessageEnum** field has the ArgsInline bit set, the field MUST be present; otherwise, the field MUST NOT be present.
+**Args (variable):** An ArrayOfValueWithCode where each item of the **Array** corresponds to an input argument of the method. The items of the Array MUST be in the same order as the input arguments. This field is conditional. If the **MessageEnum** field has the ArgsInline bit set, the field MUST be present; otherwise, the field MUST NOT be present.
 
 ## 2.2.3.2 Methodcallarray
 
