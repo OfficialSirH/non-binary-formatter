@@ -1514,41 +1514,88 @@ The MethodCallArray is a special use of the ArraySingleObject record. The record
 
 5. **Message Properties**: An Array that can contain instances of any Remoting Type. Each instance is a DictionaryEntry, as specified in [MS-NRTP] section 2.2.2.6. If the **MessageEnum** field of the preceding BinaryMethodCall record has the PropertiesInArray bit set, the field MUST be present; otherwise, the field MUST NOT be present.
 
-## 2.2.3.3 Binarymethodreturn
+## 2.2.3.3 BinaryMethodReturn
 
-|                | 1                                              | 2                      | 3   |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|----------------|------------------------------------------------|------------------------|-----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 0              | 1                                              | 2                      | 3   | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  |
-| RecordTypeEnum |                                                | MessageEnum            |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-| ...            |                                                | ReturnValue (variable) |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|                | ...                                            |                        |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|                | CallContext (variable) ... Args (variable) ... |                        |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+The BinaryMethodReturn record contains the information returned by a **Remote Method**.
 
-The BinaryMethodReturn record contains the information returned by a **Remote Method**. RecordTypeEnum (1 byte): A RecordTypeEnumeration value that identifies the record type. The value MUST be 22.
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="8">BinaryTypeEnumeration</td>
+    <td align="center" colspan="24">MessageEnum</td>
+    <tr>
+        <td align="center" colspan="8">...</td>
+        <td align="center" colspan="24">ReturnValue (variable)</td>
+    </tr>
+    <td align="center" colspan="32">...</td>
+    <tr>
+        <td align="center" colspan="32">CallContext (variable)</td>
+    </tr>
+    <td align="center" colspan="32">...</td>
+    <tr>
+        <td align="center" colspan="32">Args (variable)</td>
+    </tr>
+    <td align="center" colspan="32">...</td>
+  </tbody>
+</table>
 
-MessageEnum (4 bytes): A MessageFlags value that indicates whether the **Return Value**, 
-Arguments, **Message Properties**, and **Call Context** are present. The value also specifies whether the Return Value, Arguments, and Call Context are present in this record or the following MethodReturnCallArray record. For this record, the field MUST NOT have the MethodSignatureInArray or GenericMethod bits set.
+**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 22.
 
-ReturnValue (variable): A ValueWithCode that contains the Return Value of a Remote Method. If the **MessageEnum** field has the ReturnValueInline bit set, this field MUST be present; otherwise, this field MUST NOT be present.
+**MessageEnum (4 bytes):** A MessageFlags value that indicates whether the **Return Value**, 
+**Arguments**, **Message Properties**, and **Call Context** are present. The value also specifies whether the Return Value, Arguments, and Call Context are present in this record or the following MethodReturnCallArray record. For this record, the field MUST NOT have the MethodSignatureInArray or GenericMethod bits set.
 
-CallContext (variable): A StringValueWithCode that represents the **Logical Call ID**. This field is conditional. If the **MessageEnum** field has the ContextInline bit set, the field MUST be present; otherwise, the field MUST NOT be present.
+**ReturnValue (variable):** A ValueWithCode that contains the Return Value of a Remote Method. If the **MessageEnum** field has the ReturnValueInline bit set, this field MUST be present; otherwise, this field MUST NOT be present.
 
-Args (variable): An ArrayOfValueWithCode that contains the **Output Arguments** of the method. 
+**CallContext (variable):** A StringValueWithCode that represents the **Logical Call ID**. This field is conditional. If the **MessageEnum** field has the ContextInline bit set, the field MUST be present; otherwise, the field MUST NOT be present.
 
-This field is conditional. If the **MessageEnum** field has the ArgsInline bit set, the field MUST be present; otherwise, the field MUST NOT be present.
+**Args (variable):** An ArrayOfValueWithCode that contains the **Output Arguments** of the method. This field is conditional. If the **MessageEnum** field has the ArgsInline bit set, the field MUST be present; otherwise, the field MUST NOT be present.
 
-## 2.2.3.4 Methodreturncallarray
+## 2.2.3.4 MethodReturnCallArray
 
-The MethodReturnCallArray is a special use of the ArraySingleObject record. The record represents a serialized **Array** that can contain instances of any **Remoting Type**. The items of the Array include Return Value, Output Arguments, Exception, **Call Context**, and **Message Properties**. Each item is conditional. The conditions for presence of the item are given with the definition of the item in the following list. The items, if present, MUST be in the following order: 1. **Return Value**: The Return Value of the method. This item is conditional. If the **MessageEnum**
-field of the preceding BinaryMethodReturn record has the ReturnValueInArray bit set, the item MUST be present; otherwise, the item MUST NOT be present.
+The MethodReturnCallArray is a special use of the ArraySingleObject record. The record represents a **serialized Array** that can contain instances of any **Remoting Type**. The items of the Array include **Return Value**, **Output Arguments**, **Exception**, **Call Context**, and **Message Properties**. Each item is conditional. The conditions for presence of the item are given with the definition of the item in the following list. The items, if present, MUST be in the following order:
+
+1. **Return Value**: The Return Value of the method. This item is conditional. If the **MessageEnum** field of the preceding BinaryMethodReturn record has the ReturnValueInArray bit set, the item MUST be present; otherwise, the item MUST NOT be present.
 
 2. **Output Arguments**: An Array that contains the Output Arguments for the method. This item is conditional. If the **MessageEnum** field of the preceding BinaryMethodReturn record has the ArgsInArray bit set, the item MUST be present; otherwise, the item MUST NOT be present.
 
-3. **Exception**: A **Data Value** assignable to System.Exception **Class (2)** as specified in [MS-NRTP]
-section 2.2.2.7. This item is conditional. If the **MessageEnum** field of the preceding BinaryMethodReturn record has the ExceptionInArray bit set, the item MUST be present; otherwise, the item MUST NOT be present.
+3. **Exception**: A **Data Value** assignable to System.Exception **Class (2)** as specified in [MS-NRTP] section 2.2.2.7. This item is conditional. If the **MessageEnum** field of the preceding BinaryMethodReturn record has the ExceptionInArray bit set, the item MUST be present; otherwise, the item MUST NOT be present.
 
-4. **Call Context**: An instance of the Class (2) called 
-"System.Runtime.Remoting.Messaging.LogicalCallContext". The **Library** name of the Class (2) is "mscorlib". Each name-value pair of the Call Context MUST be mapped to a **Member** name and a Member value of the Class (2). If the **MessageEnum** field of the preceding BinaryMethodReturn record has the ContextInArray bit set, the field MUST be present; otherwise, the field MUST NOT be present.
+4. **Call Context**: An instance of the Class (2) called "System.Runtime.Remoting.Messaging.LogicalCallContext". The **Library** name of the Class (2) is "mscorlib". Each name-value pair of the Call Context MUST be mapped to a **Member** name and a Member value of the Class (2). If the **MessageEnum** field of the preceding BinaryMethodReturn record has the ContextInArray bit set, the field MUST be present; otherwise, the field MUST NOT be present.
 
 5. **Message Properties**: An Array that can contain instances of any Remoting Type. Each instance is a DictionaryEntry, as specified in [MS-NRTP] section 2.2.2.6. If the **MessageEnum** field of the preceding BinaryMethodReturn record has the PropertiesInArray bit set, the field MUST be present; otherwise, the field MUST NOT be present.
 
