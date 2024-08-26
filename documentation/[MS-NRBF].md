@@ -1046,22 +1046,30 @@ The ClassTypeInfo identifies a **Class (2)** by its name and reference to **Bina
 
 ## 2.1.2.1 RecordTypeEnumeration
 
-This enumeration identifies the type of the **record**. Each record (except for MemberPrimitiveUnTyped) starts with a record type enumeration. The size of the enumeration is one BYTE. 
+This enumeration identifies the type of the **record**. Each record (except for MemberPrimitiveUnTyped) starts with a record type enumeration. The size of the enumeration is one BYTE.
 
-| starts with a record type enumeration. The size of the enumeration is one BYTE.  Constant/value Description SerializedStreamHeader Identifies the SerializationHeaderRecord. 0 ClassWithId Identifies a ClassWithId record. 1 SystemClassWithMembers Identifies a SystemClassWithMembers record. 2 ClassWithMembers Identifies a ClassWithMembers record. 3 SystemClassWithMembersAndTypes Identifies a SystemClassWithMembersAndTypes record.  4 ClassWithMembersAndTypes Identifies a ClassWithMembersAndTypes record. 5 BinaryObjectString Identifies a BinaryObjectString record. 6 BinaryArray Identifies a BinaryArray record. 7 MemberPrimitiveTyped Identifies a MemberPrimitiveTyped record. 8 MemberReference Identifies a MemberReference record. 9 ObjectNull Identifies an ObjectNull record. 10 MessageEnd Identifies a MessageEnd record.11   |
-|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-
-| Constant/value           | Description                                 |
-|--------------------------|---------------------------------------------|
-| BinaryLibrary            | Identifies a BinaryLibrary record.          |
-| 12 ObjectNullMultiple256 | Identifies an ObjectNullMultiple256 record. |
-| 13 ObjectNullMultiple    | Identifies an ObjectNullMultiple record     |
-| 14 ArraySinglePrimitive  | Identifies an ArraySinglePrimitive.         |
-| 15 ArraySingleObject     | Identifies an ArraySingleObject record.     |
-| 16 ArraySingleString     | Identifies an ArraySingleString record.     |
-| 17 MethodCall            | Identifies a BinaryMethodCall record.       |
-| 21 MethodReturn          | Identifies a BinaryMethodReturn record.     |
-| 22                       |                                             |
+| Constant/value                       | Description                                         |
+|--------------------------------------|-----------------------------------------------------|
+| SerializationStreamHeader</br>0      | Identifies the SerializationHeaderRecord.           |
+| ClassWithId</br>1                    | Identifies a ClassWithId record.                    |
+| SystemClassWithMembers</br>2         | Identifies a SystemClassWithMembers record.         |
+| ClassWithMembers</br>3               | Identifies a ClassWithMembers record.               |
+| SystemClassWithMembersAndTypes</br>4 | Identifies a SystemClassWithMembersAndTypes record. |
+| ClassWithMembersAndTypes</br>5       | Identifies a ClassWithMembersAndTypes record.       |
+| BinaryObjectString</br>6             | Identifies a BinaryObjectString record.             |
+| BinaryArray</br>7                    | Identifies a BinaryArray record.                    |
+| MemberPrimitiveTyped</br>8           | Identifies a MemberPrimitiveTyped record.           |
+| MemberReference</br>9                | Identifies a MemberReference record.                |
+| ObjectNull</br>10                    | Identifies a ObjectNull record.                     |
+| MessageEnd</br>11                    | Identifies a MessageEnd record.                     |
+| BinaryLibrary</br>12                 | Identifies a BinaryLibrary record.                  |
+| ObjectNullMultiple256</br>13         | Identifies an ObjectNullMultiple256 record.         |
+| ObjectNullMultiple</br>14            | Identifies an ObjectNullMultiple record             |
+| ArraySinglePrimitive</br>15          | Identifies an ArraySinglePrimitive.                 |
+| ArraySingleObject</br>16             | Identifies an ArraySingleObject record.             |
+| ArraySingleString</br>17             | Identifies an ArraySingleString record.             |
+| MethodCall</br>21                    | Identifies a BinaryMethodCall record.               |
+| MethodReturn</br>22                  | Identifies a BinaryMethodReturn record.             |
 
 ## 2.1.2.2 Binarytypeenumeration
 
