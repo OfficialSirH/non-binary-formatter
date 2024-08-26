@@ -1122,35 +1122,30 @@ The BinaryTypeEnumeration identifies the **Remoting Type** of a **Class (2) Memb
     </tbody>
 </table>
 
-## 2.1.2.3 Primitivetypeenumeration
-
-| BYTE. Constant/value   | Description                                                   |
-|------------------------|---------------------------------------------------------------|
-| Boolean                | Identifies a BOOLEAN as specified in [MS-DTYP] section 2.2.4. |
-| 1 Byte                 | Identifies a BYTE as specified in [MS-DTYP] section 2.2.6.    |
-| 2 Char                 | Identifies a Char (section 2.1.1.1) type.                     |
-| 3                      | The value is not used in the protocol.                        |
-| 4 Decimal              | Identifies a Decimal (section 2.1.1.7).                       |
-| 5 Double               | Identifies a Double (section 2.1.1.2).                        |
-| 6 Int16                | Identifies an INT16 as specified in [MS-DTYP] section 2.2.21. |
-| 7 Int32                | Identifies an INT32 as specified in [MS-DTYP] section 2.2.22. |
-| 8 Int64                | Identifies an INT64 as specified in [MS-DTYP] section 2.2.23. |
-| 9 SByte                | Identifies an INT8 as specified in [MS-DTYP] section 2.2.20.  |
-| 10 Single              | Identifies a Single (section 2.1.1.3).                        |
-| 11 TimeSpan            | Identifies a TimeSpan (section 2.1.1.4).                      |
-| 12 DateTime            | Identifies a DateTime (section 2.1.1.5).                      |
-| 13 UInt16              | Identifies a UINT16 as specified in [MS-DTYP] section 2.2.48. |
-| 14                     |                                                               |
+## 2.1.2.3 PrimitiveTypeEnumeration
 
 The PrimitiveTypeEnumeration identifies a **Primitive Type** value. The size of the enumeration is a BYTE.
 
-| Constant/value   | Description                                                   |
-|------------------|---------------------------------------------------------------|
-| UInt32           | Identifies a UINT32 as specified in [MS-DTYP] section 2.2.49. |
-| 15 UInt64        | Identifies a UINT64 as specified in [MS-DTYP] section 2.2.50. |
-| 16 Null          | Identifies a Null Object.                                     |
-| 17 String        | Identifies a LengthPrefixedString (section 2.1.1.6) value.    |
-| 18               |                                                               |
+| Constant/value  | Description                                                   |
+|-----------------|---------------------------------------------------------------|
+| Boolean</br>1   | Identifies a BOOLEAN as specified in [MS-DTYP] section 2.2.4. |
+| Byte</br>2      | Identifies a BYTE as specified in [MS-DTYP] section 2.2.6.    |
+| Char</br>3      | Identifies a Char (section 2.1.1.1) type.                     |
+| </br>4          | The value is not used in the protocol.                        |
+| Decimal</br>5   | Identifies a Decimal (section 2.1.1.7).                       |
+| Double</br>6    | Identifies a Double (section 2.1.1.2).                        |
+| Int16</br>7     | Identifies an INT16 as specified in [MS-DTYP] section 2.2.21. |
+| Int32</br>8     | Identifies an INT32 as specified in [MS-DTYP] section 2.2.22. |
+| Int64</br>9     | Identifies an INT64 as specified in [MS-DTYP] section 2.2.23. |
+| SByte</br>10    | Identifies an INT8 as specified in [MS-DTYP] section 2.2.20.  |
+| Single</br>11   | Identifies a Single (section 2.1.1.3).                        |
+| TimeSpan</br>12 | Identifies a TimeSpan (section 2.1.1.4).                      |
+| DateTime</br>13 | Identifies a DateTime (section 2.1.1.5).                      |
+| UInt16</br>14   | Identifies a UINT16 as specified in [MS-DTYP] section 2.2.48. |
+| UInt32</br>15   | Identifies a UINT32 as specified in [MS-DTYP] section 2.2.49. |
+| UInt64</br>16   | Identifies a UINT64 as specified in [MS-DTYP] section 2.2.50. |
+| Null</br>17     | Identifies a Null Object.                                     |
+| String</br>18   | Identifies a LengthPrefixedString (section 2.1.1.6) value.    |
 
 ## 2.2 Method Invocation Records
 
