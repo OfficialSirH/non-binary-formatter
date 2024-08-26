@@ -1071,18 +1071,56 @@ This enumeration identifies the type of the **record**. Each record (except for 
 | MethodCall</br>21                    | Identifies a BinaryMethodCall record.               |
 | MethodReturn</br>22                  | Identifies a BinaryMethodReturn record.             |
 
-## 2.1.2.2 Binarytypeenumeration
+## 2.1.2.2 BinaryTypeEnumeration
 
-| The size of the enumeration is a BYTE. Constant/value Description Primitive The Remoting Type is defined in PrimitiveTypeEnumeration and the Remoting Type is not a  string. 0 String The Remoting Type is a LengthPrefixedString. 1 Object The Remoting Type is System.Object. 2 SystemClass The Remoting Type is one of the following: 3  A Class (2) in the System Library  An Array whose Ultimate Array Item Type is a Class (2) in the System Library  An Array whose Ultimate Array Item Type is System.Object, String, or a Primitive Type but does not meet the definition of ObjectArray, StringArray, or PrimitiveArray. Class The Remoting Type is a Class (2) or an Array whose Ultimate Array Item Type is a Class (2)  that is not in the System Library. 4 ObjectArray The Remoting Type is a single-dimensional Array of System.Object with a lower bound of 0.5 18 / 49   |
-|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+The BinaryTypeEnumeration identifies the **Remoting Type** of a **Class (2) Member** or an **Array** item. The size of the enumeration is a BYTE.
 
-The BinaryTypeEnumeration identifies the **Remoting Type** of a Class (2) **Member** or an **Array** item. The size of the enumeration is a BYTE.
-
-| Constant/value   | Description                                                                                  |
-|------------------|----------------------------------------------------------------------------------------------|
-| StringArray      | The Remoting Type is a single-dimensional Array of String with a lower bound of 0.           |
-| 6 PrimitiveArray | The Remoting Type is a single-dimensional Array of a Primitive Type with a lower bound of 0. |
-| 7                |                                                                                              |
+<table border="1">
+    <thead>
+        <th align="center">Constant/value</th>
+        <th align="center">Description</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Primitive</br>0</td>
+            <td>The Remoting Type is defined in PrimitiveTypeEnumeration and the Remoting Type is not a string.</td>
+        </tr>
+        <tr>
+            <td>String</br>1</td>
+            <td>The Remoting Type is a LengthPrefixedString.</td>
+        </tr>
+        <tr>
+            <td>Object</br>2</td>
+            <td>The Remoting Type is System.Object.</td>
+        </tr>
+        <tr>
+            <td>SystemClass</br>3</td>
+            <td>The Remoting Type is one of the following:
+                <ul>
+                    <li>A Class (2) in the <b>System Library</b></li>
+                    <li>An Array whose <b>Ultimate Array Item Type</b> is a Class (2) in the                          System Library</li>
+                    <li>An Array whose Ultimate Array Item Type is System.Object, String, or a                        <b>Primitive Type</b> but does not meet the definition of ObjectArray,                               StringArray, or PrimitiveArray.</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>Class</br>4</td>
+            <td>The Remoting Type is a Class (2) or an Array whose Ultimate Array Item Type is a              Class (2) that is not in the System Library.</td>
+        </tr>
+        <tr>
+            <td>ObjectArray</br>5</td>
+            <td>The Remoting Type is a single-dimensional Array of System.Object with a lower                 bound of 0.</td>
+        </tr>
+        <tr>
+            <td>StringArray</br>6</td>
+            <td>The Remoting Type is a single-dimensional Array of String with a lower bound of               0.</td>
+        </tr>
+        <tr>
+            <td>PrimitiveArray</br>7</td>
+            <td>The Remoting Type is a single-dimensional Array of a Primitive Type with a lower              bound of 0.</td>
+        </tr>
+    </tbody>
+</table>
 
 ## 2.1.2.3 Primitivetypeenumeration
 
@@ -1954,4 +1992,4 @@ UInt16 19 UInt32 19 UInt64 19 V
 ValueWithCode packet 22 Vendor-extensible fields 11 Versioning 11
 
 # MS-NRBF documentation originally converted to Markdown with [marker](https://github.com/vikparuchuri/marker)
-# Rewritten completely by [Micah Benac](https://github.com/OfficialSirH)
+# Rewritten completely by hand by [Micah Benac](https://github.com/OfficialSirH)
