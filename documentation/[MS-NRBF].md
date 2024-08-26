@@ -1945,4 +1945,5 @@ TimeSpan 19 TimeSpan packet 13 Tracking changes 47 U
 UInt16 19 UInt32 19 UInt64 19 V
 ValueWithCode packet 22 Vendor-extensible fields 11 Versioning 11
 
-# MS-NRBF documentation converted to Markdown with [marker](https://github.com/vikparuchuri/marker)
+# MS-NRBF documentation originally converted to Markdown with [marker](https://github.com/vikparuchuri/marker)
+# Rewritten completely by [Micah Benac](https://github.com/OfficialSirH)
