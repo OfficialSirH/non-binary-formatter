@@ -1258,7 +1258,7 @@ The combination of Signature and Signature, Property and Property, Generic and G
 
 ## 2.2.2 Common Structures
 
-## 2.2.2.1 Valuewithcode
+## 2.2.2.1 ValueWithCode
 
 The ValueWithCode structure is used to associate a **Primitive Value** with an **Enum** that identifies the Primitive Type of the Primitive Value. 
 
