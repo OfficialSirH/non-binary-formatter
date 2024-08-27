@@ -2960,12 +2960,97 @@ The MessageEnd record marks the end of the **serialization stream**.
 
 ## 2.7 Binary Record Grammar
 
-This section specifies the grammar using the Augmented Backus-Naur Form (ABNF) syntax specified in [RFC4234] that defines how the records can appear in the serialization stream.
+This section specifies the grammar using the Augmented Backus-Naur Form (ABNF) syntax specified in [RFC4234] that defines how the records can appear in the **serialization stream**.
 
-| [RFC4234] that defines how the records can appear in the serialization stream. ABNF productions Meaning ABNF productions  = SerializationHeader remotingMessage *(referenceable)  (methodCall/methodReturn)  *(referenceable)  MessageEnd  methodCall = 0*1(BinaryLibrary)  BinaryMethodCall  0*1(callArray) methodReturn = 0*1(BinaryLibrary)  BinaryMethodReturn  0*1(callArray) callArray = 0*1(BinaryLibrary)  ArraySingleObject  *(memberReference) memberReference = 0*1(BinaryLibrary)  (MemberPrimitiveUnTyped / MemberPrimitiveTyped / MemberReference /  BinaryObjectString / nullObject /Classes) nullObject = ObjectNull / ObjectNullMultiple / ObjectNullMultiple256 referenceable = Classes/Arrays/BinaryObjectString  Classes = 0*1(BinaryLibrary)  (ClassWithId / ClassWithMembers/ ClassWithMembersAndTypes /  SystemClassWithMembers / SystemClassWithMembersAndTypes)  *(memberReference) Arrays = 0*1(BinaryLibrary)  ((ArraySingleObject *(memberReference)) / (ArraySinglePrimitive  *(MemberPrimitiveUnTyped)) /  (ArraySingleString *(BinaryObjectString/MemberReference/nullObject)) / (BinaryArray*(memberReference)) )   |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+<table>
+  <thead>
+    <th>ABNF productions</th>
+    <th></th>
+    <th>Meaning</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ABNF productions</br>remotingMessage</td>
+      <td>=</td>
+      <td>
+        SerializationHeader</br>
+        *(referenceable)</br>
+        (methodCall/methodReturn)</br>
+        *(referenceable)</br>
+        MessageEnd
+      </td>
+    </tr>
+    <tr>
+      <td>methodCall</td>
+      <td>=</td>
+      <td>
+        0*1(BinaryLibrary)</br>
+        BinaryMethodCall</br>
+        0*1(callArray)
+      </td>
+    </tr>
+    <tr>
+      <td>methodReturn</td>
+      <td>=</td>
+      <td>
+        0*1(BinaryLibrary)</br>
+        BinaryMethodReturn</br>
+        0*1(callArray)
+      </td>
+    </tr>
+    <tr>
+      <td>callArray</td>
+      <td>=</td>
+      <td>
+        0*1(BinaryLibrary)</br>
+        ArraySingleObject</br>
+        *(memberReference)
+      </td>
+    </tr>
+    <tr>
+      <td>memberReference</td>
+      <td>=</td>
+      <td>
+        0*1(BinaryLibrary)</br>
+        (MemberPrimitiveUnTyped / MemberPrimitiveTyped / MemberReference /  BinaryObjectString / nullObject / Classes)
+      </td>
+    </tr>
+    <tr>
+      <td>nullObject</td>
+      <td>=</td>
+      <td>
+        ObjectNull / ObjectNullMultiple / ObjectNullMultiple256
+      </td>
+    </tr>
+    <tr>
+      <td>referenceable</td>
+      <td>=</td>
+      <td>
+        Classes/<b>Arrays</b>/BinaryObjectString
+      </td>
+    </tr>
+    <tr>
+      <td>Classes</td>
+      <td>=</td>
+      <td>
+        0*1(BinaryLibrary)</br>
+        (ClassWithId / ClassWithMembers/ ClassWithMembersAndTypes /  SystemClassWithMembers / SystemClassWithMembersAndTypes)</br>
+        *(memberReference)
+      </td>
+    </tr>
+    <tr>
+      <td>Arrays</td>
+      <td>=</td>
+      <td>
+        0*1(BinaryLibrary)</br>
+        ((ArraySingleObject *(memberReference)) / (ArraySinglePrimitive  *(MemberPrimitiveUnTyped)) /  (ArraySingleString *(BinaryObjectString/MemberReference/nullObject)) / (BinaryArray *(memberReference)))
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-## 3 Structure Examples
+___
+# 3 Structure Examples
 
 This sample illustrates the message exchanged when a **Remote Method** is invoked as specified in [MS-NRTP] section 3.3.4.2. The data model is used to describe the information to perform the Remote Method invocation and the results of the invocation, as specified in [MS-NRTP] section 3.1.1. The client invokes a method "SendAddress" on a remote **Server Type** "DOJRemotingMetadata.MyServer" and passes the following Address object (Street = "One Microsoft Way", City = "Redmond", State = "WA" and Zip = "98054") as an argument. The remote Server Type is accessible at a relative URI "MyServer.Rem" hosted on a server named "maheshdev2" and listening on port 8080. The server receives the request message, reads the argument passed in the message, and then invokes the method with the **de-serialized** argument. The server then embeds the Return Value of "Address received" in the response message to the client.
 
