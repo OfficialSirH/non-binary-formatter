@@ -3234,23 +3234,27 @@ NoContext: Similar to the client, the server is not sending any additional data 
 
 ReturnValueInline: Because the Return Value is a Primitive Type, it is contained in the BinaryMethodReturn record.
 
-## 4 Security Considerations
+___
+# 4 Security Considerations
 
 Some of the structures contain fields that specify size information of the data in the serialization stream. The type of the size that specifies fields is INT32 (as specified in [MS-DTYP] section 2.2.22). The maximum value of these values can be as high as 0x7FFFFFFF. An implementation that consumes the stream either does not allocate memory based on the size information specified in the serialization stream, or ensures that the data in the serialization stream can be trusted.
+
+The following table lists the structures with fields that specify size information.
 
 | Type                 | Field       | Description                                                        |
 |----------------------|-------------|--------------------------------------------------------------------|
 | LengthPrefixedString | Length      | Size of the string                                                 |
-| ArrayOfValueWithCode | Length      | Size of the Array                                                  |
+| ArrayOfValueWithCode | Length      | Size of the **Array**                                              |
 | ClassInfo            | MemberCount | Number of Members                                                  |
 | ArrayInfo            | Length      | Size of the Array                                                  |
 | BinaryArray          | Rank        | Size of the Lengths and LowerBounds Arrays                         |
 | BinaryArray          | Lengths     | Size of each dimension that would affect the net size of the Array |
-| ObjectNullMultiple   | NullCount   | Number of Null Objects                                             |
+| ObjectNullMultiple   | NullCount   | Number of **Null Objects**                                         |
 
-The following table lists the structures with fields that specify size information. De-serialization of the serialization stream results in creating instances of **Remoting Types** whose information is provided in the serialization stream. It might be unsafe to create an instance of Remoting Types. An implementation protects against attacks where the serialization stream includes the unsafe Remoting Types. Such attacks can be mitigated by allowing the higher layer to configure a list of Remoting Types in an implementation-specific way and disallow **de-serialization** of any Remoting Type that is not in the list.
+De-serialization of the serialization stream results in creating instances of **Remoting Types** whose information is provided in the serialization stream. It might be unsafe to create an instance of Remoting Types. An implementation protects against attacks where the serialization stream includes the unsafe Remoting Types. Such attacks can be mitigated by allowing the higher layer to configure a list of Remoting Types in an implementation-specific way and disallow **de-serialization** of any Remoting Type that is not in the list.
 
-## 5 Appendix A: Product Behavior
+___
+# 5 Appendix A: Product Behavior
 
 The information in this specification is applicable to the following Microsoft products or supplemental software. References to product versions include updates to those products. This document specifies version-specific details in the Microsoft .NET Framework. For information about which versions of .NET Framework are available in each released Windows product or as supplemental software, see [MS-NETOD] section 4. The terms "earlier" and "later", when used with a product version, refer to either all preceding versions or all subsequent versions, respectively. The term "through" refers to the inclusive range of versions. Applicable Microsoft products are listed chronologically in this section.
 
