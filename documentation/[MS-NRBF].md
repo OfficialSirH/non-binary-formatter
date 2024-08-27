@@ -1750,106 +1750,307 @@ The MemberTypeInfo is a common structure that contains type information for **Cl
 
 - When the BinaryTypeEnum value is Primitive, the PrimitiveTypeEnumeration value in AdditionalInfo MUST NOT be Null (17) or String (18).
 
-## 2.3.2 Record Definitions 2.3.2.1 Classwithmembersandtypes
+## 2.3.2 Record Definitions
 
-| 1                                       | 2                    | 3   |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|-----------------------------------------|----------------------|-----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 0                                       | 1                    | 2   | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  |
-| RecordTypeEnum                          | ClassInfo (variable) |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-| ...                                     |                      |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-| MemberTypeInfo (variable) ... LibraryId |                      |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+### 2.3.2.1 ClassWithMembersAndTypes
 
-The ClassWithMembersAndTypes record is the most verbose of the Class records. It contains metadata about **Members**, including the names and **Remoting Types** of the Members. It also contains a Library ID that references the Library Name of the Class. RecordTypeEnum (1 byte): A RecordTypeEnumeration value that identifies the record type. Its value MUST be 5.
+The ClassWithMembersAndTypes record is the most verbose of the Class records. It contains metadata about **Members**, including the names and **Remoting Types** of the Members. It also contains a **Library** ID that references the Library Name of the Class.
 
-ClassInfo (variable): A ClassInfo structure that provides information about the name and Members of the Class.
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="8">RecordTypeEnum</td>
+    <td align="center" colspan="24">ClassInfo (variable)</td>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+    <td align="center" colspan="32">MemberTypeInfo (variable)</td>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+    <td align="center" colspan="32">LibraryId</td>
+  </tbody>
+</table>
 
-MemberTypeInfo (variable): A MemberTypeInfo structure that provides information about the Remoting Types of the Members.
+**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. Its value MUST be 5.
 
-LibraryId (4 bytes): An INT32 value (as specified in [MS-DTYP] section 2.2.22) that references a BinaryLibrary record by its Library ID. A BinaryLibrary record with the LibraryId MUST appear earlier in the serialization stream.
+**ClassInfo (variable):** A ClassInfo structure that provides information about the name and Members of the Class.
 
-## 2.3.2.2 Classwithmembers
+**MemberTypeInfo (variable):** A MemberTypeInfo structure that provides information about the Remoting Types of the Members.
 
-The ClassWithMembers record is less verbose than ClassWithMembersAndTypes. It does not contain 
+**LibraryId (4 bytes):** An INT32 value (as specified in [MS-DTYP] section 2.2.22) that references a BinaryLibrary record by its Library ID. A BinaryLibrary record with the LibraryId MUST appear earlier in the **serialization stream**.
 
-![28_image_0.png](28_image_0.png) information about the **Remoting Type** information of the **Members**. This record can be used when the information is deemed unnecessary because it is known out of band or can be inferred from context.
+### 2.3.2.2 ClassWithMembers
 
-| 1              | 2                    | 3   |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|----------------|----------------------|-----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 0              | 1                    | 2   | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  |
-| RecordTypeEnum | ClassInfo (variable) |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|                | ...                  |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|                | LibraryId            |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+The ClassWithMembers record is less verbose than ClassWithMembersAndTypes. It does not contain information about the **Remoting Type** information of the **Members**. This record can be used when the information is deemed unnecessary because it is known out of band or can be inferred from context.
 
-RecordTypeEnum (1 byte): A RecordTypeEnumeration value that identifies the record type. Its value MUST be 3.
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="8">RecordTypeEnum</td>
+    <td align="center" colspan="24">ClassInfo (variable)</td>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+    <td align="center" colspan="32">LibraryId</td>
+  </tbody>
+</table>
 
-ClassInfo (variable): A ClassInfo structure that provides information about the name and Members of the Class.
+**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. Its value MUST be 3.
 
-LibraryId (4 bytes): An INT32 value (as specified in [MS-DTYP] section 2.2.22) that references a BinaryLibrary record by its Library ID. The ID MUST be a positive integer. A BinaryLibrary record with the LibraryId MUST appear earlier in the **serialization stream**.
+**ClassInfo (variable):** A ClassInfo structure that provides information about the name and Members of the Class.
 
-## 2.3.2.3 Systemclasswithmembersandtypes
+**LibraryId (4 bytes):** An INT32 value (as specified in [MS-DTYP] section 2.2.22) that references a BinaryLibrary record by its Library ID. The ID MUST be a positive integer. A BinaryLibrary record with the LibraryId MUST appear earlier in the **serialization stream**.
+
+### 2.3.2.3 SystemClassWithMembersAndTypes
 
 The SystemClassWithMembersAndTypes record is less verbose than ClassWithMembersAndTypes. It does not contain a LibraryId. This record implicitly specifies that the Class is in the **System Library**.
 
-![28_image_1.png](28_image_1.png)
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="8">RecordTypeEnum</td>
+    <td align="center" colspan="24">ClassInfo (variable)</td>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+    <td align="center" colspan="32">MemberTypeInfo (variable)</td>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+  </tbody>
+</table>
 
-RecordTypeEnum (1 byte): A RecordTypeEnumeration value that identifies the record type. Its value MUST be 4.
+**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. Its value MUST be 4.
 
-ClassInfo (variable): A ClassInfo structure that provides information about the name and **Members**
-of the Class.
+**ClassInfo (variable):** A ClassInfo structure that provides information about the name and **Members** of the Class.
 
-MemberTypeInfo (variable): A MemberTypeInfo structure that provides information about the Remoting Type of the Members.
+**MemberTypeInfo (variable):** A MemberTypeInfo structure that provides information about the **Remoting Type** of the Members.
 
-## 2.3.2.4 Systemclasswithmembers
-
-| 1                             | 2                    | 3   |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|-------------------------------|----------------------|-----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 0                             | 1                    | 2   | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  |
-| RecordTypeEnum                | ClassInfo (variable) |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-| ...                           |                      |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-| MemberTypeInfo (variable) ... |                      |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+### 2.3.2.4 SystemClassWithMembers
 
 The SystemClassWithMembers record is less verbose than ClassWithMembersAndTypes. It does not contain a LibraryId or the information about the **Remoting Types** of the **Members**. This record implicitly specifies that the Class is in the **System Library**. This record can be used when the information is deemed unnecessary because it is known out of band or can be inferred from context.
 
-![29_image_0.png](29_image_0.png)
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="8">RecordTypeEnum</td>
+    <td align="center" colspan="24">ClassInfo (variable)</td>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+  </tbody>
+</table>
 
-0 1 2 3 4 5 6 7 8 9
+**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. Its value MUST be 2.
 
-2 0 1 2 3 4 5 6 7 8 9
+**ClassInfo (variable):** A ClassInfo structure that provides information about the name and Members of the Class.
 
-![29_image_1.png](29_image_1.png)
-
-RecordTypeEnum ClassInfo (variable)
-
-![29_image_2.png](29_image_2.png)
-
-![29_image_3.png](29_image_3.png)
-
-RecordTypeEnum (1 byte): A RecordTypeEnumeration value that identifies the record type. Its value MUST be 2.
-
-ClassInfo (variable): A ClassInfo structure that provides information about the name and Members of the Class.
-
-## 2.3.2.5 Classwithid
+### 2.3.2.5 ClassWithId
 
 The ClassWithId record is the most compact. It has no metadata. It refers to metadata defined in SystemClassWithMembers, SystemClassWithMembersAndTypes, ClassWithMembers, or ClassWithMembersAndTypes record. 
 
-| 1              | 2          | 3   |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|----------------|------------|-----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 0              | 1          | 2   | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  |
-| RecordTypeEnum | ObjectId   |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-| ...            | MetadataId |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-| ...            |            |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="8">RecordTypeEnum</td>
+    <td align="center" colspan="24">ObjectId</td>
+    <tr>
+        <td align="center" colspan="8">...</td>
+        <td align="center" colspan="24">MetadataId</td>
+    </tr>
+    <td align="center" colspan="8">...</td>
+  </tbody>
+</table>
 
-RecordTypeEnum (1 byte): A RecordTypeEnumeration value that identifies the record type. The value MUST be 1.
+**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 1.
 
-ObjectId (4 bytes): An INT32 value (as specified in [MS-DTYP] section 2.2.22) that uniquely identifies the object in the **serialization stream**.
+**ObjectId (4 bytes):** An INT32 value (as specified in [MS-DTYP] section 2.2.22) that uniquely identifies the object in the **serialization stream**.
 
-MetadataId (4 bytes): An INT32 value (as specified in [MS-DTYP] section 2.2.22) that references one of the other Class records by its ObjectId. A SystemClassWithMembers, SystemClassWithMembersAndTypes, ClassWithMembers, or ClassWithMembersAndTypes record with the value of this field in its **ObjectId** field MUST appear earlier in the serialization stream.
+**MetadataId (4 bytes):** An INT32 value (as specified in [MS-DTYP] section 2.2.22) that references one of the other Class records by its ObjectId. A SystemClassWithMembers, SystemClassWithMembersAndTypes, ClassWithMembers, or ClassWithMembersAndTypes record with the value of this field in its **ObjectId** field MUST appear earlier in the serialization stream.
 
 ## 2.4 Array Records
 
 This section defines **Array** records that represent Array instances. [MS-NRTP] section 3.1.5.1.7, describes the mechanism to map an Array instance to a record defined in this section. Items of an Array MUST be **serialized** as records following the Array record, as specified in section 2.7. The number of records that contain the Array items depends on the type of Array record. For the ArraySingleObject, ArraySinglePrimitive, and ArraySingleString records, the number of records containing Array items MUST be equal to the value of the **Length** field of the **ArrayInfo** field. For BinaryArray records, the number of records containing Array items MUST be equal to the product of the values contained in the **Lengths** field of the BinaryArray record. In the cases where an item of an Array can contain a **Null Object**, multiple ObjectNull records in sequence MAY be represented by a single ObjectNullMultiple (section 2.5.5) or ObjectNullMultiple256 (section 2.5.6) record. Each of these records contains a **NullCount** field that states how many ObjectNull records that the record represents. For the purpose of calculating the number of records, a single ObjectNullMultiple or ObjectNullMultiple256 record is counted as many times as the value specified in the **NullCount** field.<6>
 
-## 2.4.1 Enumerations 2.4.1.1 Binaryarraytypeenumeration
+## 2.4.1 Enumerations
+
+### 2.4.1.1 Binaryarraytypeenumeration
 
 The BinaryArrayTypeEnumeration is used to denote the type of an **Array**. The size of the enumeration is 1 byte. It is used by the Array records.
 
