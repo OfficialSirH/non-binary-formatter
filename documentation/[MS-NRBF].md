@@ -2120,6 +2120,8 @@ The ArrayInfo is a common structure that is used by **Array** records.
 
 **Length (4 bytes):** An INT32 value (as specified in [MS-DTYP] section 2.2.22) that specifies the number of items in the Array. The value MUST be 0 or a positive integer.
 
+## 2.4.3 Record Definitions
+
 ### 2.4.3.1 BinaryArray
 
 BinaryArray is the most general form of **Array** records. The record is more verbose than the other Array records. 
@@ -3338,55 +3340,197 @@ The revision class **None** means that no new technical changes were introduced.
   </tbody>
 </table>
 
-## 7 Index
+___
+# 7 Index
 
-A
+## A
+- **[Applicability](#15-applicability-statement)**
+- **[ArgsInArray](#2211-messageflags)**
+- **[ArgsInline](#2211-messageflags)**
+- **[ArgsIsArray](#2211-messageflags)**
+- **Array records**
+  - **[common definitions](#242-common-definitions)**
+  - **[data types](#211-common-data-types)**
+  - **enumerations** ([section 2.1.2](#212-enumerations), [section 2.4.1](#241-enumerations))
+  - **[overview](#24-array-records)**
+  - **[record definitions](#243-record-definitions)**
+- **[ArrayInfo packet](#2421-arrayinfo)**
+- **[ArrayOfValueWithCode packet](#2223-arrayofvaluewithcode)**
+- **[ArraySingleObject](#2121-recordtypeenumeration)**
+- **[ArraySingleObject packet](#2432-arraysingleobject)**
+- **[ArraySinglePrimitive](#2121-recordtypeenumeration)**
+- **[ArraySinglePrimitive packet](#2433-arraysingleprimitive)**
+- **[ArraySingleString](#2121-recordtypeenumeration)**
+- **[ArraySingleString packet](#2434-arraysinglestring)**
 
-| Applicability 10 ArgsInArray 20 ArgsInline 20 ArgsIsArray 20 Array records  common definitions 31  data types 12  enumerations (section 2.1.2 17, section 2.4.1 31)  overview 30  record definitions 32 ArrayInfo packet 31 ArrayOfValueWithCode packet 22 ArraySingleObject 17 ArraySingleObject packet 33 ArraySinglePrimitive 17 ArraySinglePrimitive packet 33 ArraySingleString 17 ArraySingleString packet 34   |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+## B
+- **[Binary records grammar](#27-binary-record-grammar)**
+- **[BinaryArray](#2121-recordtypeenumeration)**
+- **[BinaryArray packet](#2431-binaryarray)**
+- **[BinaryLibrary](#2121-recordtypeenumeration)**
+- **[BinaryLibrary packet](#262-binarylibrary)**
+- **[BinaryMethodCall packet](#2231-binarymethodcall)**
+- **[BinaryMethodReturn packet](#2233-binarymethodreturn)**
+- **[BinaryObjectString](#2121-recordtypeenumeration)**
+- **[BinaryObjectString packet](#257-binaryobjectstring)**
+- **[Boolean](#2123-primitivetypeenumeration)**
+- **[Byte](#2123-primitivetypeenumeration)**
 
-| C Change tracking 47 Char 19 Char packet 12 Class 18 Class records  data types 12  enumerations 17  overview 26  record definitions 28  structures 26 ClassInfo packet 26 ClassTypeInfo packet 16 ClassWithId 17 ClassWithId packet 30 ClassWithMembers 17 ClassWithMembers packet 29 ClassWithMembersAndTypes 17 ClassWithMembersAndTypes packet 28 Common data types 12 Common definitions 12 Common enumerations 17 ContextInArray 20 ContextInline 20   |
-|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+## C
+- **[Change tracking](#6-change-tracking)**
+- **[Char](#2123-primitivetypeenumeration)**
+- **[Char packet](#2111-char)**
+- **[Class](#2122-binarytypeenumeration)**
+- **Class records**
+  - **[Data types](#211-common-data-types)**
+  - **[Enumerations](#2121-recordtypeenumeration)**
+  - **[Overview](#23-class-records)**
+  - **[Record definitions](#232-record-definitions)**
+  - **[Structures](#231-common-structures)**
+- **[ClassInfo packet](#2311-classinfo)**
+- **[ClassTypeInfo packet](#2118-classtypeinfo)**
+- **[ClassWithId](#2121-recordtypeenumeration)**
+- **[ClassWithId packet](#2325-classwithid)**
+- **[ClassWithMembers](#2121-recordtypeenumeration)**
+- **[ClassWithMembers packet](#2322-classwithmembers)**
+- **[ClassWithMembersAndTypes](#2121-recordtypeenumeration)**
+- **[ClassWithMembersAndTypes packet](#2321-classwithmembersandtypes)**
+- **[Common data types](#211-common-data-types)**
+- **[Common definitions](#21-common-definitions)**
+- **[Common enumerations](#2121-recordtypeenumeration)**
+- **[ContextInArray](#2211-messageflags)**
+- **[ContextInline](#2211-messageflags)**
 
-| Binary records grammar 39 BinaryArray 17 BinaryArray packet 32 BinaryLibrary 17 BinaryLibrary packet 38 BinaryMethodCall packet 23 BinaryMethodReturn packet 25 BinaryObjectString 17 BinaryObjectString packet 37 Boolean 19 Byte 19   |
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+## D
+- **[DateTime](#2123-primitivetypeenumeration)**
+- **[DateTime packet](#2115-datetime)**
+- **[Decimal](#2123-primitivetypeenumeration)**
+- **[Decimal packet](#2117-decimal)**
+- **[Double](#2123-primitivetypeenumeration)**
+- **[Double packet](#2112-double)**
 
-B
- 
-.NET Remoting: Binary Format Data Structure Copyright © 2019 Microsoft Corporation Release: March 13, 2019 D
-DateTime 19 DateTime packet 13 Decimal 19 Decimal packet 16 Double 19 Double packet 12 E
-Examples 40 Examples - structure 40 ExceptionInArray 20 F
-Fields - vendor-extensible 11 G
-GenericMethod 20 Glossary 6 Grammar - binary records 39 I
-Implementer - security considerations 44 Informative references 9 Int16 19 Int32 19 Int64 19 Introduction 6 J
-Jagged 31 JaggedOffset 31
+## E
+- **[Examples](#3-structure-examples)**
+- **[Examples - structure](#3-structure-examples)**
+- **[ExceptionInArray](#2211-messageflags)**
 
-| Member reference records 34  data types 12  enumerations 17 MemberPrimitiveTyped 17 MemberPrimitiveTyped packet 34 MemberPrimitiveUnTyped packet 35 MemberReference 17 MemberReference packet 35 MemberTypeInfo packet 27 MessageEnd 17 MessageEnd packet 39 Method invocation records  data types 12  enumerations (section 2.1.2 17, section 2.2.1 20)  overview 20   |
-|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+## F
+- **[Fields - vendor-extensible](#17-vendor-extensible-fields)**
 
-L
-LengthPrefixedString packet 14 Localization 11 M
- record definitions 23 structures 22 MethodCall 17 MethodReturn 17 MethodSignatureInArray 20
+## G
+- **[GenericMethod](#2211-messageflags)**
+- **[Glossary](#11-glossary)**
+- **[Grammar - binary records](#27-binary-record-grammar)**
+
+## I
+- **[Implementer - security considerations](#4-security-considerations)**
+- **[Informative references](#122-informative-references)**
+- **[Int16](#2123-primitivetypeenumeration)**
+- **[Int32](#2123-primitivetypeenumeration)**
+- **[Int64](#2123-primitivetypeenumeration)**
+- **[Introduction](#1-introduction)**
+
+## J
+- **[Jagged](#2411-binaryarraytypeenumeration)**
+- **[JaggedOffset](#2411-binaryarraytypeenumeration)**
+
+## L
+- **[LengthPrefixedString packet](#2116-lengthprefixedstring)**
+- **[Localization](#16-versioning-and-localization)**
+
+## M
+- **[Member reference records](#25-member-reference-records)**
+  - **[data types](#211-common-data-types)**
+  - **[enumerations](#2121-recordtypeenumeration)**
+- **[MemberPrimitiveTyped]()**
+- **[MemberPrimitiveTyped packet]()**
+- **[MemberPrimitiveUntyped packet]()**
+- **[MemberReference]()**
+- **[MemberReference packet]()**
+- **[MemberTypeInfo packet]()**
+- **[MessageEnd]()**
+- **[MessageEnd packet]()**
+- **Method invocation records**
+  - **[data types](#211-common-data-types)**
+  - **enumerations** ([section 2.1.2](#212-enumerations), [section 2.2.1](#221-enumerations))
+  - **[overview](#22-method-invocation-records)**
+  - **[record definitions](#223-record-definitions)**
+  - **[structures](#222-common-structures)**
+- **[MethodCall](#2231-binarymethodcall)**
+- **[MethodReturn](#2233-binarymethodreturn)**
+- **[MethodSignatureInArray](#2211-messageflags)**
 
 ## N
+- **[NoArgs](#2211-messageflags)**
+- **[NoContext](#2211-messageflags)**
+- **[NoReturnValue](#2211-messageflags)**
+- **[Normative references](#121-normative-references)**
+- **[Null](#2123-primitivetypeenumeration)**
 
-NoArgs 20 NoContext 20 NoReturnValue 20 Normative references 9 Null 19 O
-Object 18 ObjectArray 18 ObjectNull 17 ObjectNull packet 36 ObjectNullMultiple 17 ObjectNullMultiple packet 36 ObjectNullMultiple256 17 ObjectNullMultiple256 packet 36 Other records (section 2.1.1 12, section 2.6 37)
-Overview (synopsis) 9 P
-Primitive 18 PrimitiveArray 18 Product behavior 45 PropertiesInArray 20
+## O
+- **[Object](#object)**
+- **[ObjectArray](#objectarray)**
+- **[ObjectNull](#objectnull)**
+- **[ObjectNull packet](#objectnull-packet)**
+- **[ObjectNullMultiple](#objectnullmultiple)**
+- **[ObjectNullMultiple packet](#objectnullmultiple-packet)**
+- **[ObjectNullMultiple256](#objectnullmultiple256)**
+- **[ObjectNullMultiple256 packet](#objectnullmultiple256-packet)**
+- **[Other records](#other-records)** (section 2.1.1 **[12](#other-records-2-1-1)**, section 2.6 **[37](#other-records-2-6)**)
+- **[Overview (synopsis)](#overview-synopsis)**
+
+## P
+- **[Primitive](#primitive)**
+- **[PrimitiveArray](#primitivearray)**
+- **[Product behavior](#product-behavior)**
+- **[PropertiesInArray](#propertiesinarray)**
 
 ## R
-
-Rectangular 31 RectangularOffset 31 References 9 informative 9 normative 9 Relationship to other protocols 10 Relationship to protocols and other structures 10 ReturnValueInArray 20 ReturnValueInline 20 ReturnValueVoid 20
+- **[Rectangular](#rectangular)**
+- **[RectangularOffset](#rectangularoffset)**
+- **[References](#references)**
+  - **[Informative](#references-informative)**
+  - **[Normative](#references-normative)**
+- **[Relationship to other protocols](#relationship-to-other-protocols)**
+- **[Relationship to protocols and other structures](#relationship-to-protocols-and-other-structures)**
+- **[ReturnValueInArray](#returnvalueinarray)**
+- **[ReturnValueInline](#returnvalueinline)**
+- **[ReturnValueVoid](#returnvaluevoid)**
 
 ## S
+- **[SByte](#sbyte)**
+- **[Security](#security)**
+  - **[Implementer considerations](#security-implementer-considerations)**
+- **[SerializationHeaderRecord packet](#serializationheaderrecord-packet)**
+- **[SerializedStreamHeader](#serializedstreamheader)**
+- **[Single](#single)** (section 2.1.2.3 **[19](#single-2-1-2-3)**, section 2.4.1.1 **[31](#single-2-4-1-1)**)
+- **[Single packet](#single-packet)**
+- **[SingleOffset](#singleoffset)**
+- **[String](#string)** (section 2.1.2.2 **[18](#string-2-1-2-2)**, section 2.1.2.3 **[19](#string-2-1-2-3)**)
+- **[StringArray](#stringarray)**
+- **[StringValueWithCode packet](#stringvaluewithcode-packet)**
+- **[Structure examples](#structure-examples)**
+- **[Structures](#structures)**
+- **[SystemClass](#systemclass)**
+- **[SystemClassWithMembers](#systemclasswithmembers)**
+- **[SystemClassWithMembers packet](#systemclasswithmembers-packet)**
+- **[SystemClassWithMembersAndTypes](#systemclasswithmembersandtypes)**
+- **[SystemClassWithMembersAndTypes packet](#systemclasswithmembersandtypes-packet)**
 
-SByte 19 Security 44 Security - implementer considerations 44 SerializationHeaderRecord packet 37 SerializedStreamHeader 17 Single (section 2.1.2.3 19, section 2.4.1.1 31)
-Single packet 13 SingleOffset 31 String (section 2.1.2.2 18, section 2.1.2.3 19) StringArray 18 StringValueWithCode packet 22 Structure examples 40 Structures 12 SystemClass 18 SystemClassWithMembers 17 
-.NET Remoting: Binary Format Data Structure Copyright © 2019 Microsoft Corporation Release: March 13, 2019 SystemClassWithMembers packet 29 SystemClassWithMembersAndTypes 17 SystemClassWithMembersAndTypes packet 29 T
-TimeSpan 19 TimeSpan packet 13 Tracking changes 47 U
-UInt16 19 UInt32 19 UInt64 19 V
-ValueWithCode packet 22 Vendor-extensible fields 11 Versioning 11
+## T
+- **[TimeSpan](#timespan)**
+- **[TimeSpan packet](#timespan-packet)**
+- **[Tracking changes](#tracking-changes)**
 
-# MS-NRBF documentation originally converted to Markdown with [marker](https://github.com/vikparuchuri/marker)
-# Rewritten completely by hand by [Micah Benac](https://github.com/OfficialSirH)
+## U
+- **[UInt16](#uint16)**
+- **[UInt32](#uint32)**
+- **[UInt64](#uint64)**
+
+## V
+- **[ValueWithCode packet](#2221-valuewithcode)**
+- **[Vendor-extensible fields](#17-vendor-extensible-fields)**
+- **[Versioning](#16-versioning-and-localization)**
+
+## MS-NRBF documentation originally converted to Markdown with [marker](https://github.com/vikparuchuri/marker)
+## Rewritten completely by hand by [Micah Benac](https://github.com/OfficialSirH)
