@@ -2389,132 +2389,384 @@ The ArraySingleString record contains a single-dimensional **Array** whose items
 
 ## 2.5 Member Reference Records
 
-Arrays and classes are containers of **Member** values; that is, graph nodes that represent instances of Arrays and Classes that have outbound edges. The Member values are the graph nodes that are destinations for the outbound edges. In the **serialization stream**, the Member values follow the Array and the Class records. The Member values are **serialized** by using the Member Reference records.
+**Arrays** and classes are containers of **Member** values; that is, graph nodes that represent instances of Arrays and Classes that have outbound edges. The Member values are the graph nodes that are destinations for the outbound edges. In the **serialization stream**, the Member values follow the Array and the Class records. The Member values are **serialized** by using the Member Reference records.
 
-## 2.5.1 Memberprimitivetyped
+## 2.5.1 MemberPrimitiveTyped
 
 The MemberPrimitiveTyped record contains a **Primitive Type** value other than String. The mechanism to serialize a **Primitive Value** is described in [MS-NRTP] section 3.1.5.1.8. 
 
-![33_image_2.png](33_image_2.png)
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="8">RecordTypeEnum</td>
+    <td align="center" colspan="8">PrimitiveTypeEnum</td>
+    <td align="center" colspan="16">Value (variable)</td>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+  </tbody>
+</table>
 
-![33_image_3.png](33_image_3.png)
+**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 8.
 
-![34_image_0.png](34_image_0.png)
+**PrimitiveTypeEnum (1 byte):** A PrimitiveTypeEnumeration value that specifies the Primitive Type of data that is being transmitted. This field MUST NOT contain a value of 17 (Null) or 18 (String).
 
-0 1 2 3 4 5 6 7 8 9 3 0 1
-RecordTypeEnum PrimitiveTypeEnum Value (variable)
-...
+**Value (variable):** The value whose type is inferred from the **PrimitiveTypeEnum** field as specified in the table in section 2.1.2.3.
 
-![34_image_1.png](34_image_1.png)
+## 2.5.2 MemberPrimitiveUntyped
 
-![34_image_2.png](34_image_2.png)
+The MemberPrimitiveUnTyped record is the most compact record to represent a **Primitive Type** value. This type of record does not have a RecordTypeEnum to indicate the record type. The record MUST be used when a Class Member or **Array** item is a Primitive Type. Because the containing Class or Array record specifies the Primitive Type of each Member, the Primitive Type is not respecified along with the value. Also, the **Primitive Values** cannot be referenced by any other record; therefore it does not require an ObjectId. This record has no field besides the value. The mechanism to **serialize** a Primitive Value is described in [MS-NRTP] section 3.1.5.1.8.
 
-RecordTypeEnum (1 byte): A RecordTypeEnumeration value that identifies the record type. The value MUST be 8.
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="32">Value (variable)</td>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+  </tbody>
+</table>
 
-PrimitiveTypeEnum (1 byte): A PrimitiveTypeEnumeration value that specifies the Primitive Type of data that is being transmitted. This field MUST NOT contain a value of 17 (Null) or 18 (String).
+**Value (variable):** A Primitive Type value other than String.
 
-Value (variable): The value whose type is inferred from the **PrimitiveTypeEnum** field as specified in the table in section 2.1.2.3.
-
-## 2.5.2 Memberprimitiveuntyped
-
-The MemberPrimitiveUnTyped record is the most compact record to represent a **Primitive Type** value. This type of record does not have a RecordTypeEnum to indicate the record type. The record MUST be used when a Class Member or **Array** item is a Primitive Type. Because the containing Class or Array record specifies the Primitive Type of each Member, the Primitive Type is not respecified along with the value. Also, the **Primitive Values** cannot be referenced by any other record; therefore it does not require an ObjectId. This record has no field besides the value. The mechanism to serialize a Primitive Value is described in [MS-NRTP] section 3.1.5.1.8.
-
-![34_image_3.png](34_image_3.png)
-
-| Value (variable)   |
-|--------------------|
-
-Value (variable): A Primitive Type value other than String.
-
-## 2.5.3 Memberreference
+## 2.5.3 MemberReference
 
 The MemberReference record contains a reference to another record that contains the actual value. The record is used to **serialize** values of a Class Member and **Array** items. The mechanism to serialize a Class instance is described in [MS-NRTP] section 3.1.5.1.6. The mechanism to serialize an Array instance is described in [MS-NRTP] section 3.1.5.1.7.
 
-| 1              |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|----------------|-------|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 0              | 1     | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  |
-| RecordTypeEnum | IdRef |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-| ...            |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="8">RecordTypeEnum</td>
+    <td align="center" colspan="24">IdRef</td>
+    <tr>
+        <td align="center" colspan="8">...</td>
+    </tr>
+  </tbody>
+</table>
 
-0 1 2 3 4 5 6 7 8 9
+**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 9.
 
-1
+**IdRef (4 bytes):** An INT32 value (as specified in [MS-DTYP] section 2.2.22) that is an ID of an object defined in another record.
 
-0 1 2 3 4 5 6 7 8 9
+- The value MUST be a positive integer.
 
-![34_image_5.png](34_image_5.png)
+- A Class, Array, or BinaryObjectString record MUST exist in the **serialization stream** with the value as its ObjectId. Unlike other ID references, there is no restriction on where the record that defines the ID appears in the serialization stream; that is, it MAY appear after the referencing record.<9>
 
-0 1 2 3 4 5 6 7 8 9
-
-![34_image_4.png](34_image_4.png)
-
-RecordTypeEnum (1 byte): A RecordTypeEnumeration value that identifies the record type. The value MUST be 9.
-
-IdRef (4 bytes): An INT32 value (as specified in [MS-DTYP] section 2.2.22) that is an ID of an object defined in another record.
-
-![34_image_6.png](34_image_6.png)
-
- The value MUST be a positive integer.
-
- A Class, Array, or BinaryObjectString record MUST exist in the **serialization stream** with the value as its ObjectId. Unlike other ID references, there is no restriction on where the record that defines the ID appears in the serialization stream; that is, it MAY appear after the referencing record.<9>
-
-## 2.5.4 Objectnull
+## 2.5.4 ObjectNull
 
 The ObjectNull record contains a **Null Object**. The mechanism to **serialize** a Null Object is described in [MS-NRTP] section 3.1.5.1.12.
 
-![35_image_0.png](35_image_0.png)
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="8">RecordTypeEnum</td>
+  </tbody>
+</table>
 
-0 1 2 3 4 5 6 7 8 9 2 ![35_image_1.png](35_image_1.png)
+**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 10.
 
-0 1
+## 2.5.5 ObjectNullMultiple
 
-![35_image_2.png](35_image_2.png)
+The ObjectNullMultiple record provides a more compact form for multiple consecutive Null records than using individual ObjectNull records. The mechanism to **serialize** a **Null Object** is described in [MS-NRTP] section 3.1.5.1.12.
 
-RecordTypeEnum (1 byte): A RecordTypeEnumeration value that identifies the record type. The value MUST be 10.
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="8">RecordTypeEnum</td>
+    <td align="center" colspan="24">NullCount</td>
+    <tr>
+        <td align="center" colspan="8">...</td>
+    </tr>
+  </tbody>
+</table>
 
-## 2.5.5 Objectnullmultiple
+**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 14.
 
-The ObjectNullMultiple record provides a more compact form for multiple consecutive Null records 
+**NullCount (4 bytes):** An INT32 value (as specified in [MS-DTYP] section 2.2.22) that is the count of the number of consecutive Null Objects. The value MUST be a positive integer.
 
-![35_image_3.png](35_image_3.png) than using individual ObjectNull records. The mechanism to serialize a **Null Object** is described in [MS-NRTP] section 3.1.5.1.12.
+## 2.5.6 ObjectNullMultiple256
 
-| [MS-NRTP] section 3.1.5.1.12. 1   | 2         |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|-----------------------------------|-----------|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 0                                 | 1         | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  |
-| RecordTypeEnum                    | NullCount |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-| ...                               |           |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+The ObjectNullMultiple256 record provides the most compact form for multiple, consecutive Null records when the count of Null records is less than 256. The mechanism to **serialize** a **Null Object** is described in [MS-NRTP] section 3.1.5.1.12.
 
-RecordTypeEnum (1 byte): A RecordTypeEnumeration value that identifies the record type. The value MUST be 14.
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="8">RecordTypeEnum</td>
+    <td align="center" colspan="8">NullCount</td>
+  </tbody>
+</table>
 
-NullCount (4 bytes): An INT32 value (as specified in [MS-DTYP] section 2.2.22) that is the count of the number of consecutive Null Objects. The value MUST be a positive integer.
+**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 13.
 
-## 2.5.6 Objectnullmultiple256
+**NullCount (1 byte):** A BYTE value (as specified in [MS-DTYP] section 2.2.6) that is the count of the number of consecutive Null objects. The value MUST be in the range of 0 to 255, inclusive.
 
-The ObjectNullMultiple256 record provides the most compact form for multiple, consecutive Null records when the count of Null records is less than 256. The mechanism to serialize a **Null Object** is described in [MS-NRTP] section 3.1.5.1.12.
-
-![35_image_4.png](35_image_4.png)
-
-![35_image_5.png](35_image_5.png)
-
-RecordTypeEnum (1 byte): A RecordTypeEnumeration value that identifies the record type. The value MUST be 13.
-
-NullCount (1 byte): A BYTE value (as specified in [MS-DTYP] section 2.2.6) that is the count of the number of consecutive Null objects. The value MUST be in the range of 0 to 255, inclusive.
-
-## 2.5.7 Binaryobjectstring
+## 2.5.7 BinaryObjectString
 
 The BinaryObjectString record identifies an object as a String object, and contains information about it. The mechanism to **serialize** a string is described in [MS-NRTP] section 3.1.5.1.11.
 
-| 1              | 2                | 3   |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|----------------|------------------|-----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 0              | 1                | 2   | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  |
-| RecordTypeEnum | ObjectId         |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-| ...            | Value (variable) |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-| ...            |                  |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="8">RecordTypeEnum</td>
+    <td align="center" colspan="24">ObjectId</td>
+    <tr>
+      <td align="center" colspan="8">...</td>
+      <td align="center" colspan="24">Value (variable)</td>
+    </tr>
+    <td align="center" colspan="32">...</td>
+  </tbody>
+</table>
 
-RecordTypeEnum (1 byte): A RecordTypeEnumeration value that identifies the record type. The value MUST be 6.
+**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 6.
 
-ObjectId (4 bytes): An INT32 value (as specified in [MS-DTYP] section 2.2.22) that uniquely identifies the string instance in the **serialization stream**. The value MUST be a positive integer. An implementation MAY use any algorithm to generate the unique IDs.<10>
-Value (variable): A LengthPrefixedString value.
+**ObjectId (4 bytes):** An INT32 value (as specified in [MS-DTYP] section 2.2.22) that uniquely identifies the string instance in the **serialization stream**. The value MUST be a positive integer. An implementation MAY use any algorithm to generate the unique IDs.<10>
+
+**Value (variable):** A LengthPrefixedString value.
 
 ## 2.6 Other Records
 
