@@ -2046,69 +2046,161 @@ The ClassWithId record is the most compact. It has no metadata. It refers to met
 
 ## 2.4 Array Records
 
-This section defines **Array** records that represent Array instances. [MS-NRTP] section 3.1.5.1.7, describes the mechanism to map an Array instance to a record defined in this section. Items of an Array MUST be **serialized** as records following the Array record, as specified in section 2.7. The number of records that contain the Array items depends on the type of Array record. For the ArraySingleObject, ArraySinglePrimitive, and ArraySingleString records, the number of records containing Array items MUST be equal to the value of the **Length** field of the **ArrayInfo** field. For BinaryArray records, the number of records containing Array items MUST be equal to the product of the values contained in the **Lengths** field of the BinaryArray record. In the cases where an item of an Array can contain a **Null Object**, multiple ObjectNull records in sequence MAY be represented by a single ObjectNullMultiple (section 2.5.5) or ObjectNullMultiple256 (section 2.5.6) record. Each of these records contains a **NullCount** field that states how many ObjectNull records that the record represents. For the purpose of calculating the number of records, a single ObjectNullMultiple or ObjectNullMultiple256 record is counted as many times as the value specified in the **NullCount** field.<6>
+This section defines **Array** records that represent Array instances. [MS-NRTP] section 3.1.5.1.7, describes the mechanism to map an Array instance to a record defined in this section.
+
+Items of an Array MUST be **serialized** as records following the Array record, as specified in section 2.7. The number of records that contain the Array items depends on the type of Array record. For the ArraySingleObject, ArraySinglePrimitive, and ArraySingleString records, the number of records containing Array items MUST be equal to the value of the **Length** field of the **ArrayInfo** field. For BinaryArray records, the number of records containing Array items MUST be equal to the product of the values contained in the **Lengths** field of the BinaryArray record. In the cases where an item of an Array can contain a **Null Object**, multiple ObjectNull records in sequence MAY be represented by a single ObjectNullMultiple (section 2.5.5) or ObjectNullMultiple256 (section 2.5.6) record. Each of these records contains a **NullCount** field that states how many ObjectNull records that the record represents. For the purpose of calculating the number of records, a single ObjectNullMultiple or ObjectNullMultiple256 record is counted as many times as the value specified in the **NullCount** field.<6>
 
 ## 2.4.1 Enumerations
 
-### 2.4.1.1 Binaryarraytypeenumeration
+### 2.4.1.1 BinaryArrayTypeEnumeration
 
 The BinaryArrayTypeEnumeration is used to denote the type of an **Array**. The size of the enumeration is 1 byte. It is used by the Array records.
 
-| Constant/value      | Description                                                                                                |
-|---------------------|------------------------------------------------------------------------------------------------------------|
-| Single              | A single-dimensional Array.                                                                                |
-| 0 Jagged            | An Array whose elements are Arrays. The elements of a jagged Array can be of different                     |
-| 1                   | dimensions and sizes.                                                                                      |
-| Rectangular         | A multi-dimensional rectangular Array.                                                                     |
-| 2 SingleOffset      | A single-dimensional offset.                                                                               |
-| 3 JaggedOffset      | A jagged Array where the lower bound index is greater than 0.                                              |
-| 4 RectangularOffset | Multi-dimensional Arrays where the lower bound index of at least one of the dimensions is  greater than 0. |
-| 5                   |                                                                                                            |
+| Constant/value          | Description                                                                                                 |
+|-------------------------|-------------------------------------------------------------------------------------------------------------|
+| Single</br>0            | A single-dimensional Array.                                                                                 |
+| Jagged</br>1            | An Array whose elements are Arrays. The elements of a jagged Array can be of different dimensions and sizes |
+| Rectangular</br>2       | A multi-dimensional rectangular Array.                                                                      |
+| SingleOffset</br>3      | A single-dimensional offset.                                                                                |
+| JaggedOffset</br>4      | A jagged Array where the lower bound index is greater than 0.                                               |
+| RectangularOffset</br>5 | Multi-dimensional Arrays where the lower bound index of at least one of the dimensions is  greater than 0.  |
 
-## 2.4.2 Common Definitions 2.4.2.1 Arrayinfo
+## 2.4.2 Common Definitions
 
-| 1               | 2   | 3   |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|-----------------|-----|-----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 0               | 1   | 2   | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  |
-| ObjectId Length |     |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+### 2.4.2.1 Arrayinfo
 
-The ArrayInfo is a common structure that is used by **Array** records. ObjectId (4 bytes): An INT32 value (as specified in [MS-DTYP] section 2.2.22) that uniquely identifies the Array instance in the **serialization stream**. The ID MUST be a positive integer. An implementation MAY use any algorithm to generate the unique IDs.<7>
-Length (4 bytes): An INT32 value (as specified in [MS-DTYP] section 2.2.22) that specifies the number of items in the Array. The value MUST be 0 or a positive integer.
+The ArrayInfo is a common structure that is used by **Array** records.
 
-## 2.4.3.1 Binaryarray
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="32">ObjectId</td>
+    <tr>
+        <td align="center" colspan="32">Length</td>
+    </tr>
+  </tbody>
+</table>
+
+**ObjectId (4 bytes):** An INT32 value (as specified in [MS-DTYP] section 2.2.22) that uniquely identifies the Array instance in the **serialization stream**. The ID MUST be a positive integer. An implementation MAY use any algorithm to generate the unique IDs.<7>
+
+**Length (4 bytes):** An INT32 value (as specified in [MS-DTYP] section 2.2.22) that specifies the number of items in the Array. The value MUST be 0 or a positive integer.
+
+### 2.4.3.1 BinaryArray
 
 BinaryArray is the most general form of **Array** records. The record is more verbose than the other Array records. 
 
-0 1 2 3 4 5 6 7 8 9
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="8">RecordTypeEnum</td>
+    <td align="center" colspan="24">ObjectId</td>
+    <tr>
+        <td align="center" colspan="8">...</td>
+        <td align="center" colspan="8">BinaryArrayTypeEnum</td>
+        <td align="center" colspan="16">Rank</td>
+    </tr>
+    <td align="center" colspan="16">...</td>
+    <td align="center" colspan="16">Lengths (variable)</td>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+    <td align="center" colspan="32">LowerBounds (variable)</td>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+    <td align="center" colspan="8">TypeEnum</td>
+    <td align="center" colspan="24">AdditionalTypeInfo (variable)</td>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+  </tbody>
+</table>
 
-1 0 1 2 3 4 5 6 7 8 9
+**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. Its value MUST be 7.
 
-2 0 1 2 3 4 5 6 7 8 9
+**ObjectId (4 bytes):** An INT32 value (as specified in [MS-DTYP] section 2.2.22) that uniquely identifies the Array in the **serialization stream**. The value MUST be a positive integer. An implementation MAY use any algorithm to generate the unique IDs.<8>
 
-3 0 1
+**BinaryArrayTypeEnum (1 byte):** A BinaryArrayTypeEnumeration value that identifies the type of the Array.
 
-| RecordTypeEnum             | ObjectId                          |      |
-|----------------------------|-----------------------------------|------|
-| ...                        | BinaryArrayTypeEnum               | Rank |
-| ...                        | Lengths (variable)                |      |
-| ...                        |                                   |      |
-| LowerBounds (variable) ... |                                   |      |
-| TypeEnum                   | AdditionalTypeInfo (variable) ... |      |
+**Rank (4 bytes):** An INT32 value (as specified in [MS-DTYP] section 2.2.22) that specifies the rank (number of dimensions) of the Array. The value MUST be 0 or a positive integer.
 
-RecordTypeEnum (1 byte): A RecordTypeEnumeration value that identifies the record type. Its value MUST be 7.
+**Lengths (variable):** A sequence of INT32 values (as specified in [MS-DTYP] section 2.2.22) that specifies the length of each of the dimensions of the Array. The number of values MUST be equal to the value specified in the **Rank** field. Each value of the sequence MUST be 0 or a positive integer.
 
-ObjectId (4 bytes): An INT32 value (as specified in [MS-DTYP] section 2.2.22) that uniquely identifies the Array in the **serialization stream**. The value MUST be a positive integer. An implementation MAY use any algorithm to generate the unique IDs.<8>
-BinaryArrayTypeEnum (1 byte): A BinaryArrayTypeEnumeration value that identifies the type of the Array.
+**LowerBounds (variable):** A sequence of INT32 values (as specified in [MS-DTYP] section 2.2.22) that specifies the lower bound (first index) of each of the dimensions of the Array. The number of values MUST be equal to the value specified in the **Rank** field. If the value of the **BinaryArrayTypeEnum** field is SingleOffset, JaggedOffset, or RectangularOffset, this field MUST be present in the serialization stream; otherwise, this field MUST NOT be present in the serialization stream.
 
-Rank (4 bytes): An INT32 value (as specified in [MS-DTYP] section 2.2.22) that specifies the rank 
-(number of dimensions) of the Array. The value MUST be 0 or a positive integer.
+**TypeEnum (1 byte):** A BinaryTypeEnum value that identifies the **Remoting Type** of the Array item.
 
-Lengths (variable): A sequence of INT32 values (as specified in [MS-DTYP] section 2.2.22) that specifies the length of each of the dimensions of the Array. The number of values MUST be equal to the value specified in the **Rank** field. Each value of the sequence MUST be 0 or a positive integer.
-
-LowerBounds (variable): A sequence of INT32 values (as specified in [MS-DTYP] section 2.2.22) 
-that specifies the lower bound (first index) of each of the dimensions of the Array. The number of values MUST be equal to the value specified in the **Rank** field. If the value of the BinaryArrayTypeEnum field is SingleOffset, JaggedOffset, or RectangularOffset, this field MUST be present in the serialization stream; otherwise, this field MUST NOT be present in the serialization stream.
-
-TypeEnum (1 byte): A BinaryTypeEnum value that identifies the **Remoting Type** of the Array item. AdditionalTypeInfo (variable): Information about the Remoting Type of the Array item in addition to the information provided in the **TypeEnum** field. For the BinaryTypeEnum values of Primitive, SystemClass, Class, or PrimitiveArray, this field contains additional information about the Remoting Type. For the BinaryTypeEnum value of Primitive and PrimitiveArray, this field specifies the actual **Primitive Type** that uses the PrimitiveTypeEnum. For the BinaryTypeEnum value of SystemClass, this field specifies the name of the Class. For the BinaryTypeEnum value of Class, this field specifies the name of the Class and the **Library** ID. The following table enumerates additional information that is required for each BinaryType enumeration.
+**AdditionalTypeInfo (variable):** Information about the Remoting Type of the Array item in addition to the information provided in the **TypeEnum** field. For the BinaryTypeEnum values of Primitive, SystemClass, Class, or PrimitiveArray, this field contains additional information about the Remoting Type. For the BinaryTypeEnum value of Primitive and PrimitiveArray, this field specifies the actual **Primitive Type** that uses the PrimitiveTypeEnum. For the BinaryTypeEnum value of SystemClass, this field specifies the name of the Class. For the BinaryTypeEnum value of Class, this field specifies the name of the Class and the **Library** ID. The following table enumerates additional information that is required for each BinaryType enumeration.
 
 | BinaryTypeEnum   | AdditionalTypeInfo                                            |
 |------------------|---------------------------------------------------------------|
@@ -2121,70 +2213,179 @@ TypeEnum (1 byte): A BinaryTypeEnum value that identifies the **Remoting Type** 
 | StringArray      | None                                                          |
 | PrimitiveArray   | PrimitiveTypeEnum                                             |
 
-If the BinaryTypeEnum value of the **TypeEnum** field is Object, String, ObjectArray, or StringArray, this field MUST NOT be present in the serialization stream. If the BinaryTypeEnum value is Primitive, the PrimitiveTypeEnumeration value in AdditionalTypeInfo MUST NOT be Null (17) or String (18).
+If the BinaryTypeEnum value of the **TypeEnum** field is Object, String, ObjectArray, or StringArray, this field MUST NOT be present in the serialization stream.
 
-## 2.4.3.2 Arraysingleobject
+If the BinaryTypeEnum value is Primitive, the PrimitiveTypeEnumeration value in AdditionalTypeInfo MUST NOT be Null (17) or String (18).
+
+### 2.4.3.2 ArraySingleObject
 
 The ArraySingleObject record contains a single-dimensional **Array** in which each **Member** record MAY contain any **Data Value**.
 
-![32_image_0.png](32_image_0.png)
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="8">RecordTypeEnum</td>
+    <td align="center" colspan="24">ArrayInfo</td>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+    <td align="center" colspan="8">...</td>
+  </tbody>
+</table>
 
-0 1 2 3 4 5 6 7 8 9
+**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 16.
 
-![32_image_1.png](32_image_1.png)
+**ArrayInfo (8 bytes):** An ArrayInfo structure that specifies the ID and the length of the Array instance.
 
-![32_image_2.png](32_image_2.png)
-
-![32_image_3.png](32_image_3.png)
-
-![32_image_4.png](32_image_4.png)
-
-RecordTypeEnum (1 byte): A RecordTypeEnumeration value that identifies the record type. The value MUST be 16.
-
-ArrayInfo (8 bytes): An ArrayInfo structure that specifies the ID and the length of the Array instance.
-
-## 2.4.3.3 Arraysingleprimitive
+### 2.4.3.3 ArraySinglePrimitive
 
 The ArraySinglePrimitive record contains a single-dimensional **Array** in which all **Members** are Primitive Value.
 
-| 2 0   | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   | 9   |
-|-------|-----|-----|-----|-----|-----|-----|-----|-----|-----|
-| ...   |     |     |     |     |     |     |     |     |     |
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="8">RecordTypeEnum</td>
+    <td align="center" colspan="24">ArrayInfo</td>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+    <td align="center" colspan="8">...</td>
+    <td align="center" colspan="8">PrimitiveTypeEnum</td>
+  </tbody>
+</table>
 
-![33_image_0.png](33_image_0.png)
+**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 15.
 
-![33_image_1.png](33_image_1.png)
+**ArrayInfo (8 bytes):** An ArrayInfo structure that specifies the ID and the length of the Array instance.
 
-0 1 2 3 4 5 6 7 8 9 2 0 1 2 3 4 5 6 7 8 9 3 0 1
-RecordTypeEnum ArrayInfo
-
-![33_image_4.png](33_image_4.png)
-
-... PrimitiveTypeEnum
-
-RecordTypeEnum (1 byte): A RecordTypeEnumeration value that identifies the record type. The value MUST be 15.
-
-ArrayInfo (8 bytes): An ArrayInfo structure that specifies the ID and the length of the Array instance.
-
-PrimitiveTypeEnum (1 byte): A PrimitiveTypeEnumeration value that identifies the **Primitive Type**
-of the items of the Array. The value MUST NOT be 17 (Null) or 18 (String).
+**PrimitiveTypeEnum (1 byte):** A PrimitiveTypeEnumeration value that identifies the **Primitive Type** of the items of the Array. The value MUST NOT be 17 (Null) or 18 (String).
 
 This record MUST be followed by a sequence of MemberPrimitiveUnTyped records that contain values whose Primitive Type is specified by the **PrimitiveTypeEnum** field. The number of records in the sequence MUST match the value specified in the **Length** field of ArrayInfo.
 
-## 2.4.3.4 Arraysinglestring
+## 2.4.3.4 ArraySingleString
 
 The ArraySingleString record contains a single-dimensional **Array** whose items are String values.
 
-|                | 1         | 2   | 3   |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|----------------|-----------|-----|-----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 0              | 1         | 2   | 3   | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  |
-| RecordTypeEnum | ArrayInfo |     |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|                | ...       |     |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-| ...            |           |     |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="8">RecordTypeEnum</td>
+    <td align="center" colspan="24">ArrayInfo</td>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+    <td align="center" colspan="8">...</td>
+  </tbody>
+</table>
 
-RecordTypeEnum (1 byte): A RecordTypeEnumeration value that identifies the record type. The value MUST be 17.
+**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 17.
 
-ArrayInfo (8 bytes): An ArrayInfo structure that specifies the ID and the length of the Array instance.
+**ArrayInfo (8 bytes):** An ArrayInfo structure that specifies the ID and the length of the Array instance.
 
 ## 2.5 Member Reference Records
 
