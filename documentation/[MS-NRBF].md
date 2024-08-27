@@ -1601,49 +1601,142 @@ The MethodReturnCallArray is a special use of the ArraySingleObject record. The 
 
 ## 2.3 Class Records
 
-This section defines **Class (1)** records. A Class (1) record represents an instance of a Class (1). [MSNRTP] section 3.1.5.1.6 describes the mechanism to map a Class (1) instance to a record defined in this section. [MS-NRTP] section 3.1.5.1.9 describes the mechanism to map an **Enum** value to a record defined in this section. The values of the **Members** of the Class (1) MUST be **serialized** as records that follow this record, as specified in section 2.7. The order of the records MUST match the order of MemberNames as specified in the ClassInfo (section 2.3.1.1) structure.
+This section defines **Class (1)** records. A Class (1) record represents an instance of a Class (1). [MSNRTP] section 3.1.5.1.6 describes the mechanism to map a Class (1) instance to a record defined in this section. [MS-NRTP] section 3.1.5.1.9 describes the mechanism to map an **Enum** value to a record defined in this section.
 
-## 2.3.1 Common Structures 2.3.1.1 Classinfo
+The values of the **Members** of the Class (1) MUST be **serialized** as records that follow this record, as specified in section 2.7. The order of the records MUST match the order of MemberNames as specified in the ClassInfo (section 2.3.1.1) structure.
+
+## 2.3.1 Common Structures
+
+## 2.3.1.1 ClassInfo
 
 ClassInfo is a common structure used by all the **Class (2)** records. It has the following structure.
 
-| 1                               | 2   | 3   |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|---------------------------------|-----|-----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 0                               | 1   | 2   | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  |
-| ObjectId                        |     |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-| Name (variable) ... MemberCount |     |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-| MemberNames (variable) ...      |     |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="32">ObjectId</td>
+    <tr>
+        <td align="center" colspan="32">Name (variable)</td>
+    </tr>
+    <td align="center" colspan="32">...</td>
+    <tr>
+        <td align="center" colspan="32">MemberCount</td>
+    </tr>
+    <tr>
+        <td align="center" colspan="32">MemberNames (variable)</td>
+    </tr>
+    <td align="center" colspan="32">...</td>
+  </tbody>
+</table>
 
-ObjectId (4 bytes): An INT32 value (as specified in [MS-DTYP] section 2.2.22) that uniquely identifies the object in the **serialization stream**. An implementation MAY use any algorithm to generate the unique IDs. If the ObjectId is referenced by a MemberReference record elsewhere in the serialization stream, the ObjectId MUST be positive. If the ObjectId is not referenced by any MemberReference in the serialization stream, then the ObjectId SHOULD be positive, but MAY be negative.<4>
-Name (variable): A LengthPrefixedString value that contains the name of the Class (1). The format of the string MUST be as specified in the RemotingTypeName, as specified in [MS-NRTP] section 2.2.1.2.
+**ObjectId (4 bytes):** An INT32 value (as specified in [MS-DTYP] section 2.2.22) that uniquely identifies the object in the **serialization stream**. An implementation MAY use any algorithm to generate the unique IDs. If the ObjectId is referenced by a MemberReference record elsewhere in the serialization stream, the ObjectId MUST be positive. If the ObjectId is not referenced by any MemberReference in the serialization stream, then the ObjectId SHOULD be positive, but MAY be negative.<4>
 
-MemberCount (4 bytes): An INT32 value (as specified in [MS-DTYP] section 2.2.22) that contains the number of **Members** in the Class (2). The value MUST be 0 or a positive integer.
+**Name (variable):** A LengthPrefixedString value that contains the name of the Class (1). The format of the string MUST be as specified in the RemotingTypeName, as specified in [MS-NRTP] section 2.2.1.2.
 
-MemberNames (variable): A sequence of LengthPrefixedString values that represents the names of the Members in the class (2). The number of items in the sequence MUST be equal to the value specified in the **MemberCount** field. The MemberNames MAY be in any order.<5>
+**MemberCount (4 bytes):** An INT32 value (as specified in [MS-DTYP] section 2.2.22) that contains the number of **Members** in the Class (2). The value MUST be 0 or a positive integer.
 
-## 2.3.1.2 Membertypeinfo
+**MemberNames (variable):** A sequence of LengthPrefixedString values that represents the names of the Members in the class (2). The number of items in the sequence MUST be equal to the value specified in the **MemberCount** field. The MemberNames MAY be in any order.<5>
 
-The MemberTypeInfo is a common structure that contains type information for Class (2) **Members**. It has the following structure.
+## 2.3.1.2 MemberTypeInfo
 
-| 1                                                             | 2   | 3   |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
-|---------------------------------------------------------------|-----|-----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 0                                                             | 1   | 2   | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 0  | 1  |
-| BinaryTypeEnums (variable) ... AdditionalInfos (variable) ... |     |     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+The MemberTypeInfo is a common structure that contains type information for **Class (2) Members**. It has the following structure.
 
-BinaryTypeEnums (variable): A sequence of BinaryTypeEnumeration values that represents the Member Types that are being transferred. The **Array** MUST:
- Have the same number of items as the **MemberCount** field of the ClassInfo structure.
+<table border="1">
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>1<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>2<br>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>3<br>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <td align="center" colspan="32">BinaryTypeEnums (variable)</td>
+    <tr>
+        <td align="center" colspan="32">...</td>
+    </tr>
+    <tr>
+        <td align="center" colspan="32">AdditionalInfos (variable)</td>
+    </tr>
+    <td align="center" colspan="32">...</td>
+  </tbody>
+</table>
 
- Be ordered such that the BinaryTypeEnumeration corresponds to the Member name in the MemberNames field of the ClassInfo structure. 
+**BinaryTypeEnums (variable):** A sequence of BinaryTypeEnumeration values that represents the Member Types that are being transferred. The **Array** MUST:
 
-| BinaryTypeEnum   | AdditionalInfos          |
-|------------------|--------------------------|
-| Primitive        | PrimitiveTypeEnumeration |
-| String           | None                     |
+- Have the same number of items as the **MemberCount** field of the ClassInfo structure.
 
-AdditionalInfos (variable): A sequence of additional information about a **Remoting Type**. For every value of the BinaryTypeEnum in the **BinaryTypeEnums** field that is a Primitive, SystemClass, Class (2), or PrimitiveArray, the **AdditionalInfos** field contains additional information about the Remoting Type. For the BinaryTypeEnum value of Primitive and PrimitiveArray, this field specifies the actual **Primitive Type** that uses the PrimitiveTypeEnum. For the BinaryTypeEnum value of SystemClass, this field specifies the name of the class (2). For the BinaryTypeEnum value of Class (2), this field specifies the name of the Class (2) and the **Library** ID. The following table enumerates additional information required for each BinaryType enumeration.
+- Be ordered such that the BinaryTypeEnumeration corresponds to the Member name in the MemberNames field of the ClassInfo structure. 
+
+**AdditionalInfos (variable):** A sequence of additional information about a **Remoting Type**. For every value of the BinaryTypeEnum in the **BinaryTypeEnums** field that is a Primitive, SystemClass, Class (2), or PrimitiveArray, the **AdditionalInfos** field contains additional information about the Remoting Type. For the BinaryTypeEnum value of Primitive and PrimitiveArray, this field specifies the actual **Primitive Type** that uses the PrimitiveTypeEnum. For the BinaryTypeEnum value of SystemClass, this field specifies the name of the class (2). For the BinaryTypeEnum value of Class (2), this field specifies the name of the Class (2) and the **Library** ID. The following table enumerates additional information required for each BinaryType enumeration.
 
 | BinaryTypeEnum   | AdditionalInfos                                                   |
 |------------------|-------------------------------------------------------------------|
+| Primitive        | PrimitiveTypeEnumeration                                          |
+| String           | None                                                              |
 | Object           | None                                                              |
 | SystemClass      | String (Class (1) name as specified in [MS-NRTP] section 2.2.1.2) |
 | Class            | ClassTypeInfo                                                     |
@@ -1651,11 +1744,11 @@ AdditionalInfos (variable): A sequence of additional information about a **Remot
 | StringArray      | None                                                              |
 | PrimitiveArray   | PrimitiveTypeEnumeration                                          |
 
- The AdditionalInfos sequence MUST NOT contain any item for the BinaryTypeEnum values of String, Object, ObjectArray, or StringArray.
+- The AdditionalInfos sequence MUST NOT contain any item for the BinaryTypeEnum values of String, Object, ObjectArray, or StringArray.
 
- The AdditionalInfos items MUST be in the same order as the corresponding BinaryTypeEnum items in the **BinaryTypeEnums** field. 
+- The AdditionalInfos items MUST be in the same order as the corresponding BinaryTypeEnum items in the **BinaryTypeEnums** field. 
 
- When the BinaryTypeEnum value is Primitive, the PrimitiveTypeEnumeration value in AdditionalInfo MUST NOT be Null (17) or String (18).
+- When the BinaryTypeEnum value is Primitive, the PrimitiveTypeEnumeration value in AdditionalInfo MUST NOT be Null (17) or String (18).
 
 ## 2.3.2 Record Definitions 2.3.2.1 Classwithmembersandtypes
 
