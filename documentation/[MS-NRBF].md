@@ -3052,77 +3052,187 @@ This section specifies the grammar using the Augmented Backus-Naur Form (ABNF) s
 ___
 # 3 Structure Examples
 
-This sample illustrates the message exchanged when a **Remote Method** is invoked as specified in [MS-NRTP] section 3.3.4.2. The data model is used to describe the information to perform the Remote Method invocation and the results of the invocation, as specified in [MS-NRTP] section 3.1.1. The client invokes a method "SendAddress" on a remote **Server Type** "DOJRemotingMetadata.MyServer" and passes the following Address object (Street = "One Microsoft Way", City = "Redmond", State = "WA" and Zip = "98054") as an argument. The remote Server Type is accessible at a relative URI "MyServer.Rem" hosted on a server named "maheshdev2" and listening on port 8080. The server receives the request message, reads the argument passed in the message, and then invokes the method with the **de-serialized** argument. The server then embeds the Return Value of "Address received" in the response message to the client.
+This sample illustrates the message exchanged when a **Remote Method** is invoked as specified in [MS-NRTP] section 3.3.4.2. The data model is used to describe the information to perform the Remote Method invocation and the results of the invocation, as specified in [MS-NRTP] section 3.1.1.
 
-![39_image_0.png](39_image_0.png)
+The client invokes a method "SendAddress" on a remote **Server Type** "DOJRemotingMetadata.MyServer" and passes the following Address object (Street = "One Microsoft Way", City = "Redmond", State = "WA" and Zip = "98054") as an argument. The remote Server Type is accessible at a relative URI "MyServer.Rem" hosted on a server named "maheshdev2" and listening on port 8080. The server receives the request message, reads the argument passed in the message, and then invokes the method with the **de-serialized** argument. The server then embeds the **Return Value** of "Address received" in the response message to the client.
 
-Figure 2: Sequence diagram of the message exchanged when a Remote Method is invoked The MessageContent data sent on the network is as follows.
+The following is a sequence diagram for the preceding message exchange pattern.
 
-| 0000 00 01 00 00 00 FF FF FF FF 01 00 00 00 00 00 00 ÿÿÿÿ 0010 00 15 14 00 00 00 12 0B 53 65 6E 64 41 64 64 72 SendAddr 0020 65 73 73 12 6F 44 4F 4A 52 65 6D 6F 74 69 6E 67 ess.oDOJRemoting 0030 4D 65 74 61 64 61 74 61 2E 4D 79 53 65 72 76 65 Metadata.MyServe 0040 72 2C 20 44 4F 4A 52 65 6D 6F 74 69 6E 67 4D 65 r, DOJRemotingMe 0050 74 61 64 61 74 61 2C 20 56 65 72 73 69 6F 6E 3D tadata, Version= 0060 31 2E 30 2E 32 36 32 32 2E 33 31 33 32 36 2C 20 1.0.2622.31326, 0070 43 75 6C 74 75 72 65 3D 6E 65 75 74 72 61 6C 2C Culture=neutral, 0080 20 50 75 62 6C 69 63 4B 65 79 54 6F 6B 65 6E 3D PublicKeyToken= 0090 6E 75 6C 6C 10 01 00 00 00 01 00 00 00 09 02 00 null 00A0 00 00 0C 03 00 00 00 51 44 4F 4A 52 65 6D 6F 74 QDOJRemot 00B0 69 6E 67 4D 65 74 61 64 61 74 61 2C 20 56 65 72 ingMetadata, Ver 00C0 73 69 6F 6E 3D 31 2E 30 2E 32 36 32 32 2E 33 31 sion=1.0.2622.31 00D0 33 32 36 2C 20 43 75 6C 74 75 72 65 3D 6E 65 75 326, Culture=neu 00E0 74 72 61 6C 2C 20 50 75 62 6C 69 63 4B 65 79 54 tral, PublicKeyT 00F0 6F 6B 65 6E 3D 6E 75 6C 6C 05 02 00 00 00 1B 44 oken=null D 0100 4F 4A 52 65 6D 6F 74 69 6E 67 4D 65 74 61 64 61 OJRemotingMetada 0110 74 61 2E 41 64 64 72 65 73 73 04 00 00 00 06 53 ta.Address S 0120 74 72 65 65 74 04 43 69 74 79 05 53 74 61 74 65 treet.City.State 0130 03 5A 69 70 01 01 01 01 03 00 00 00 06 04 00 00 .Zip 0140 00 11 4F 6E 65 20 4D 69 63 72 6F 73 6F 66 74 20 ..One Microsoft  0150 57 61 79 06 05 00 00 00 07 52 65 64 6D 6F 6E 64 Way Redmond 0160 06 06 00 00 00 02 57 41 06 07 00 00 00 05 39 38 WA 98 0170 30 35 34 0B 054.   |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+![Sequence Diagram](https://github.com/OfficialSirH/non-binary-formatter/blob/main/documentation/Sequence_Diagram.png?raw=true)
+
+<table>
+  <thead>
+    <th>Figure 2: Sequence diagram of the message exchanged when a Remote Method is invoked</th>
+  </thead>
+  <tbody>
+    <td>
+      The MessageContent data sent on the network is as follows.
+      <pre><code>0000 00 01 00 00 00 FF FF FF FF 01 00 00 00 00 00 00 .....ÿÿÿÿ.......
+0010 00 15 14 00 00 00 12 0B 53 65 6E 64 41 64 64 72 ........SendAddr
+0020 65 73 73 12 6F 44 4F 4A 52 65 6D 6F 74 69 6E 67 ess.oDOJRemoting
+0030 4D 65 74 61 64 61 74 61 2E 4D 79 53 65 72 76 65 Metadata.MyServe
+0040 72 2C 20 44 4F 4A 52 65 6D 6F 74 69 6E 67 4D 65 r, DOJRemotingMe
+0050 74 61 64 61 74 61 2C 20 56 65 72 73 69 6F 6E 3D tadata, Version=
+0060 31 2E 30 2E 32 36 32 32 2E 33 31 33 32 36 2C 20 1.0.2622.31326,
+0070 43 75 6C 74 75 72 65 3D 6E 65 75 74 72 61 6C 2C Culture=neutral,
+0080 20 50 75 62 6C 69 63 4B 65 79 54 6F 6B 65 6E 3D PublicKeyToken=
+0090 6E 75 6C 6C 10 01 00 00 00 01 00 00 00 09 02 00 null............
+00A0 00 00 0C 03 00 00 00 51 44 4F 4A 52 65 6D 6F 74 .......QDOJRemot
+00B0 69 6E 67 4D 65 74 61 64 61 74 61 2C 20 56 65 72 ingMetadata, Ver
+00C0 73 69 6F 6E 3D 31 2E 30 2E 32 36 32 32 2E 33 31 sion=1.0.2622.31
+00D0 33 32 36 2C 20 43 75 6C 74 75 72 65 3D 6E 65 75 326, Culture=neu
+00E0 74 72 61 6C 2C 20 50 75 62 6C 69 63 4B 65 79 54 tral, PublicKeyT
+00F0 6F 6B 65 6E 3D 6E 75 6C 6C 05 02 00 00 00 1B 44 oken=null......D
+0100 4F 4A 52 65 6D 6F 74 69 6E 67 4D 65 74 61 64 61 OJRemotingMetada
+0110 74 61 2E 41 64 64 72 65 73 73 04 00 00 00 06 53 ta.Address.....S
+0120 74 72 65 65 74 04 43 69 74 79 05 53 74 61 74 65 treet.City.State
+0130 03 5A 69 70 01 01 01 01 03 00 00 00 06 04 00 00 .Zip............
+0140 00 11 4F 6E 65 20 4D 69 63 72 6F 73 6F 66 74 20 ..One Microsoft
+0150 57 61 79 06 05 00 00 00 07 52 65 64 6D 6F 6E 64 Way......Redmond
+0160 06 06 00 00 00 02 57 41 06 07 00 00 00 05 39 38 ......WA......98
+0170 30 35 34 0B                                     054.</code></pre>
+    </td>
+  </tbody>
+</table>
 
 Referencing section 2 for various message structures, the bytes listed in the preceding sample can be mapped to the logical Request message structure that is used by .NET Remoting to service the request. The logical Request message for Microsoft .NET Framework 1.1 is as follows.
 
-Binary Serialization Format SerializationHeaderRecord: RecordTypeEnum: SerializedStreamHeader (0x00) TopId: 1 (0x1) HeaderId: -1 (0xFFFFFFFF) MajorVersion: 1 (0x1)
- MinorVersion: 0 (0x0) BinaryMethodCall: 
- RecordTypeEnum: BinaryMethodCall (0x21)
- MessageEnum: 00000014 NoArgs: (...............................0) 
- ArgsInline: (..............................0.) ArgsIsArray: (.............................1..) 
- ArgsInArray: (............................0...) NoContext: (...........................1....) 
- ContextInline: (..........................0.....) ContextInArray: (.........................0......) MethodSignatureInArray: (........................0.......) PropertyInArray: (.......................0........) NoReturnValue: (......................0.........) ReturnValueVoid: (.....................0..........) 
- ReturnValueInline: (....................0...........) ReturnValueInArray: (...................0............) 
- ExceptionInArray: (..................0.............) Reserved: (000000000000000000..............)
- MethodName: PrimitiveTypeEnum: String (0x12) Data: SendAddress TypeName: PrimitiveTypeEnum: String (0x12)
- Data: DOJRemotingMetadata.MyServer, DOJRemotingMetadata, Version=1.0.2616.21414, Culture=neutral, PublicKeyToken=null CallArray: ArraySingleObject: RecordTypeEnum: ArraySingleObject (0x10) ObjectId: 1 (0x01)
- Length: 1 (0x1) MemberReference:
- RecordTypeEnum: MemberReference (0x09)
- IdRef: 2 (0x02)
- BinaryLibrary: RecordTypeEnum: BinaryLibrary (0x0C) LibraryId: 3 (0x03) LibraryString: LibrayString:DOJRemotingMetadata, Version=1.0.2621.26113, Culture=neutral, PublicKeyToken=null ClassWithMembersAndTypes: RecordTypeEnum: ClassWithMembersAndTypes (0x05)
- ObjectId: 2 (0x02) Name: DOJRemotingMetadata.MyData NumMembers: 4 (0x04) MemberNames: Data: Street MemberNames:
- Data: City MemberNames:
- Data: State
- 
-.NET Remoting: Binary Format Data Structure Copyright © 2019 Microsoft Corporation Release: March 13, 2019 MemberNames:
- Data: Zip BinaryTypeEnumA: String (0x01)
-String (0x01)
-String (0x01) String (0x01)
- LibraryId: 3 (0x03)
- BinaryObjectString: RecordTypeEnum: BinaryObjectString (0x06) ObjectId: 04 (0x04) Length: 17 (0x11) Value: One Microsoft Way BinaryObjectString:
- RecordTypeEnum: BinaryObjectString (0x06) ObjectId: 05 (0x04)
- Length: 7 (0x07) Value: Redmond BinaryObjectString: RecordTypeEnum: BinaryObjectString (0x06) ObjectId: 06 (0x04)
- Length: 2 (0x02)
- Value: WA BinaryObjectString:
- RecordTypeEnum: BinaryObjectString (0x06) ObjectId: 07 (0x04) Length: 5 (0x05) Value: 98054 MessageEnd: RecordTypeEnum: MessageEnd (0x11)
-The Server Type name, method name, and arguments are passed in a BinaryMethodCall structure. The MessageEnum record in BinaryMethodCall is used by the server to determine how to read the needed values. The ArgsInArray flag in this record is set to 1 because the argument passed to the method is not a **Primitive Type**. Because the client is not passing any extra data in the CallContext of the request, the NoContext flag in the MessageEnum record is also set to 1. This information, coupled with the fact that the operation is of type Request, is used by the server to infer that the MethodName, Server Type, and Argument are embedded in the BinaryMethodCall record itself. Because the argument Address is passed in the callArray, CallArray contains an ArraySingleObject as the root element, and the first entry in the **Array** is a MemberReference to the ClassWithMembersAndTypes record that contains the input argument passed. The **Library**, to which the ClassWithMembersAndTypes refers, appears next, and then the ClassWithMembersAndTypes record follows. All Members of Address are strings; therefore, the ClassWithMembersAndTypes record is followed by BinaryObjectString records for all of its Members. After it invokes the method and is ready to return the result of that invocation, the server crafts a Response message and sends the Return Value ("Address received") in that message. The network capture of the response message is as follows.
+```
+Binary Serialization Format
+  SerializationHeaderRecord:
+    RecordTypeEnum: SerializedStreamHeader (0x00)
+    TopId: 1 (0x1)
+    HeaderId: -1 (0xFFFFFFFF)
+    MajorVersion: 1 (0x1)
+    MinorVersion: 0 (0x0)
+  BinaryMethodCall: 
+    RecordTypeEnum: BinaryMethodCall (0x21)
+    MessageEnum: 00000014
+      NoArgs:                   (...............................0) 
+      ArgsInline:               (..............................0.)
+      ArgsIsArray:              (.............................1..) 
+      ArgsInArray:              (............................0...)
+      NoContext:                (...........................1....) 
+      ContextInline:            (..........................0.....)
+      ContextInArray:           (.........................0......)
+      MethodSignatureInArray:   (........................0.......)
+      PropertyInArray:          (.......................0........)
+      NoReturnValue:            (......................0.........)
+      ReturnValueVoid:          (.....................0..........) 
+      ReturnValueInline:        (....................0...........)
+      ReturnValueInArray:       (...................0............) 
+      ExceptionInArray:         (..................0.............)
+      Reserved:                 (000000000000000000..............)
+    MethodName:
+      PrimitiveTypeEnum: String (0x12)
+      Data: SendAddress
+    TypeName:
+      PrimitiveTypeEnum: String (0x12)
+      Data: DOJRemotingMetadata.MyServer, DOJRemotingMetadata, Version=1.0.2616.21414, Culture=neutral, PublicKeyToken=null
+  CallArray:
+    ArraySingleObject:
+      RecordTypeEnum: ArraySingleObject (0x10)
+      ObjectId: 1 (0x01)
+    Length: 1 (0x1)
+    MemberReference:
+      RecordTypeEnum: MemberReference (0x09)
+      IdRef: 2 (0x02)
+    BinaryLibrary:
+      RecordTypeEnum: BinaryLibrary (0x0C)
+      LibraryId: 3 (0x03)
+      LibraryString: LibrayString:DOJRemotingMetadata, Version=1.0.2621.26113, Culture=neutral, PublicKeyToken=null
+    ClassWithMembersAndTypes:
+      RecordTypeEnum: ClassWithMembersAndTypes (0x05)
+      ObjectId: 2 (0x02)
+      Name: DOJRemotingMetadata.MyData
+      NumMembers: 4 (0x04)
+        MemberNames:
+          Data: Street
+        MemberNames:
+          Data: City
+        MemberNames:
+          Data: State
+        MemberNames:
+          Data: Zip
+      BinaryTypeEnumA:
+        String (0x01)
+        String (0x01)
+        String (0x01)
+        String (0x01)
+      LibraryId: 3 (0x03)
+    BinaryObjectString:
+      RecordTypeEnum: BinaryObjectString (0x06)
+      ObjectId: 04 (0x04)
+      Length: 17 (0x11)
+      Value: One Microsoft Way
+    BinaryObjectString:
+      RecordTypeEnum: BinaryObjectString (0x06)
+      ObjectId: 05 (0x04)
+      Length: 7 (0x07)
+      Value: Redmond
+    BinaryObjectString:
+      RecordTypeEnum: BinaryObjectString (0x06)
+      ObjectId: 06 (0x04)
+      Length: 2 (0x02)
+      Value: WA
+    BinaryObjectString:
+      RecordTypeEnum: BinaryObjectString (0x06)
+      ObjectId: 07 (0x04)
+      Length: 5 (0x05)
+      Value: 98054
+  MessageEnd:
+    RecordTypeEnum: MessageEnd (0x11)
+```
 
-0000 00 00 00 00 00 00 00 00 00 01 00 00 00 00 00 00 ................ 0010 00 16 11 08 00 00 12 10 41 64 64 72 65 73 73 20 ........Address 0020 72 65 63 65 69 76 65 64 0B received. Binary Serialization Format SerializationHeaderRecord: RecordTypeEnum: SerializedStreamHeader (0x00) TopId: 0 (0x0) HeaderId: 0 (0x0)
- MajorVersion: 1 (0x1) MinorVersion: 0 (0x0) BinaryMethodReturn: 
- 
-.NET Remoting: Binary Format Data Structure Copyright © 2019 Microsoft Corporation Release: March 13, 2019
+The Server Type name, method name, and arguments are passed in a BinaryMethodCall structure. The MessageEnum record in BinaryMethodCall is used by the server to determine how to read the needed values. The ArgsInArray flag in this record is set to 1 because the argument passed to the method is not a **Primitive Type**. Because the client is not passing any extra data in the CallContext of the request, the NoContext flag in the MessageEnum record is also set to 1. This information, coupled with the fact that the operation is of type Request, is used by the server to infer that the MethodName, Server Type, and Argument are embedded in the BinaryMethodCall record itself. Because the argument Address is passed in the callArray, CallArray contains an ArraySingleObject as the root element, and the first entry in the **Array** is a MemberReference to the ClassWithMembersAndTypes record that contains the input argument passed. The **Library**, to which the ClassWithMembersAndTypes refers, appears next, and then the ClassWithMembersAndTypes record follows. All Members of Address are strings; therefore, the ClassWithMembersAndTypes record is followed by BinaryObjectString records for all of its Members.
 
-| RecordTypeEnum: BinaryMethodReturn (0x16)   |                       |
-|---------------------------------------------|-----------------------|
-| MessageEnum: 00000811                       |                       |
-| NoArgs:                                     | ( 1)                  |
-| ArgsInline:                                 | ( 0.)                 |
-| ArgsIsArray:                                | ( 0..)                |
-| ArgsInArray:                                | ( 0...)               |
-| NoContext:                                  | ( 1 )                 |
-| ContextInline:                              | ( 0 )                 |
-| ContextInArray:                             | ( 0 )                 |
-| MethodSignatureInArray: ( 0 )               |                       |
-| PropertyInArray:                            | ( 0 )                 |
-| NoReturnValue:                              | ( 0 )                 |
-| ReturnValueVoid:                            | ( 0 )                 |
-| ReturnValueInline:                          | ( 1 )                 |
-| ReturnValueInArray:                         | ( 0 )                 |
-| ExceptionInArray:                           | ( 0 )                 |
-| Reserved:                                   | (000000000000000000 ) |
-| ReturnValue:                                |                       |
-| PrimitiveTypeEnum: String (0x12)            |                       |
-| Data: Address received                      |                       |
+After it invokes the method and is ready to return the result of that invocation, the server crafts a Response message and sends the Return Value ("Address received") in that message. The network capture of the response message is as follows.
 
-Because it is a response, the server sends back a message with the operation flag set to "Response". The return argument is enclosed in a "BinaryMethodResponse" enclosure. The following flags in the MessageEnum record of **BinaryMethodResponse** field are set to 1. NoArgs: There are no output arguments. NoContext: Similar to the client, the server is not sending any additional data in CallContext. ReturnValueInline: Because the Return Value is a Primitive Type, it is contained in the BinaryMethodReturn record.
+```
+0000  00 00 00 00 00 00 00 00 00 01 00 00 00 00 00 00 ................
+0010  00 16 11 08 00 00 12 10 41 64 64 72 65 73 73 20 ........Address
+0020  72 65 63 65 69 76 65 64 0B                      received.
+
+
+Binary Serialization Format
+  SerializationHeaderRecord:
+    RecordTypeEnum: SerializedStreamHeader (0x00)
+    TopId: 0 (0x0)
+    HeaderId: 0 (0x0)
+    MajorVersion: 1 (0x1)
+    MinorVersion: 0 (0x0)
+  BinaryMethodReturn:
+    RecordTypeEnum: BinaryMethodReturn (0x16)
+    MessageEnum: 00000811
+      NoArgs:                   (...............................1) 
+      ArgsInline:               (..............................0.)
+      ArgsIsArray:              (.............................0..) 
+      ArgsInArray:              (............................0...)
+      NoContext:                (...........................1....) 
+      ContextInline:            (..........................0.....)
+      ContextInArray:           (.........................0......)
+      MethodSignatureInArray:   (........................0.......)
+      PropertyInArray:          (.......................0........)
+      NoReturnValue:            (......................0.........)
+      ReturnValueVoid:          (.....................0..........) 
+      ReturnValueInline:        (....................1...........)
+      ReturnValueInArray:       (...................0............) 
+      ExceptionInArray:         (..................0.............)
+      Reserved:                 (000000000000000000..............)
+    ReturnValue:
+      PrimitiveTypeEnum: String (0x12)
+      Data: Address received
+  MessageEnd:
+    RecordTypeEnum: MessageEnd (0x11)
+```
+
+Because it is a response, the server sends back a message with the operation flag set to "Response". The return argument is enclosed in a "BinaryMethodResponse" enclosure. The following flags in the MessageEnum record of **BinaryMethodResponse** field are set to 1.
+
+NoArgs: There are no output arguments.
+
+NoContext: Similar to the client, the server is not sending any additional data in CallContext.
+
+ReturnValueInline: Because the Return Value is a Primitive Type, it is contained in the BinaryMethodReturn record.
 
 ## 4 Security Considerations
 
