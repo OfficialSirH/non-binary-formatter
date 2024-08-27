@@ -3256,9 +3256,47 @@ De-serialization of the serialization stream results in creating instances of **
 ___
 # 5 Appendix A: Product Behavior
 
-The information in this specification is applicable to the following Microsoft products or supplemental software. References to product versions include updates to those products. This document specifies version-specific details in the Microsoft .NET Framework. For information about which versions of .NET Framework are available in each released Windows product or as supplemental software, see [MS-NETOD] section 4. The terms "earlier" and "later", when used with a product version, refer to either all preceding versions or all subsequent versions, respectively. The term "through" refers to the inclusive range of versions. Applicable Microsoft products are listed chronologically in this section.
+The information in this specification is applicable to the following Microsoft products or supplemental software. References to product versions include updates to those products.
 
- Microsoft .NET Framework 1.0 Microsoft .NET Framework 2.0 Microsoft .NET Framework 3.0 Microsoft .NET Framework 3.5 Microsoft .NET Framework 4.0 Microsoft .NET Framework 4.5 Microsoft .NET Framework 4.6 Microsoft .NET Framework 4.7 Microsoft .NET Framework 4.8 Exceptions, if any, are noted in this section. If an update version, service pack or Knowledge Base (KB) number appears with a product name, the behavior changed in that update. The new behavior also applies to subsequent updates unless otherwise specified. If a product edition appears with the product version, behavior is different in that product edition. Unless otherwise specified, any statement of optional behavior in this specification that is prescribed using the terms "SHOULD" or "SHOULD NOT" implies product behavior in accordance with the SHOULD or SHOULD NOT prescription. Unless otherwise specified, the term "MAY" implies that the product does not follow the prescription. <1> Section 2.1.1.5: In .NET Framework 1.0 and .NET Framework 1.1, the value of **Kind** is always set to 0 when writing. On reading, the value is ignored and assumed to be 0. <2> Section 2.2.1.1: The bit value GenericMethod is valid only with .NET Framework 2.0 and later versions. <3> Section 2.2.3.2: This is present only in .NET Framework 2.0 and later versions. <4> Section 2.3.1.1: Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647. If the object is of a **Remoting Type** that cannot be referenced in Windows, the negative of the counter value is used. <5> Section 2.3.1.1: In Windows, the order of the Members can vary for each occurrence of the record for a given class. <6> Section 2.4: Windows uses ObjectNullMultiple256 if the number of sequential **Null Objects** is 255 or fewer. Windows uses ObjectNullMultiple if the number of sequential Null Objects is greater than 255. <7> Section 2.4.2.1: Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647. <8> Section 2.4.3.1: Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647. <9> Section 2.5.3: Windows places the record that defines the ID before or after the referencing record. <10> Section 2.5.7: Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647. <11> Section 2.6.2: Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647. 
+This document specifies version-specific details in the Microsoft .NET Framework. For information about which versions of .NET Framework are available in each released Windows product or as supplemental software, see [MS-NETOD] section 4.
+
+The terms "earlier" and "later", when used with a product version, refer to either all preceding versions or all subsequent versions, respectively. The term "through" refers to the inclusive range of versions. Applicable Microsoft products are listed chronologically in this section.
+
+- Microsoft .NET Framework 1.0
+- Microsoft .NET Framework 2.0
+- Microsoft .NET Framework 3.0
+- Microsoft .NET Framework 3.5
+- Microsoft .NET Framework 4.0
+- Microsoft .NET Framework 4.5
+- Microsoft .NET Framework 4.6
+- Microsoft .NET Framework 4.7
+- Microsoft .NET Framework 4.8
+
+Exceptions, if any, are noted in this section. If an update version, service pack or Knowledge Base (KB) number appears with a product name, the behavior changed in that update. The new behavior also applies to subsequent updates unless otherwise specified. If a product edition appears with the product version, behavior is different in that product edition.
+
+Unless otherwise specified, any statement of optional behavior in this specification that is prescribed using the terms "SHOULD" or "SHOULD NOT" implies product behavior in accordance with the SHOULD or SHOULD NOT prescription. Unless otherwise specified, the term "MAY" implies that the product does not follow the prescription.
+
+<1> Section 2.1.1.5: In .NET Framework 1.0 and .NET Framework 1.1, the value of **Kind** is always set to 0 when writing. On reading, the value is ignored and assumed to be 0.
+
+<2> Section 2.2.1.1: The bit value GenericMethod is valid only with .NET Framework 2.0 and later versions.
+
+<3> Section 2.2.3.2: This is present only in .NET Framework 2.0 and later versions.
+
+<4> Section 2.3.1.1: Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647. If the object is of a **Remoting Type** that cannot be referenced in Windows, the negative of the counter value is used.
+
+<5> Section 2.3.1.1: In Windows, the order of the Members can vary for each occurrence of the record for a given class.
+
+<6> Section 2.4: Windows uses ObjectNullMultiple256 if the number of sequential **Null Objects** is 255 or fewer. Windows uses ObjectNullMultiple if the number of sequential Null Objects is greater than 255.
+
+<7> Section 2.4.2.1: Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647.
+
+<8> Section 2.4.3.1: Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647.
+
+<9> Section 2.5.3: Windows places the record that defines the ID before or after the referencing record.
+
+<10> Section 2.5.7: Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647.
+
+<11> Section 2.6.2: Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647. 
 
 ## 6 Change Tracking
 
