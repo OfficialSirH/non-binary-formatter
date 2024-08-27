@@ -3298,19 +3298,45 @@ Unless otherwise specified, any statement of optional behavior in this specifica
 
 <11> Section 2.6.2: Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647. 
 
-## 6 Change Tracking
+___
+# 6 Change Tracking
 
-This section identifies changes that were made to this document since the last release. Changes are classified as Major, Minor, or None. The revision class **Major** means that the technical content in the document was significantly revised. Major changes affect protocol interoperability or implementation. Examples of major changes are:
- A document revision that incorporates changes to interoperability requirements. A document revision that captures changes to protocol functionality.
+This section identifies changes that were made to this document since the last release. Changes are classified as Major, Minor, or None.
 
-The revision class **Minor** means that the meaning of the technical content was clarified. Minor changes do not affect protocol interoperability or implementation. Examples of minor changes are updates to clarify ambiguity at the sentence, paragraph, or table level. The revision class **None** means that no new technical changes were introduced. Minor editorial and formatting changes may have been made, but the relevant technical content is identical to the last released version. The changes made to this document are listed in the following table. For more information, please contact dochelp@microsoft.com.
+The revision class **Major** means that the technical content in the document was significantly revised. Major changes affect protocol interoperability or implementation. Examples of major changes are:
 
-| Section                         | Description                                                                              | Revision  class   |
-|---------------------------------|------------------------------------------------------------------------------------------|-------------------|
-| 2.1.2.2                         | 9220 : Updated the term "string" to "String" in the Description                          |                   |
-| BinaryTypeEnumeration           | column for the SystemClass and StringArray rows of the table.                            | Major             |
-| 2.3.1.2 MemberTypeInfo          | 9220 : Changed the description of the number of items in the  BinaryTypeEnums structure. | Major             |
-| 5 Appendix A: Product  Behavior | Added .NET Framework v4.8 to the applicability list.                                     | Major             |
+- A document revision that incorporates changes to interoperability requirements.
+
+- A document revision that captures changes to protocol functionality.
+
+The revision class **Minor** means that the meaning of the technical content was clarified. Minor changes do not affect protocol interoperability or implementation. Examples of minor changes are updates to clarify ambiguity at the sentence, paragraph, or table level.
+
+The revision class **None** means that no new technical changes were introduced. Minor editorial and formatting changes may have been made, but the relevant technical content is identical to the last released version. The changes made to this document are listed in the following table.
+
+<table>
+  <thead>
+    <th>Section</th>
+    <th>Description</th>
+    <th>Revision</br>class</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2.1.2.2 BinaryTypeEnumeration</td>
+      <td>9220 : Updated the term "string" to "String" in the Description column for the SystemClass and StringArray rows of the table.</td>
+      <td>Major</td>
+    </tr>
+    <tr>
+      <td>2.3.1.2 MemberTypeInfo</td>
+      <td>9220 : Changed the description of the number of items in the  BinaryTypeEnums structure.</td>
+      <td>Major</td>
+    </tr>
+    <tr>
+      <td>5 Appendix A: Product Behavior</td>
+      <td>Added .NET Framework v4.8 to the applicability list.</td>
+      <td>Major</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 7 Index
 
