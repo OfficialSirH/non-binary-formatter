@@ -78,7 +78,7 @@
 - **[6 Change Tracking](#6-change-tracking)**
 - **[7 Index](#7-index)**
 
-## 1 Introduction
+# 1 Introduction
 
 The .NET Remoting: Binary Format Data Structure defines a set of structures that represent **object** graph or method invocation information as an octet stream. One possible application of the structure is as the **serialization format** for the data model as specified in [MS-NRTP] section 3.1.1. Sections 1.7 and 2 of this specification are normative. All other sections and examples in this specification are informative.
 
@@ -1043,7 +1043,7 @@ The ClassTypeInfo identifies a **Class (2)** by its name and reference to **Bina
 
 **LibraryId (4 bytes):** An INT32 (as specified in [MS-DTYP] section 2.2.22) value that represents the ID that identifies the **Library** name. The record that contains this field in a **serialization stream** MUST be preceded by a BinaryLibrary record that defines the Library name for the ID.
 
-# 2.1.2 Enumerations
+## 2.1.2 Enumerations
 
 ## 2.1.2.1 RecordTypeEnumeration
 
@@ -1154,7 +1154,7 @@ This section specifies **records** that define the format for information requir
 
 ## 2.2.1 Enumerations
 
-### 2.2.1.1 Messageflags
+## 2.2.1.1 Messageflags
 
 The MessageFlags enumeration is used by the BinaryMethodCall (section 2.2.3.1) or BinaryMethodReturn (section 2.2.3.3) **records** to provide information about the structure of the record. The type of the enumeration is INT32, as specified in [MS-DTYP] section 2.2.22.
 
@@ -1753,7 +1753,7 @@ The MemberTypeInfo is a common structure that contains type information for **Cl
 
 ## 2.3.2 Record Definitions
 
-### 2.3.2.1 ClassWithMembersAndTypes
+## 2.3.2.1 ClassWithMembersAndTypes
 
 The ClassWithMembersAndTypes record is the most verbose of the Class records. It contains metadata about **Members**, including the names and **Remoting Types** of the Members. It also contains a **Library** ID that references the Library Name of the Class.
 
@@ -1816,7 +1816,7 @@ The ClassWithMembersAndTypes record is the most verbose of the Class records. It
 
 **LibraryId (4 bytes):** An INT32 value (as specified in [MS-DTYP] section 2.2.22) that references a BinaryLibrary record by its Library ID. A BinaryLibrary record with the LibraryId MUST appear earlier in the **serialization stream**.
 
-### 2.3.2.2 ClassWithMembers
+## 2.3.2.2 ClassWithMembers
 
 The ClassWithMembers record is less verbose than ClassWithMembersAndTypes. It does not contain information about the **Remoting Type** information of the **Members**. This record can be used when the information is deemed unnecessary because it is known out of band or can be inferred from context.
 
@@ -1873,7 +1873,7 @@ The ClassWithMembers record is less verbose than ClassWithMembersAndTypes. It do
 
 **LibraryId (4 bytes):** An INT32 value (as specified in [MS-DTYP] section 2.2.22) that references a BinaryLibrary record by its Library ID. The ID MUST be a positive integer. A BinaryLibrary record with the LibraryId MUST appear earlier in the **serialization stream**.
 
-### 2.3.2.3 SystemClassWithMembersAndTypes
+## 2.3.2.3 SystemClassWithMembersAndTypes
 
 The SystemClassWithMembersAndTypes record is less verbose than ClassWithMembersAndTypes. It does not contain a LibraryId. This record implicitly specifies that the Class is in the **System Library**.
 
@@ -1933,7 +1933,7 @@ The SystemClassWithMembersAndTypes record is less verbose than ClassWithMembersA
 
 **MemberTypeInfo (variable):** A MemberTypeInfo structure that provides information about the **Remoting Type** of the Members.
 
-### 2.3.2.4 SystemClassWithMembers
+## 2.3.2.4 SystemClassWithMembers
 
 The SystemClassWithMembers record is less verbose than ClassWithMembersAndTypes. It does not contain a LibraryId or the information about the **Remoting Types** of the **Members**. This record implicitly specifies that the Class is in the **System Library**. This record can be used when the information is deemed unnecessary because it is known out of band or can be inferred from context.
 
@@ -1987,7 +1987,7 @@ The SystemClassWithMembers record is less verbose than ClassWithMembersAndTypes.
 
 **ClassInfo (variable):** A ClassInfo structure that provides information about the name and Members of the Class.
 
-### 2.3.2.5 ClassWithId
+## 2.3.2.5 ClassWithId
 
 The ClassWithId record is the most compact. It has no metadata. It refers to metadata defined in SystemClassWithMembers, SystemClassWithMembersAndTypes, ClassWithMembers, or ClassWithMembersAndTypes record. 
 
@@ -2053,7 +2053,7 @@ Items of an Array MUST be **serialized** as records following the Array record, 
 
 ## 2.4.1 Enumerations
 
-### 2.4.1.1 BinaryArrayTypeEnumeration
+## 2.4.1.1 BinaryArrayTypeEnumeration
 
 The BinaryArrayTypeEnumeration is used to denote the type of an **Array**. The size of the enumeration is 1 byte. It is used by the Array records.
 
@@ -2068,7 +2068,7 @@ The BinaryArrayTypeEnumeration is used to denote the type of an **Array**. The s
 
 ## 2.4.2 Common Definitions
 
-### 2.4.2.1 Arrayinfo
+## 2.4.2.1 Arrayinfo
 
 The ArrayInfo is a common structure that is used by **Array** records.
 
@@ -2123,7 +2123,7 @@ The ArrayInfo is a common structure that is used by **Array** records.
 
 ## 2.4.3 Record Definitions
 
-### 2.4.3.1 BinaryArray
+## 2.4.3.1 BinaryArray
 
 BinaryArray is the most general form of **Array** records. The record is more verbose than the other Array records. 
 
@@ -2220,7 +2220,7 @@ If the BinaryTypeEnum value of the **TypeEnum** field is Object, String, ObjectA
 
 If the BinaryTypeEnum value is Primitive, the PrimitiveTypeEnumeration value in AdditionalTypeInfo MUST NOT be Null (17) or String (18).
 
-### 2.4.3.2 ArraySingleObject
+## 2.4.3.2 ArraySingleObject
 
 The ArraySingleObject record contains a single-dimensional **Array** in which each **Member** record MAY contain any **Data Value**.
 
@@ -2275,7 +2275,7 @@ The ArraySingleObject record contains a single-dimensional **Array** in which ea
 
 **ArrayInfo (8 bytes):** An ArrayInfo structure that specifies the ID and the length of the Array instance.
 
-### 2.4.3.3 ArraySinglePrimitive
+## 2.4.3.3 ArraySinglePrimitive
 
 The ArraySinglePrimitive record contains a single-dimensional **Array** in which all **Members** are Primitive Value.
 
