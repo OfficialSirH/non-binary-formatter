@@ -1,82 +1,82 @@
 # [MS-NRBF]:</br>.NET Remoting: Binary Format Data Structure
 
-| Section             | Table of Contents                                |
-|---------------------|--------------------------------------------------|
-| 1                   | Introduction                                     |
-| 1.1                 | Glossary                                         |
-| 1.2                 | References                                       |
-| 1.2.1               | Normative References                             |
-| 1.2.2               | Informative References                           |
-| 1.3                 | Overview                                         |
-| 1.4                 | Relationship to Protocols and Other Structures   |
-| 1.5                 | Applicability Statement                          |
-| 1.6                 | Versioning and Localization                      |
-| 1.7                 | Vendor-Extensible Fields                         |
-| 2                   | Structures                                       |
-| 2.1                 | Common Definitions                               |
-| 2.1.1               | Common Data Types                                |
-| 2.1.1.1             | Char                                             |
-| 2.1.1.2             | Double                                           |
-| 2.1.1.3             | Single                                           |
-| 2.1.1.4             | TimeSpan                                         |
-| 2.1.1.5             | DateTime                                         |
-| 2.1.1.6             | LengthPrefixedString                             |
-| 2.1.1.7             | Decimal                                          |
-| 2.1.1.8             | ClassTypeInfo                                    |
-| 2.1.2               | Enumerations                                     |
-| 2.1.2.1             | RecordTypeEnumeration                            |
-| 2.1.2.2             | BinaryTypeEnumeration                            |
-| 2.1.2.3             | PrimitiveTypeEnumeration                         |
-| 2.2                 | Method Invocation Records                        |
-| 2.2.1               | Enumerations                                     |
-| 2.2.1.1             | MessageFlags                                     |
-| 2.2.2               | Common Structures                                |
-| 2.2.2.1             | ValueWithCode                                    |
-| 2.2.2.2             | StringValueWithCode                              |
-| 2.2.2.3             | ArrayOfValueWithCode                             |
-| 2.2.3               | Record Definitions                               |
-| 2.2.3.1             | BinaryMethodCall                                 |
-| 2.2.3.2             | MethodCallArray                                  |
-| 2.2.3.3             | BinaryMethodReturn                               |
-| 2.2.3.4             | MethodReturnCallArray                            |
-| 2.3                 | Class Records                                    |
-| 2.3.1               | Common Structures                                |
-| 2.3.1.1             | ClassInfo                                        |
-| 2.3.1.2             | MemberTypeInfo                                   |
-| 2.3.2               | Record Definitions                               |
-| 2.3.2.1             | ClassWithMembersAndTypes                         |
-| 2.3.2.2             | ClassWithMembers                                 |
-| 2.3.2.3             | SystemClassWithMembersAndTypes                   |
-| 2.3.2.4             | SystemClassWithMembers                           |
-| 2.3.2.5             | ClassWithId                                      |
-| 2.4                 | Array Records                                    |
-| 2.4.1               | Enumerations                                     |
-| 2.4.1.1             | BinaryArrayTypeEnumeration                       |
-| 2.4.2               | Common Definitions                               |
-| 2.4.2.1             | ArrayInfo                                        |
-| 2.4.3               | Record Definitions                               |
-| 2.4.3.1             | BinaryArray                                      |
-| 2.4.3.2             | ArraySingleObject                                |
-| 2.4.3.3             | ArraySinglePrimitive                             |
-| 2.4.3.4             | ArraySingleString                                |
-| 2.5                 | Member Reference Records                         |
-| 2.5.1               | MemberPrimitiveTyped                             |
-| 2.5.2               | MemberPrimitiveUnTyped                           |
-| 2.5.3               | MemberReference                                  |
-| 2.5.4               | ObjectNull                                       |
-| 2.5.5               | ObjectNullMultiple                               |
-| 2.5.6               | ObjectNullMultiple256                            |
-| 2.5.7               | BinaryObjectString                               |
-| 2.6                 | Other Records                                    |
-| 2.6.1               | SerializationHeaderRecord                        |
-| 2.6.2               | BinaryLibrary                                    |
-| 2.6.3               | MessageEnd                                       |
-| 2.7                 | Binary Record Grammar                            |
-| 3                   | Structure Examples                               |
-| 4                   | Security Considerations                          |
-| 5                   | Appendix A: Product Behavior                     |
-| 6                   | Change Tracking                                  |
-| 7                   | Index                                            |
+# Table of Contents
+
+- **[1 Introduction](#1-introduction)**
+  - **[1.1 Glossary](#11-glossary)**
+  - **[1.2 References](#12-references)**
+    - **[1.2.1 Normative References](#121-normative-references)**
+    - **[1.2.2 Informative References](#122-informative-references)**
+  - **[1.3 Overview](#13-overview)**
+  - **[1.4 Relationship to Protocols and Other Structures](#14-relationship-to-protocols-and-other-structures)**
+  - **[1.5 Applicability Statement](#15-applicability-statement)**
+  - **[1.6 Versioning and Localization](#16-versioning-and-localization)**
+  - **[1.7 Vendor-Extensible Fields](#17-vendor-extensible-fields)**
+- **[2 Structures](#2-structures)**
+  - **[2.1 Common Definitions](#21-common-definitions)**
+    - **[2.1.1 Common Data Types](#211-common-data-types)**
+      - **[2.1.1.1 Char](#2111-char)**
+      - **[2.1.1.2 Double](#2112-double)**
+      - **[2.1.1.3 Single](#2113-single)**
+      - **[2.1.1.4 TimeSpan](#2114-timespan)**
+      - **[2.1.1.5 DateTime](#2115-datetime)**
+      - **[2.1.1.6 LengthPrefixedString](#2116-lengthprefixedstring)**
+      - **[2.1.1.7 Decimal](#2117-decimal)**
+      - **[2.1.1.8 ClassTypeInfo](#2118-classtypeinfo)**
+    - **[2.1.2 Enumerations](#212-enumerations)**
+      - **[2.1.2.1 RecordTypeEnumeration](#2121-recordtypeenumeration)**
+      - **[2.1.2.2 BinaryTypeEnumeration](#2122-binarytypeenumeration)**
+      - **[2.1.2.3 PrimitiveTypeEnumeration](#2123-primitivetypeenumeration)**
+  - **[2.2 Method Invocation Records](#22-method-invocation-records)**
+    - **[2.2.1 Enumerations](#221-enumerations)**
+      - **[2.2.1.1 MessageFlags](#2211-messageflags)**
+    - **[2.2.2 Common Structures](#222-common-structures)**
+      - **[2.2.2.1 ValueWithCode](#2221-valuewithcode)**
+      - **[2.2.2.2 StringValueWithCode](#2222-stringvaluewithcode)**
+      - **[2.2.2.3 ArrayOfValueWithCode](#2223-arrayofvaluewithcode)**
+    - **[2.2.3 Record Definitions](#223-record-definitions)**
+      - **[2.2.3.1 BinaryMethodCall](#2231-binarymethodcall)**
+      - **[2.2.3.2 MethodCallArray](#2232-methodcallarray)**
+      - **[2.2.3.3 BinaryMethodReturn](#2233-binarymethodreturn)**
+      - **[2.2.3.4 MethodReturnCallArray](#2234-methodreturncallarray)**
+  - **[2.3 Class Records](#23-class-records)**
+    - **[2.3.1 Common Structures](#231-common-structures)**
+      - **[2.3.1.1 ClassInfo](#2311-classinfo)**
+      - **[2.3.1.2 MemberTypeInfo](#2312-membertypeinfo)**
+    - **[2.3.2 Record Definitions](#232-record-definitions)**
+      - **[2.3.2.1 ClassWithMembersAndTypes](#2321-classwithmembersandtypes)**
+      - **[2.3.2.2 ClassWithMembers](#2322-classwithmembers)**
+      - **[2.3.2.3 SystemClassWithMembersAndTypes](#2323-systemclasswithmembersandtypes)**
+      - **[2.3.2.4 SystemClassWithMembers](#2324-systemclasswithmembers)**
+      - **[2.3.2.5 ClassWithId](#2325-classwithid)**
+  - **[2.4 Array Records](#24-array-records)**
+    - **[2.4.1 Enumerations](#241-enumerations)**
+      - **[2.4.1.1 BinaryArrayTypeEnumeration](#2411-binaryarraytypeenumeration)**
+    - **[2.4.2 Common Definitions](#242-common-definitions)**
+      - **[2.4.2.1 ArrayInfo](#2421-arrayinfo)**
+    - **[2.4.3 Record Definitions](#243-record-definitions)**
+      - **[2.4.3.1 BinaryArray](#2431-binaryarray)**
+      - **[2.4.3.2 ArraySingleObject](#2432-arraysingleobject)**
+      - **[2.4.3.3 ArraySinglePrimitive](#2433-arraysingleprimitive)**
+      - **[2.4.3.4 ArraySingleString](#2434-arraysinglestring)**
+  - **[2.5 Member Reference Records](#25-member-reference-records)**
+    - **[2.5.1 MemberPrimitiveTyped](#251-memberprimitivetyped)**
+    - **[2.5.2 MemberPrimitiveUnTyped](#252-memberprimitiveuntyped)**
+    - **[2.5.3 MemberReference](#253-memberreference)**
+    - **[2.5.4 ObjectNull](#254-objectnull)**
+    - **[2.5.5 ObjectNullMultiple](#255-objectnullmultiple)**
+    - **[2.5.6 ObjectNullMultiple256](#256-objectnullmultiple256)**
+    - **[2.5.7 BinaryObjectString](#257-binaryobjectstring)**
+  - **[2.6 Other Records](#26-other-records)**
+    - **[2.6.1 SerializationHeaderRecord](#261-serializationheaderrecord)**
+    - **[2.6.2 BinaryLibrary](#262-binarylibrary)**
+    - **[2.6.3 MessageEnd](#263-messageend)**
+  - **[2.7 Binary Record Grammar](#27-binary-record-grammar)**
+- **[3 Structure Examples](#3-structure-examples)**
+- **[4 Security Considerations](#4-security-considerations)**
+- **[5 Appendix A: Product Behavior](#5-appendix-a-product-behavior)**
+- **[6 Change Tracking](#6-change-tracking)**
+- **[7 Index](#7-index)**
 
 ## 1 Introduction
 
@@ -250,7 +250,7 @@ The following sections specify the common structures and enumerations that are u
 
 ## 2.1.1 Common Data Types
 
-This section specifies the structures of the common **Remoting Types** that are supported by this format. The format supports the following **Primitive Types** as specified in [MS-DTYP]:
+This section specifies the structures of the common **Remoting Types** that are supported by this format. The format supports the following **Primitive Types** as specified in [MS-DTYP].
 
 - BOOLEAN
 - BYTE 
@@ -262,7 +262,8 @@ This section specifies the structures of the common **Remoting Types** that are 
 - UINT32 
 - UINT64 
 
-The byte-ordering of the multibyte data types is **little-endian**. The signed data types use two's complement to represent the negative numbers.</br>
+The byte-ordering of the multibyte data types is **little-endian**. The signed data types use two's complement to represent the negative numbers.
+
 In addition, this format defines the following common types.
 
 ## 2.1.1.1 Char
