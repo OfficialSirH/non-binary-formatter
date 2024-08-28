@@ -3349,11 +3349,11 @@ ___
 - **[ArgsInline](#2211-messageflags)**
 - **[ArgsIsArray](#2211-messageflags)**
 - **Array records**
-  - **[common definitions](#242-common-definitions)**
-  - **[data types](#211-common-data-types)**
-  - **enumerations** ([section 2.1.2](#212-enumerations), [section 2.4.1](#241-enumerations))
-  - **[overview](#24-array-records)**
-  - **[record definitions](#243-record-definitions)**
+  - **[Common definitions](#242-common-definitions)**
+  - **[Data types](#211-common-data-types)**
+  - **Enumerations** ([section 2.1.2](#212-enumerations), [section 2.4.1](#241-enumerations))
+  - **[Overview](#24-array-records)**
+  - **[Record definitions](#243-record-definitions)**
 - **[ArrayInfo packet](#2421-arrayinfo)**
 - **[ArrayOfValueWithCode packet](#2223-arrayofvaluewithcode)**
 - **[ArraySingleObject](#2121-recordtypeenumeration)**
@@ -3440,22 +3440,22 @@ ___
 
 ## M
 - **[Member reference records](#25-member-reference-records)**
-  - **[data types](#211-common-data-types)**
-  - **[enumerations](#2121-recordtypeenumeration)**
-- **[MemberPrimitiveTyped]()**
-- **[MemberPrimitiveTyped packet]()**
-- **[MemberPrimitiveUntyped packet]()**
-- **[MemberReference]()**
-- **[MemberReference packet]()**
-- **[MemberTypeInfo packet]()**
-- **[MessageEnd]()**
-- **[MessageEnd packet]()**
+  - **[Data types](#211-common-data-types)**
+  - **[Enumerations](#2121-recordtypeenumeration)**
+- **[MemberPrimitiveTyped](#2121-recordtypeenumeration)**
+- **[MemberPrimitiveTyped packet](#251-memberprimitivetyped)**
+- **[MemberPrimitiveUntyped packet](#252-memberprimitiveuntyped)**
+- **[MemberReference](#2121-recordtypeenumeration)**
+- **[MemberReference packet](#253-memberreference)**
+- **[MemberTypeInfo packet](#2312-membertypeinfo)**
+- **[MessageEnd](#2121-recordtypeenumeration)**
+- **[MessageEnd packet](#263-messageend)**
 - **Method invocation records**
-  - **[data types](#211-common-data-types)**
-  - **enumerations** ([section 2.1.2](#212-enumerations), [section 2.2.1](#221-enumerations))
-  - **[overview](#22-method-invocation-records)**
-  - **[record definitions](#223-record-definitions)**
-  - **[structures](#222-common-structures)**
+  - **[Data types](#211-common-data-types)**
+  - **Enumerations** ([section 2.1.2](#212-enumerations), [section 2.2.1](#221-enumerations))
+  - **[Overview](#22-method-invocation-records)**
+  - **[Record definitions](#223-record-definitions)**
+  - **[Structures](#222-common-structures)**
 - **[MethodCall](#2231-binarymethodcall)**
 - **[MethodReturn](#2233-binarymethodreturn)**
 - **[MethodSignatureInArray](#2211-messageflags)**
@@ -3468,69 +3468,72 @@ ___
 - **[Null](#2123-primitivetypeenumeration)**
 
 ## O
-- **[Object](#object)**
-- **[ObjectArray](#objectarray)**
-- **[ObjectNull](#objectnull)**
-- **[ObjectNull packet](#objectnull-packet)**
-- **[ObjectNullMultiple](#objectnullmultiple)**
-- **[ObjectNullMultiple packet](#objectnullmultiple-packet)**
-- **[ObjectNullMultiple256](#objectnullmultiple256)**
-- **[ObjectNullMultiple256 packet](#objectnullmultiple256-packet)**
-- **[Other records](#other-records)** (section 2.1.1 **[12](#other-records-2-1-1)**, section 2.6 **[37](#other-records-2-6)**)
-- **[Overview (synopsis)](#overview-synopsis)**
+- **[Object](#2122-binarytypeenumeration)**
+- **[ObjectArray](#2122-binarytypeenumeration)**
+- **[ObjectNull](#2121-recordtypeenumeration)**
+- **[ObjectNull packet](#254-objectnull)**
+- **[ObjectNullMultiple](#2121-recordtypeenumeration)**
+- **[ObjectNullMultiple packet](#255-objectnullmultiple)**
+- **[ObjectNullMultiple256](#2121-recordtypeenumeration)**
+- **[ObjectNullMultiple256 packet](#256-objectnullmultiple256)**
+- **Other records** ([section 2.1.1](#211-common-data-types), [section 2.6](#26-other-records))
+- **[Overview (synopsis)](#13-overview)**
 
 ## P
-- **[Primitive](#primitive)**
-- **[PrimitiveArray](#primitivearray)**
-- **[Product behavior](#product-behavior)**
-- **[PropertiesInArray](#propertiesinarray)**
+- **[Primitive](#2122-binarytypeenumeration)**
+- **[PrimitiveArray](#2122-binarytypeenumeration)**
+- **[Product behavior](#5-appendix-a-product-behavior)**
+- **[PropertiesInArray](#2211-messageflags)**
 
 ## R
-- **[Rectangular](#rectangular)**
-- **[RectangularOffset](#rectangularoffset)**
-- **[References](#references)**
-  - **[Informative](#references-informative)**
-  - **[Normative](#references-normative)**
-- **[Relationship to other protocols](#relationship-to-other-protocols)**
-- **[Relationship to protocols and other structures](#relationship-to-protocols-and-other-structures)**
-- **[ReturnValueInArray](#returnvalueinarray)**
-- **[ReturnValueInline](#returnvalueinline)**
-- **[ReturnValueVoid](#returnvaluevoid)**
+- **[Rectangular](#2411-binaryarraytypeenumeration)**
+- **[RectangularOffset](#2411-binaryarraytypeenumeration)**
+- **[References](#12-references)**
+  - **[Informative](#122-informative-references)**
+  - **[Normative](#121-normative-references)**
+- **[Relationship to other protocols](#14-relationship-to-protocols-and-other-structures)**
+- **[Relationship to protocols and other structures](#14-relationship-to-protocols-and-other-structures)**
+- **[ReturnValueInArray](#2211-messageflags)**
+- **[ReturnValueInline](#2211-messageflags)**
+- **[ReturnValueVoid](#2211-messageflags)**
 
 ## S
-- **[SByte](#sbyte)**
-- **[Security](#security)**
-  - **[Implementer considerations](#security-implementer-considerations)**
-- **[SerializationHeaderRecord packet](#serializationheaderrecord-packet)**
-- **[SerializedStreamHeader](#serializedstreamheader)**
-- **[Single](#single)** (section 2.1.2.3 **[19](#single-2-1-2-3)**, section 2.4.1.1 **[31](#single-2-4-1-1)**)
-- **[Single packet](#single-packet)**
-- **[SingleOffset](#singleoffset)**
-- **[String](#string)** (section 2.1.2.2 **[18](#string-2-1-2-2)**, section 2.1.2.3 **[19](#string-2-1-2-3)**)
-- **[StringArray](#stringarray)**
-- **[StringValueWithCode packet](#stringvaluewithcode-packet)**
-- **[Structure examples](#structure-examples)**
-- **[Structures](#structures)**
-- **[SystemClass](#systemclass)**
-- **[SystemClassWithMembers](#systemclasswithmembers)**
-- **[SystemClassWithMembers packet](#systemclasswithmembers-packet)**
-- **[SystemClassWithMembersAndTypes](#systemclasswithmembersandtypes)**
-- **[SystemClassWithMembersAndTypes packet](#systemclasswithmembersandtypes-packet)**
+- **[SByte](#2123-primitivetypeenumeration)**
+- **[Security](#4-security-considerations)**
+  - **[Implementer considerations](#4-security-considerations)**
+- **[SerializationHeaderRecord packet](#261-serializationheaderrecord)**
+- **[SerializedStreamHeader](#2121-recordtypeenumeration)**
+- **Single** ([section 2.1.2.3](#2123-primitivetypeenumeration), [section 2.4.1.1](#2411-binaryarraytypeenumeration))
+- **[Single packet](#2113-single)**
+- **[SingleOffset](#2411-binaryarraytypeenumeration)**
+- **String** ([section 2.1.2.2](#2122-binarytypeenumeration), [section 2.1.2.3](#2123-primitivetypeenumeration))
+- **[StringArray](#2122-binarytypeenumeration)**
+- **[StringValueWithCode packet](#2222-stringvaluewithcode)**
+- **[Structure examples](#3-structure-examples)**
+- **[Structures](#2-structures)**
+- **[SystemClass](#2122-binarytypeenumeration)**
+- **[SystemClassWithMembers](#2121-recordtypeenumeration)**
+- **[SystemClassWithMembers packet](#2324-systemclasswithmembers)**
+- **[SystemClassWithMembersAndTypes](#2121-recordtypeenumeration)**
+- **[SystemClassWithMembersAndTypes packet](#2323-systemclasswithmembersandtypes)**
 
 ## T
-- **[TimeSpan](#timespan)**
-- **[TimeSpan packet](#timespan-packet)**
-- **[Tracking changes](#tracking-changes)**
+- **[TimeSpan](#2123-primitivetypeenumeration)**
+- **[TimeSpan packet](#2114-timespan)**
+- **[Tracking changes](#6-change-tracking)**
 
 ## U
-- **[UInt16](#uint16)**
-- **[UInt32](#uint32)**
-- **[UInt64](#uint64)**
+- **[UInt16](#2123-primitivetypeenumeration)**
+- **[UInt32](#2123-primitivetypeenumeration)**
+- **[UInt64](#2123-primitivetypeenumeration)**
 
 ## V
 - **[ValueWithCode packet](#2221-valuewithcode)**
 - **[Vendor-extensible fields](#17-vendor-extensible-fields)**
 - **[Versioning](#16-versioning-and-localization)**
 
-## MS-NRBF documentation originally converted to Markdown with [marker](https://github.com/vikparuchuri/marker)
-## Rewritten completely by hand by [Micah Benac](https://github.com/OfficialSirH)
+___
+# Credits
+
+- ## MS-NRBF documentation originally converted to Markdown with [marker](https://github.com/vikparuchuri/marker)
+- ## Rewritten completely by hand by [Micah Benac](https://github.com/OfficialSirH)
