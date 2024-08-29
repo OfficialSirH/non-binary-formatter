@@ -218,35 +218,34 @@ MAY, SHOULD, MUST, SHOULD NOT, MUST NOT: These terms (in all caps) are used as d
 
 ## 1.2 References
 
-Links to a document in the Microsoft Open Specifications library point to the correct section in the most recently published version of the referenced document. However, because individual documents in the library are not updated at the same time, the section numbers in the documents may not match. You can confirm the correct section numbering by checking the Errata. 
+Links to a document in the Microsoft Open Specifications library point to the correct section in the most recently published version of the referenced document. However, because individual documents in the library are not updated at the same time, the section numbers in the documents may not match. You can confirm the correct section numbering by checking the [Errata](https://learn.microsoft.com/en-us/openspecs/main/ms-openspeclp/). 
 
 ## 1.2.1 Normative References
 
 - [IEEE754] IEEE, "IEEE Standard for Binary Floating-Point Arithmetic", IEEE 754-1985, October 1985, http://ieeexplore.ieee.org/servlet/opac?punumber=2355
-- [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) Microsoft Corporation, "Windows Data Types". 
-- [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) Microsoft Corporation, ".NET Remoting: Core Protocol". 
+- [MS-DTYP] Microsoft Corporation, "[Windows Data Types](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp)". 
+- [MS-NRTP] Microsoft Corporation, "[.NET Remoting: Core Protocol](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp)". 
 - [RFC2119] Bradner, S., "Key words for use in RFCs to Indicate Requirement Levels", BCP 14, RFC 2119, March 1997, http://www.rfc-editor.org/rfc/rfc2119.txt 
 - [RFC4234] Crocker, D., Ed., and Overell, P., "Augmented BNF for Syntax Specifications: ABNF", RFC 4234, October 2005, http://www.rfc-editor.org/rfc/rfc4234.txt
 
 ## 1.2.2 Informative References
 
-- [MS-NETOD] Microsoft Corporation, "Microsoft .NET Framework Protocols Overview". 
+- [MS-NETOD] Microsoft Corporation, "[Microsoft .NET Framework Protocols Overview](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-netod/)". 
 - [MSDN-.NET-FRAMEWORK] Microsoft Corporation, "Overview of the .NET Framework", http://msdn.microsoft.com/en-us/library/zw4w595w.aspx
 
 ## 1.3 Overview
 
-The .NET Remoting: Binary Format Data Structure defines a set of structures that represent **[object graph](#object-graph)** or method invocation information as an octet stream. One possible application of the structure is as the serialization format for the data model as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.1. 
+The [.NET Remoting: Binary Format Data Structure](#1-introduction) defines a set of structures that represent **[object graph](#object-graph)** or method invocation information as an octet stream. One possible application of the structure is as the serialization format for the data model as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.1. 
 
-This specification defines the **records** used by this format, and the grammar for writing the records to the **serialization stream**. 
+This specification defines the **[records](#record)** used by this format, and the grammar for writing the records to the **[serialization stream](#serialization-stream)**. 
 
 The format provides structures for mapping instances of data that conform to the **[Remoting Data Model](#remoting-data-model)** into octets. The Remoting Data Model is specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.1. 
 
-The format consists of a sequence of variable-length records. The records are used to hold the **[serialized](#serialize)** instances of **[Classes (2)](#class)**, **Arrays**, **[Primitive Types](#primitive-type)**, and method invocations. There are multiple record types to represent each of these instances. The various record types optimize the wire size of the serialized instance. This section specifies the structure of each record in detail. For clarity, the records are grouped as follows:
+The format consists of a sequence of variable-length records. The records are used to hold the **[serialized](#serialize)** instances of **[Classes (2)](#class)**, **[Arrays](#array)**, **[Primitive Types](#primitive-type)**, and method invocations. There are multiple record types to represent each of these instances. The various record types optimize the wire size of the serialized instance. This section specifies the structure of each record in detail. For clarity, the records are grouped as follows:
 
-- Class (2) records contain Class (2) instances. The format allows serialization of **Class Metadata**, 
-in addition to the actual data. Richness of metadata directly contributes to the wire size. The amount of metadata can be reduced by conveying implicit information through special record types and by sharing metadata across records.
+- Class (2) records contain Class (2) instances. The format allows serialization of **[Class Metadata](#class-metadata)**, in addition to the actual data. Richness of metadata directly contributes to the wire size. The amount of metadata can be reduced by conveying implicit information through special record types and by sharing metadata across records.
 
-- Array records contain Array instances. There is a general record type for Array that can represent multiple dimensions and nonzero lower bound. There are more compact Array records for frequently used Array types such as single-dimensional Array of String, Object, and **Primitive Values**.
+- Array records contain Array instances. There is a general record type for Array that can represent multiple dimensions and nonzero lower bound. There are more compact Array records for frequently used Array types such as single-dimensional Array of String, Object, and **[Primitive Values](#primitive-value)**.
 
 - **[Members](#member)** reference records contain **[Data Value](#data-value)** of Class (2) Members or Array items. There are different record types for **[Null Object](#null-object)**, string values, Primitive Type values, and instances of Classes (2) and Arrays.
 
@@ -256,7 +255,7 @@ in addition to the actual data. Richness of metadata directly contributes to the
 
 ## 1.4 Relationship To Protocols And Other Structures
 
-This format is part of the .NET Remoting protocols. The .NET Remoting Protocol (as specified in [MSNRTP]) uses this format to encode **message content** before transmission, as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3. 
+This format is part of the .NET Remoting protocols. The .NET Remoting Protocol (as specified in [MSNRTP]) uses this format to encode **[message content](#message-content)** before transmission, as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3. 
 
 The **[serialized](#serialize)** content is transmitted over either HTTP or TCP, by using headers and framing as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3. The following block diagram illustrates the relationship.
 
@@ -272,15 +271,15 @@ The .NET Remoting: Binary Format Data Structure can be used as part of a **[Remo
 
 This document covers versioning issues in the following areas:
 
-- Protocol Versions: The Serialization Header record has fields called **MajorVersion** and **MinorVersion** that denote the version of the .NET Remoting: Binary Format Data Structure in use. Because only one version of the .NET Remoting: Binary Format Data Structure has been defined to date, the value of **MajorVersion** is always set to 1 and **MinorVersion** to 0. Future revisions of the format would increment this value. The Serialization Header record is specified in section 2.6.1.
+- Protocol Versions: The Serialization Header record has fields called **MajorVersion** and **MinorVersion** that denote the version of the .NET Remoting: Binary Format Data Structure in use. Because only one version of the .NET Remoting: Binary Format Data Structure has been defined to date, the value of **MajorVersion** is always set to 1 and **MinorVersion** to 0. Future revisions of the format would increment this value. The Serialization Header record is specified in section [2.6.1](#261-serializationheaderrecord).
 
-- Message Versions: MessageFlags (section 2.2.1.1) defines a flag named "Generic Method". The flag indicates that the method being invoked is a **[Generic Remote Method](#generic-remote-method)**. The flag is valid only in Microsoft .NET Framework 2.0, Microsoft .NET Framework 3.0, Microsoft .NET Framework 3.5, and Microsoft .NET Framework 4.0. For more information, see [MSDN-.NET-FRAMEWORK]. 
+- Message Versions: MessageFlags (section [2.2.1.1](#2211-messageflags)) defines a flag named "Generic Method". The flag indicates that the method being invoked is a **[Generic Remote Method](#generic-remote-method)**. The flag is valid only in Microsoft .NET Framework 2.0, Microsoft .NET Framework 3.0, Microsoft .NET Framework 3.5, and Microsoft .NET Framework 4.0. For more information, see [[MSDN-.NET-FRAMEWORK]](#122-informative-references). 
 
 There are no localization-dependent structures described in this document.
 
 ## 1.7 Vendor-Extensible Fields
 
-This format allows implementation-specific name-value pairs called **[Message Properties](#message-properties)** to be added to the MethodCallArray (section 2.2.3.2) and MethodReturnCallArray (section 2.2.3.4) records.
+This format allows implementation-specific name-value pairs called **[Message Properties](#message-properties)** to be added to the [MethodCallArray (section 2.2.3.2)](#2232-methodcallarray) and [MethodReturnCallArray (section 2.2.3.4)](#2234-methodreturncallarray) records.
 
 ___
 # 2 Structures
@@ -2432,7 +2431,7 @@ The ArraySingleString record contains a single-dimensional **[Array](#array)** w
 
 ## 2.5 Member Reference Records
 
-**Arrays** and classes are containers of **Member** values; that is, graph nodes that represent instances of Arrays and Classes that have outbound edges. The Member values are the graph nodes that are destinations for the outbound edges. In the **serialization stream**, the Member values follow the Array and the Class records. The Member values are **[serialized](#serialize)** by using the Member Reference records.
+**[Arrays](#array)** and classes are containers of **Member** values; that is, graph nodes that represent instances of Arrays and Classes that have outbound edges. The Member values are the graph nodes that are destinations for the outbound edges. In the **serialization stream**, the Member values follow the Array and the Class records. The Member values are **[serialized](#serialize)** by using the Member Reference records.
 
 ## 2.5.1 MemberPrimitiveTyped
 
@@ -2493,7 +2492,7 @@ The MemberPrimitiveTyped record contains a **[Primitive Type](#primitive-type)**
 
 ## 2.5.2 MemberPrimitiveUntyped
 
-The MemberPrimitiveUnTyped record is the most compact record to represent a **[Primitive Type](#primitive-type)** value. This type of record does not have a RecordTypeEnum to indicate the record type. The record MUST be used when a Class Member or **[Array](#array)** item is a Primitive Type. Because the containing Class or Array record specifies the Primitive Type of each Member, the Primitive Type is not respecified along with the value. Also, the **Primitive Values** cannot be referenced by any other record; therefore it does not require an ObjectId. This record has no field besides the value. The mechanism to **serialize** a Primitive Value is described in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.8.
+The MemberPrimitiveUnTyped record is the most compact record to represent a **[Primitive Type](#primitive-type)** value. This type of record does not have a RecordTypeEnum to indicate the record type. The record MUST be used when a Class Member or **[Array](#array)** item is a Primitive Type. Because the containing Class or Array record specifies the Primitive Type of each Member, the Primitive Type is not respecified along with the value. Also, the **[Primitive Values](#primitive-value)** cannot be referenced by any other record; therefore it does not require an ObjectId. This record has no field besides the value. The mechanism to **serialize** a Primitive Value is described in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.8.
 
 <table border="1">
   <thead>
@@ -3097,7 +3096,7 @@ ___
 
 This sample illustrates the message exchanged when a **[Remote Method](#remote-method)** is invoked as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.3.4.2. The data model is used to describe the information to perform the Remote Method invocation and the results of the invocation, as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.1.
 
-The client invokes a method "SendAddress" on a remote **[Server Type](#server-type)** "DOJRemotingMetadata.MyServer" and passes the following Address object (Street = "One Microsoft Way", City = "Redmond", State = "WA" and Zip = "98054") as an argument. The remote Server Type is accessible at a relative URI "MyServer.Rem" hosted on a server named "maheshdev2" and listening on port 8080. The server receives the request message, reads the argument passed in the message, and then invokes the method with the **de-serialized** argument. The server then embeds the **[Return Value](#return-value)** of "Address received" in the response message to the client.
+The client invokes a method "SendAddress" on a remote **[Server Type](#server-type)** "DOJRemotingMetadata.MyServer" and passes the following Address object (Street = "One Microsoft Way", City = "Redmond", State = "WA" and Zip = "98054") as an argument. The remote Server Type is accessible at a relative URI "MyServer.Rem" hosted on a server named "maheshdev2" and listening on port 8080. The server receives the request message, reads the argument passed in the message, and then invokes the method with the **[de-serialized](#deserialize)** argument. The server then embeds the **[Return Value](#return-value)** of "Address received" in the response message to the client.
 
 The following is a sequence diagram for the preceding message exchange pattern.
 
@@ -3227,7 +3226,7 @@ Binary Serialization Format
     RecordTypeEnum: MessageEnd (0x11)
 ```
 
-The Server Type name, method name, and arguments are passed in a BinaryMethodCall structure. The MessageEnum record in BinaryMethodCall is used by the server to determine how to read the needed values. The ArgsInArray flag in this record is set to 1 because the argument passed to the method is not a **[Primitive Type](#primitive-type)**. Because the client is not passing any extra data in the CallContext of the request, the NoContext flag in the MessageEnum record is also set to 1. This information, coupled with the fact that the operation is of type Request, is used by the server to infer that the MethodName, Server Type, and Argument are embedded in the BinaryMethodCall record itself. Because the argument Address is passed in the callArray, CallArray contains an ArraySingleObject as the root element, and the first entry in the **[Array](#array)** is a MemberReference to the ClassWithMembersAndTypes record that contains the input argument passed. The **[Library](#library)**, to which the ClassWithMembersAndTypes refers, appears next, and then the ClassWithMembersAndTypes record follows. All Members of Address are strings; therefore, the ClassWithMembersAndTypes record is followed by BinaryObjectString records for all of its Members.
+The Server Type name, method name, and arguments are passed in a [BinaryMethodCall](#2231-binarymethodcall) structure. The MessageEnum record in BinaryMethodCall is used by the server to determine how to read the needed values. The ArgsInArray flag in this record is set to 1 because the argument passed to the method is not a **[Primitive Type](#primitive-type)**. Because the client is not passing any extra data in the CallContext of the request, the NoContext flag in the MessageEnum record is also set to 1. This information, coupled with the fact that the operation is of type Request, is used by the server to infer that the MethodName, Server Type, and Argument are embedded in the BinaryMethodCall record itself. Because the argument Address is passed in the callArray, CallArray contains an [ArraySingleObject](#2432-arraysingleobject) as the root element, and the first entry in the **[Array](#array)** is a MemberReference to the [ClassWithMembersAndTypes](#2321-classwithmembersandtypes) record that contains the input argument passed. The **[Library](#library)**, to which the ClassWithMembersAndTypes refers, appears next, and then the ClassWithMembersAndTypes record follows. All Members of Address are strings; therefore, the ClassWithMembersAndTypes record is followed by [BinaryObjectString](#257-binaryobjectstring) records for all of its Members.
 
 After it invokes the method and is ready to return the result of that invocation, the server crafts a Response message and sends the Return Value ("Address received") in that message. The network capture of the response message is as follows.
 
@@ -3275,33 +3274,33 @@ NoArgs: There are no output arguments.
 
 NoContext: Similar to the client, the server is not sending any additional data in CallContext.
 
-ReturnValueInline: Because the Return Value is a Primitive Type, it is contained in the BinaryMethodReturn record.
+ReturnValueInline: Because the Return Value is a Primitive Type, it is contained in the [BinaryMethodReturn](#2233-binarymethodreturn) record.
 
 ___
 # 4 Security Considerations
 
-Some of the structures contain fields that specify size information of the data in the serialization stream. The type of the size that specifies fields is INT32 (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22). The maximum value of these values can be as high as 0x7FFFFFFF. An implementation that consumes the stream either does not allocate memory based on the size information specified in the serialization stream, or ensures that the data in the serialization stream can be trusted.
+Some of the structures contain fields that specify size information of the data in the **[serialization stream](#serialization-stream)**. The type of the size that specifies fields is INT32 (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22). The maximum value of these values can be as high as 0x7FFFFFFF. An implementation that consumes the stream either does not allocate memory based on the size information specified in the serialization stream, or ensures that the data in the serialization stream can be trusted.
 
 The following table lists the structures with fields that specify size information.
 
 | Type                 | Field       | Description                                                        |
 |----------------------|-------------|--------------------------------------------------------------------|
 | LengthPrefixedString | Length      | Size of the string                                                 |
-| ArrayOfValueWithCode | Length      | Size of the **[Array](#array)**                                              |
+| ArrayOfValueWithCode | Length      | Size of the **[Array](#array)**                                    |
 | ClassInfo            | MemberCount | Number of Members                                                  |
 | ArrayInfo            | Length      | Size of the Array                                                  |
 | BinaryArray          | Rank        | Size of the Lengths and LowerBounds Arrays                         |
 | BinaryArray          | Lengths     | Size of each dimension that would affect the net size of the Array |
-| ObjectNullMultiple   | NullCount   | Number of **Null Objects**                                         |
+| ObjectNullMultiple   | NullCount   | Number of **[Null Objects](#null-object)**                         |
 
-De-serialization of the serialization stream results in creating instances of **[Remoting Type](#remoting-type)** whose information is provided in the serialization stream. It might be unsafe to create an instance of Remoting Types. An implementation protects against attacks where the serialization stream includes the unsafe Remoting Types. Such attacks can be mitigated by allowing the higher layer to configure a list of Remoting Types in an implementation-specific way and disallow **de-serialization** of any Remoting Type that is not in the list.
+De-serialization of the serialization stream results in creating instances of **[Remoting Types](#remoting-type)** whose information is provided in the serialization stream. It might be unsafe to create an instance of Remoting Types. An implementation protects against attacks where the serialization stream includes the unsafe Remoting Types. Such attacks can be mitigated by allowing the higher layer to configure a list of Remoting Types in an implementation-specific way and disallow **[de-serialization](#deserialize)** of any Remoting Type that is not in the list.
 
 ___
 # 5 Appendix A: Product Behavior
 
 The information in this specification is applicable to the following Microsoft products or supplemental software. References to product versions include updates to those products.
 
-This document specifies version-specific details in the Microsoft .NET Framework. For information about which versions of .NET Framework are available in each released Windows product or as supplemental software, see [MS-NETOD] section 4.
+This document specifies version-specific details in the Microsoft .NET Framework. For information about which versions of .NET Framework are available in each released Windows product or as supplemental software, see [[MS-NETOD]](#122-informative-references) section 4.
 
 The terms "earlier" and "later", when used with a product version, refer to either all preceding versions or all subsequent versions, respectively. The term "through" refers to the inclusive range of versions. Applicable Microsoft products are listed chronologically in this section.
 
@@ -3319,27 +3318,27 @@ Exceptions, if any, are noted in this section. If an update version, service pac
 
 Unless otherwise specified, any statement of optional behavior in this specification that is prescribed using the terms "SHOULD" or "SHOULD NOT" implies product behavior in accordance with the SHOULD or SHOULD NOT prescription. Unless otherwise specified, the term "MAY" implies that the product does not follow the prescription.
 
-<1> Section 2.1.1.5: In .NET Framework 1.0 and .NET Framework 1.1, the value of **Kind** is always set to 0 when writing. On reading, the value is ignored and assumed to be 0.
+[<1> Section 2.1.1.5](#2115-datetime): In .NET Framework 1.0 and .NET Framework 1.1, the value of **Kind** is always set to 0 when writing. On reading, the value is ignored and assumed to be 0.
 
-<2> Section 2.2.1.1: The bit value GenericMethod is valid only with .NET Framework 2.0 and later versions.
+[<2> Section 2.2.1.1](#2211-messageflags): The bit value GenericMethod is valid only with .NET Framework 2.0 and later versions.
 
-<3> Section 2.2.3.2: This is present only in .NET Framework 2.0 and later versions.
+[<3> Section 2.2.3.2](#2232-methodcallarray): This is present only in .NET Framework 2.0 and later versions.
 
-<4> Section 2.3.1.1: Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647. If the object is of a **[Remoting Type](#remoting-type)** that cannot be referenced in Windows, the negative of the counter value is used.
+[<4> Section 2.3.1.1](#2311-classinfo): Windows uses a single counter that counts from 1 to generate the [ObjectId](#2311-classinfo) in the ClassInfo, [ArrayInfo](#2421-arrayinfo), [BinaryObjectString](#257-binaryobjectstring), and [BinaryArray](#2431-binaryarray) records, and the [LibraryId](#262-binarylibrary) in the BinaryLibrary record. The maximum value is 2,147,483,647. If the object is of a **[Remoting Type](#remoting-type)** that cannot be referenced in Windows, the negative of the counter value is used.
 
-<5> Section 2.3.1.1: In Windows, the order of the Members can vary for each occurrence of the record for a given class.
+[<5> Section 2.3.1.1](#2311-classinfo): In Windows, the order of the Members can vary for each occurrence of the record for a given class.
 
-<6> Section 2.4: Windows uses ObjectNullMultiple256 if the number of sequential **Null Objects** is 255 or fewer. Windows uses ObjectNullMultiple if the number of sequential Null Objects is greater than 255.
+[<6> Section 2.4](#24-array-records): Windows uses [ObjectNullMultiple256](#256-objectnullmultiple256) if the number of sequential **[Null Objects](#null-object)** is 255 or fewer. Windows uses [ObjectNullMultiple](#255-objectnullmultiple) if the number of sequential Null Objects is greater than 255.
 
-<7> Section 2.4.2.1: Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647.
+[<7> Section 2.4.2.1](#2421-arrayinfo): Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647.
 
-<8> Section 2.4.3.1: Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647.
+[<8> Section 2.4.3.1](#2431-binaryarray): Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647.
 
-<9> Section 2.5.3: Windows places the record that defines the ID before or after the referencing record.
+[<9> Section 2.5.3](#253-memberreference): Windows places the record that defines the ID before or after the referencing record.
 
-<10> Section 2.5.7: Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647.
+[<10> Section 2.5.7](#257-binaryobjectstring): Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647.
 
-<11> Section 2.6.2: Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647. 
+[<11> Section 2.6.2](#262-binarylibrary): Windows uses a single counter that counts from 1 to generate the ObjectId in the ClassInfo, ArrayInfo, BinaryObjectString, and BinaryArray records, and the LibraryId in the BinaryLibrary record. The maximum value is 2,147,483,647. 
 
 ___
 # 6 Change Tracking
