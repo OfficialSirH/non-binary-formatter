@@ -255,7 +255,7 @@ The format consists of a sequence of variable-length records. The records are us
 
 ## 1.4 Relationship To Protocols And Other Structures
 
-This format is part of the .NET Remoting protocols. The .NET Remoting Protocol (as specified in [MSNRTP]) uses this format to encode **[message content](#message-content)** before transmission, as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3. 
+This format is part of the .NET Remoting protocols. The .NET Remoting Protocol (as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp)) uses this format to encode **[message content](#message-content)** before transmission, as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3. 
 
 The **[serialized](#serialize)** content is transmitted over either HTTP or TCP, by using headers and framing as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3. The following block diagram illustrates the relationship.
 
@@ -406,7 +406,7 @@ The Double represents a 64-bit double-precision floating-point value.
   </tbody>
 </table>
 
-**Value (8 bytes):** A 64-bit double-precision floating-point value, as specified in [IEEE754].
+**Value (8 bytes):** A 64-bit double-precision floating-point value, as specified in [IEEE754](#121-normative-references).
 
 ## 2.1.1.3 Single
 
@@ -454,7 +454,7 @@ The Single represents a 32-bit single-precision floating-point value.
   </tbody>
 </table>
 
-**Value (4 bytes):** A 32-bit single-precision floating-point value, as specified in [IEEE754].
+**Value (4 bytes):** A 32-bit single-precision floating-point value, as specified in [IEEE754](#121-normative-references).
 
 ## 2.1.1.4 Timespan
 
@@ -559,13 +559,13 @@ The DateTime represents an instant of time.
 
 **Ticks (62 bits):** A 62-bit signed-integer value that specifies the number of 100 nanoseconds that have elapsed since 12:00:00, January 1, 0001. The value can represent time instants in a granularity of 100 nanoseconds until 23:59:59.9999999, December 31, 9999.
 
-**Kind (2 bits):** Provides the time-zone information as follows. The value can range from 0 to 2, inclusive<1>. The following table maps values with the meaning of the **Ticks** field.
+**Kind (2 bits):** Provides the time-zone information as follows. The value can range from 0 to 2, inclusive[<1>](#5-appendix-a-product-behavior). The following table maps values with the meaning of the **Ticks** field.
 
-| Value   | Meaning                                                                  |
-|---------|--------------------------------------------------------------------------|
-| 0       | Time-zone information is not specified.                                  |
-| 1       | The time specified is in the Coordinated Universal Time (UTC) time zone. |
-| 2       | The time specified is in the local time zone.                            |
+| Value   | Meaning                                                                                                     |
+|---------|-------------------------------------------------------------------------------------------------------------|
+| 0       | Time-zone information is not specified.                                                                     |
+| 1       | The time specified is in the [Coordinated Universal Time (UTC)](#coordinated-universal-time-utc) time zone. |
+| 2       | The time specified is in the [local time zone](#local-time-zone).                                                               |
 
 ## 2.1.1.6 LengthPrefixedString
 
@@ -980,7 +980,7 @@ The Decimal represents a decimal value. It has the following format.
   </tbody>
 </table>
 
-**Value (variable):** A LengthPrefixedString value that is the string representation of the decimal value.
+**Value (variable):** A [LengthPrefixedString](#2116-lengthprefixedstring) value that is the string representation of the decimal value.
 
 The string MUST be of the following format.
 
@@ -1031,7 +1031,7 @@ then the decimal value MUST be rounded to the nearest value such that the total 
 
 ## 2.1.1.8 ClassTypeInfo
 
-The ClassTypeInfo identifies a **[Class (2)](#class)** by its name and reference to **BinaryLibrary** record.
+The ClassTypeInfo identifies a **[Class (2)](#class)** by its name and reference to [BinaryLibrary](#262-binarylibrary) record.
 
 <table border="1">
   <thead>
@@ -1079,42 +1079,42 @@ The ClassTypeInfo identifies a **[Class (2)](#class)** by its name and reference
   </tbody>
 </table>
 
-**TypeName (variable):** A **LengthPrefixedString** value that contains the name of the Class (2). The format of the string is specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 2.2.1.2.
+**TypeName (variable):** A [LengthPrefixedString](#2116-lengthprefixedstring) value that contains the name of the Class (2). The format of the string is specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 2.2.1.2.
 
-**LibraryId (4 bytes):** An INT32 (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) value that represents the ID that identifies the **[Library](#library)** name. The record that contains this field in a **serialization stream** MUST be preceded by a BinaryLibrary record that defines the Library name for the ID.
+**LibraryId (4 bytes):** An INT32 (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) value that represents the ID that identifies the **[Library](#library)** name. The record that contains this field in a **[serialization stream](#serialization-stream)** MUST be preceded by a BinaryLibrary record that defines the Library name for the ID.
 
 ## 2.1.2 Enumerations
 
 ## 2.1.2.1 RecordTypeEnumeration
 
-This enumeration identifies the type of the **record**. Each record (except for MemberPrimitiveUnTyped) starts with a record type enumeration. The size of the enumeration is one BYTE.
+This enumeration identifies the type of the **record**. Each record (except for [MemberPrimitiveUnTyped](#252-memberprimitiveuntyped)) starts with a record type enumeration. The size of the enumeration is one BYTE.
 
-| Constant/value                       | Description                                         |
-|--------------------------------------|-----------------------------------------------------|
-| SerializationStreamHeader</br>0      | Identifies the SerializationHeaderRecord.           |
-| ClassWithId</br>1                    | Identifies a ClassWithId record.                    |
-| SystemClassWithMembers</br>2         | Identifies a SystemClassWithMembers record.         |
-| ClassWithMembers</br>3               | Identifies a ClassWithMembers record.               |
-| SystemClassWithMembersAndTypes</br>4 | Identifies a SystemClassWithMembersAndTypes record. |
-| ClassWithMembersAndTypes</br>5       | Identifies a ClassWithMembersAndTypes record.       |
-| BinaryObjectString</br>6             | Identifies a BinaryObjectString record.             |
-| BinaryArray</br>7                    | Identifies a BinaryArray record.                    |
-| MemberPrimitiveTyped</br>8           | Identifies a MemberPrimitiveTyped record.           |
-| MemberReference</br>9                | Identifies a MemberReference record.                |
-| ObjectNull</br>10                    | Identifies a ObjectNull record.                     |
-| MessageEnd</br>11                    | Identifies a MessageEnd record.                     |
-| BinaryLibrary</br>12                 | Identifies a BinaryLibrary record.                  |
-| ObjectNullMultiple256</br>13         | Identifies an ObjectNullMultiple256 record.         |
-| ObjectNullMultiple</br>14            | Identifies an ObjectNullMultiple record             |
-| ArraySinglePrimitive</br>15          | Identifies an ArraySinglePrimitive.                 |
-| ArraySingleObject</br>16             | Identifies an ArraySingleObject record.             |
-| ArraySingleString</br>17             | Identifies an ArraySingleString record.             |
-| MethodCall</br>21                    | Identifies a BinaryMethodCall record.               |
-| MethodReturn</br>22                  | Identifies a BinaryMethodReturn record.             |
+| Constant/value                       | Description                                                                                 |
+|--------------------------------------|---------------------------------------------------------------------------------------------|
+| SerializationStreamHeader</br>0      | Identifies the [SerializationHeaderRecord](#261-serializationheaderrecord).                 |
+| ClassWithId</br>1                    | Identifies a [ClassWithId](#2325-classwithid) record.                                       |
+| SystemClassWithMembers</br>2         | Identifies a [SystemClassWithMembers](#2324-systemclasswithmembers) record.                 |
+| ClassWithMembers</br>3               | Identifies a [ClassWithMembers](#2322-classwithmembers) record.                             |
+| SystemClassWithMembersAndTypes</br>4 | Identifies a [SystemClassWithMembersAndTypes](#2323-systemclasswithmembersandtypes) record. |
+| ClassWithMembersAndTypes</br>5       | Identifies a [ClassWithMembersAndTypes](#2321-classwithmembersandtypes) record.             |
+| BinaryObjectString</br>6             | Identifies a [BinaryObjectString](#257-binaryobjectstring) record.                          |
+| BinaryArray</br>7                    | Identifies a [BinaryArray](#2431-binaryarray) record.                                       |
+| MemberPrimitiveTyped</br>8           | Identifies a [MemberPrimitiveTyped](#251-memberprimitivetyped) record.                      |
+| MemberReference</br>9                | Identifies a [MemberReference](#253-memberreference) record.                                |
+| ObjectNull</br>10                    | Identifies a [ObjectNull](#254-objectnull) record.                                          |
+| MessageEnd</br>11                    | Identifies a [MessageEnd](#263-messageend) record.                                          |
+| BinaryLibrary</br>12                 | Identifies a [BinaryLibrary](#262-binarylibrary) record.                                    |
+| ObjectNullMultiple256</br>13         | Identifies an [ObjectNullMultiple256](#256-objectnullmultiple256) record.                   |
+| ObjectNullMultiple</br>14            | Identifies an [ObjectNullMultiple](#255-objectnullmultiple) record.                         |
+| ArraySinglePrimitive</br>15          | Identifies an [ArraySinglePrimitive](#2433-arraysingleprimitive).                           |
+| ArraySingleObject</br>16             | Identifies an [ArraySingleObject](#2432-arraysingleobject) record.                          |
+| ArraySingleString</br>17             | Identifies an [ArraySingleString](#2434-arraysinglestring) record.                          |
+| MethodCall</br>21                    | Identifies a [BinaryMethodCall](#2231-binarymethodcall) record.                             |
+| MethodReturn</br>22                  | Identifies a [BinaryMethodReturn](#2233-binarymethodreturn) record.                         |
 
 ## 2.1.2.2 BinaryTypeEnumeration
 
-The BinaryTypeEnumeration identifies the **[Remoting Type](#remoting-type)** of a **Class (2) Member** or an **[Array](#array)** item. The size of the enumeration is a BYTE.
+The BinaryTypeEnumeration identifies the **[Remoting Type](#remoting-type)** of a **[Class (2) Member](#class)** or an **[Array](#array)** item. The size of the enumeration is a BYTE.
 
 <table border="1">
     <thead>
@@ -1124,23 +1124,23 @@ The BinaryTypeEnumeration identifies the **[Remoting Type](#remoting-type)** of 
     <tbody>
         <tr>
             <td>Primitive</br>0</td>
-            <td>The Remoting Type is defined in PrimitiveTypeEnumeration and the Remoting Type is not a string.</td>
+            <td>The Remoting Type is defined in [PrimitiveTypeEnumeration](#2123-primitivetypeenumeration) and the Remoting Type is not a string.</td>
         </tr>
         <tr>
             <td>String</br>1</td>
-            <td>The Remoting Type is a LengthPrefixedString.</td>
+            <td>The Remoting Type is a [LengthPrefixedString](#2116-lengthprefixedstring).</td>
         </tr>
         <tr>
             <td>Object</br>2</td>
-            <td>The Remoting Type is System.Object.</td>
+            <td>The Remoting Type is [System.Object](#systemobject).</td>
         </tr>
         <tr>
             <td>SystemClass</br>3</td>
             <td>The Remoting Type is one of the following:
                 <ul>
-                    <li>A Class (2) in the <b>System Library</b></li>
-                    <li>An Array whose <b>Ultimate Array Item Type</b> is a Class (2) in the                          System Library</li>
-                    <li>An Array whose Ultimate Array Item Type is System.Object, String, or a                        <b>Primitive Type</b> but does not meet the definition of ObjectArray,                               StringArray, or PrimitiveArray.</li>
+                    <li>A Class (2) in the <a href="#system-library"><b>System Library</b></a></li>
+                    <li>An Array whose <a href="#ultimate-array-item-type"><b>Ultimate Array Item Type</b></a> is a Class (2) in the                          System Library</li>
+                    <li>An Array whose Ultimate Array Item Type is System.Object, String, or a <a href="#primitive-type"><b>Primitive Type</b></a> but does not meet the definition of ObjectArray, StringArray, or PrimitiveArray.</li>
                 </ul>
             </td>
         </tr>
@@ -1171,22 +1171,22 @@ The PrimitiveTypeEnumeration identifies a **[Primitive Type](#primitive-type)** 
 |-----------------|---------------------------------------------------------------|
 | Boolean</br>1   | Identifies a BOOLEAN as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.4. |
 | Byte</br>2      | Identifies a BYTE as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.6.    |
-| Char</br>3      | Identifies a Char (section 2.1.1.1) type.                     |
+| Char</br>3      | Identifies a [Char (section 2.1.1.1)](#2111-char) type.                     |
 | </br>4          | The value is not used in the protocol.                        |
-| Decimal</br>5   | Identifies a Decimal (section 2.1.1.7).                       |
-| Double</br>6    | Identifies a Double (section 2.1.1.2).                        |
+| Decimal</br>5   | Identifies a [Decimal (section 2.1.1.7)](#2117-decimal).                       |
+| Double</br>6    | Identifies a [Double (section 2.1.1.2)](#2112-double).                        |
 | Int16</br>7     | Identifies an INT16 as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.21. |
 | Int32</br>8     | Identifies an INT32 as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22. |
 | Int64</br>9     | Identifies an INT64 as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.23. |
 | SByte</br>10    | Identifies an INT8 as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.20.  |
-| Single</br>11   | Identifies a Single (section 2.1.1.3).                        |
-| TimeSpan</br>12 | Identifies a TimeSpan (section 2.1.1.4).                      |
-| DateTime</br>13 | Identifies a DateTime (section 2.1.1.5).                      |
+| Single</br>11   | Identifies a [Single (section 2.1.1.3)](#2113-single).                        |
+| TimeSpan</br>12 | Identifies a [TimeSpan (section 2.1.1.4)](#2114-timespan).                      |
+| DateTime</br>13 | Identifies a [DateTime (section 2.1.1.5)](#2115-datetime).                      |
 | UInt16</br>14   | Identifies a UINT16 as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.48. |
 | UInt32</br>15   | Identifies a UINT32 as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.49. |
 | UInt64</br>16   | Identifies a UINT64 as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.50. |
-| Null</br>17     | Identifies a Null Object.                                     |
-| String</br>18   | Identifies a LengthPrefixedString (section 2.1.1.6) value.    |
+| Null</br>17     | Identifies a [Null Object](#null-object).                                     |
+| String</br>18   | Identifies a [LengthPrefixedString (section 2.1.1.6)](#2116-lengthprefixedstring) value.    |
 
 ## 2.2 Method Invocation Records
 
@@ -1196,9 +1196,9 @@ This section specifies **records** that define the format for information requir
 
 ## 2.2.1.1 Messageflags
 
-The MessageFlags enumeration is used by the BinaryMethodCall (section 2.2.3.1) or BinaryMethodReturn (section 2.2.3.3) **records** to provide information about the structure of the record. The type of the enumeration is INT32, as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22.
+The MessageFlags enumeration is used by the [BinaryMethodCall (section 2.2.3.1)](#2231-binarymethodcall) or [BinaryMethodReturn (section 2.2.3.3)](#2233-binarymethodreturn) **records** to provide information about the structure of the record. The type of the enumeration is INT32, as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22.
 
-The following table is common for both the BinaryMethodCall and BinaryMethodReturn records. The term "Method record" is used in the description when it is applicable to both the records. The term "Call Array record" is used in the description when it is applicable to both MethodCallArray (section 2.2.3.2) and MethodReturnCallArray (section 2.2.3.4).
+The following table is common for both the BinaryMethodCall and BinaryMethodReturn records. The term "Method record" is used in the description when it is applicable to both the records. The term "Call Array record" is used in the description when it is applicable to both [MethodCallArray (section 2.2.3.2)](#2232-methodcallarray) and [MethodReturnCallArray (section 2.2.3.4)](#2234-methodreturncallarray).
 
 <table border="1">
     <thead>
@@ -1212,7 +1212,7 @@ The following table is common for both the BinaryMethodCall and BinaryMethodRetu
         </tr>
         <tr>
             <td>ArgsInline</br>0x00000002</td>
-            <td>The Arguments Array is in the Args field of the Method record. It is in the Arg category.</td>
+            <td>The Arguments <a href="#array"><b>Array</a></b> is in the <b>Args</b> field of the Method record. It is in the Arg category.</td>
         </tr>
         <tr>
             <td>ArgsIsArray</br>0x00000004</td>
@@ -1224,11 +1224,11 @@ The following table is common for both the BinaryMethodCall and BinaryMethodRetu
         </tr>
         <tr>
             <td>NoContext</br>0x00000010</td>
-            <td>The record does not contain a Call Context value. It is in the Context category.</td>
+            <td>The record does not contain a <a href="#call-context"><b>Call Context</b></a> value. It is in the Context category.</td>
         </tr>
         <tr>
             <td>ContextInline</br>0x00000020</td>
-            <td>Call Context contains only a Logical Call ID value and is in the <b>CallContext</b> field of the Method record. It is in the Context category.</td>
+            <td>Call Context contains only a <a href="#logical-call-id"><b>Logical Call ID</b></a> value and is in the <b>CallContext</b> field of the Method record. It is in the Context category.</td>
         </tr>
         <tr>
             <td>ContextInArray</br>0x00000040</td>
@@ -1236,11 +1236,11 @@ The following table is common for both the BinaryMethodCall and BinaryMethodRetu
         </tr>
         <tr>
             <td>MethodSignatureInArray</br>0x00000080</td>
-            <td>The Method Signature is contained in the Call Array record. It is in the Signature category.</td>
+            <td>The <a href="#method-signature"><b>Method Signature</b></a> is contained in the Call Array record. It is in the Signature category.</td>
         </tr>
         <tr>
             <td>PropertiesInArray</br>0x00000100</td>
-            <td>Message Properties is contained in the Call Array record. It is in the Property category.</td>
+            <td><a href="#message-properties"><b>Message Properties</b></a> is contained in the Call Array record. It is in the Property category.</td>
         </tr>
         <tr>
             <td>NoReturnValue</br>0x00000200</td>
@@ -1264,7 +1264,7 @@ The following table is common for both the BinaryMethodCall and BinaryMethodRetu
         </tr>
         <tr>
             <td>GenericMethod</br>0x00008000</td>
-            <td>The <a href="#remote-method"><strong>Remote Method</strong></a> is generic and the actual <a href="#remoting-type"><strong>Remoting Types</strong></a> for the <a href="#generic-argument"><strong>Generic Arguments</strong></a> are contained in the Call Array. It is in the Generic category.</td>
+            <td>The <a href="#remote-method"><strong>Remote Method</strong></a> is generic and the actual <a href="#remoting-type"><strong>Remoting Types</strong></a> for the <a href="#generic-argument"><strong>Generic Arguments</strong></a> are contained in the Call Array. It is in the Generic category.<a href="#5-appendix-a-product-behavior"><2></a></td>
         </tr>
     </tbody>
 </table>
@@ -1301,7 +1301,7 @@ The combination of Signature and Signature, Property and Property, Generic and G
 
 ## 2.2.2.1 ValueWithCode
 
-The ValueWithCode structure is used to associate a **[Primitive Type](#primitive-type)** with an **[Enum](#enum)** that identifies the Primitive Type of the Primitive Value. 
+The ValueWithCode structure is used to associate a **[Primitive Type](#primitive-type)** with an **[Enum](#enum)** that identifies the **[Primitive Type](#primitive-type)** of the Primitive Value. 
 
 <table border="1">
   <thead>
@@ -1349,13 +1349,13 @@ The ValueWithCode structure is used to associate a **[Primitive Type](#primitive
   </tbody>
 </table>
 
-**PrimitiveTypeEnum (1 byte):** A PrimitiveTypeEnumeration value that specifies the type of the data.
+**PrimitiveTypeEnum (1 byte):** A [PrimitiveTypeEnumeration](#2123-primitivetypeenumeration) value that specifies the type of the data.
 
 **Value (variable):** A Primitive Value whose Primitive Type is identified by the **PrimitiveTypeEnum** field. For example, if the value of the **PrimitiveTypeEnum** field is the PrimitiveTypeEnumeration value INT32, the **Value** field MUST contain a valid INT32 (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) instance. The length of the field is determined by the Primitive Type of the **Value**. This field MUST NOT be present if the value of **PrimitiveTypeEnum** is Null (17).
 
 ## 2.2.2.2 StringValueWithCode
 
-The StringValueWithCode structure is a ValueWithCode where PrimitiveTypeEnumeration is String (18).
+The StringValueWithCode structure is a [ValueWithCode](#2221-valuewithcode) where [PrimitiveTypeEnumeration](#primitive-type) is String (18).
 
 <table border="1">
   <thead>
@@ -1405,11 +1405,11 @@ The StringValueWithCode structure is a ValueWithCode where PrimitiveTypeEnumerat
 
 **PrimitiveTypeEnum (1 byte):** A PrimitiveTypeEnumeration value that specifies the **[Primitive Type](#primitive-type)** of the data. The value MUST be 18 (String).
 
-**StringValue (variable):** A LengthPrefixedString that contains the string value.
+**StringValue (variable):** A [LengthPrefixedString](#2116-lengthprefixedstring) that contains the string value.
 
 ## 2.2.2.3 ArrayOfValueWithCode
 
-The ArrayOfValueWithCode structure contains a list of ValueWithCode records. The list is prefixed with the length of the **[Array](#array)**.
+The ArrayOfValueWithCode structure contains a list of [ValueWithCode](#2221-valuewithcode) records. The list is prefixed with the length of the **[Array](#array)**.
 
 <table border="1">
   <thead>
@@ -1529,29 +1529,29 @@ The BinaryMethodCall record contains information that is required to perform a *
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 21.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. The value MUST be 21.
 
-**MessageEnum (4 bytes):** A MessageFlags value that indicates whether the arguments and **[Call Context](#call-context)**, **[Message Properties](#message-properties)**, **[Generic Arguments](#generic-argument)**, and **Method Signature** are present. It also specifies whether the arguments and Call Context are present in this record or in the following MethodCallArray record. For this record type, the field MUST NOT contain the values from the Return and the **[Exception](#exception)** categories.
+**MessageEnum (4 bytes):** A [MessageFlags](#2211-messageflags) value that indicates whether the arguments and **[Call Context](#call-context)**, **[Message Properties](#message-properties)**, **[Generic Arguments](#generic-argument)**, and **[Method Signature](#method-signature)** are present. It also specifies whether the arguments and Call Context are present in this record or in the following [MethodCallArray](#2232-methodcallarray) record. For this record type, the field MUST NOT contain the values from the Return and the **[Exception](#exception)** categories.
 
-**MethodName (variable):** A StringValueWithCode that represents the Remote Method name. The format of the string is as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 2.2.1.1.
+**MethodName (variable):** A [StringValueWithCode](#2222-stringvaluewithcode) that represents the Remote Method name. The format of the string is as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 2.2.1.1.
 
 **TypeName (variable):** A StringValueWithCode that represents the **[Server Type](#server-type)** name. The format of the string is specified as QualifiedTypeName, as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 2.2.1.2.
 
-**CallContext (variable):** A StringValueWithCode that represents the **Logical Call ID**. This field is conditional. If the **MessageEnum** field has the ContextInline bit set, the field MUST be present; otherwise, the field MUST NOT be present. The presence of this field indicates that the Call Context contains a single entry with the Name as "__RemotingData" and the value is an instance of the **[Remoting Type](#remoting-type)** CallContextRemotingData, as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 2.2.2.16. The value of this field MUST be interpreted as the value of the **logicalCallID** field in the CallContextRemotingData **[Class (2)](#class)**.
+**CallContext (variable):** A StringValueWithCode that represents the **[Logical Call ID](#logical-call-id)**. This field is conditional. If the **MessageEnum** field has the ContextInline bit set, the field MUST be present; otherwise, the field MUST NOT be present. The presence of this field indicates that the Call Context contains a single entry with the Name as "__RemotingData" and the value is an instance of the **[Remoting Type](#remoting-type)** CallContextRemotingData, as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 2.2.2.16. The value of this field MUST be interpreted as the value of the **logicalCallID** field in the CallContextRemotingData **[Class (2)](#class)**.
 
-**Args (variable):** An ArrayOfValueWithCode where each item of the **[Array](#array)** corresponds to an input argument of the method. The items of the Array MUST be in the same order as the input arguments. This field is conditional. If the **MessageEnum** field has the ArgsInline bit set, the field MUST be present; otherwise, the field MUST NOT be present.
+**Args (variable):** An [ArrayOfValueWithCode](#2223-arrayofvaluewithcode) where each item of the **[Array](#array)** corresponds to an input argument of the method. The items of the Array MUST be in the same order as the input arguments. This field is conditional. If the **MessageEnum** field has the ArgsInline bit set, the field MUST be present; otherwise, the field MUST NOT be present.
 
 ## 2.2.3.2 MethodCallArray
 
-The MethodCallArray is a special use of the ArraySingleObject record. The record represents a **serialized Array** that can contain instances of any **[Remoting Type](#remoting-type)**. The items of the Array include **[Input Arguments](#input-argument)**, **[Generic Type](#generic-type)** Arguments, **Method Signature**, **[Call Context](#call-context)**, and **[Message Properties](#message-properties)**. Each item is conditional. The conditions for presence of the item are given with the definition of each item. The items, if present, MUST be in the following order:
+The MethodCallArray is a special use of the [ArraySingleObject](#2432-arraysingleobject) record. The record represents a **[serialized Array](#serialize)** that can contain instances of any **[Remoting Type](#remoting-type)**. The items of the Array include **[Input Arguments](#input-argument)**, **[Generic Type](#generic-type)** Arguments, **[Method Signature](#method-signature)**, **[Call Context](#call-context)**, and **[Message Properties](#message-properties)**. Each item is conditional. The conditions for presence of the item are given with the definition of each item. The items, if present, MUST be in the following order:
 
-1. **[Input Arguments](#input-argument)**: An Array that contains the Input Arguments for the method. This item is conditional. If the **MessageEnum** field of the preceding BinaryMethodCall record has the ArgsInArray bit set, the item MUST be present; otherwise, the item MUST NOT be present.
+1. **[Input Arguments](#input-argument)**: An Array that contains the Input Arguments for the method. This item is conditional. If the **MessageEnum** field of the preceding [BinaryMethodCall](#2231-binarymethodcall) record has the ArgsInArray bit set, the item MUST be present; otherwise, the item MUST NOT be present.
 
-2. **Generic Type Arguments**: An Array of UnitySerializationHolder **[classes (1)](#class)**, as specified in [MSNRTP] section 2.2.2.12. The presence of this field indicates that the method represented by the BinaryMethodCall record is a Generic Method. Each item of the array contains a Remoting Type that MUST be used as **[Generic Argument](#generic-argument)** for the Generic Method. This field is conditional. If the **MessageEnum** field of the preceding BinaryMethodCall record has the GenericMethod bit set, the field MUST be present; otherwise, the field MUST NOT be present.<3>
+2. **Generic Type Arguments**: An Array of UnitySerializationHolder **[classes (1)](#class)**, as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 2.2.2.12. The presence of this field indicates that the method represented by the BinaryMethodCall record is a Generic Method. Each item of the array contains a Remoting Type that MUST be used as **[Generic Argument](#generic-argument)** for the Generic Method. This field is conditional. If the **MessageEnum** field of the preceding BinaryMethodCall record has the GenericMethod bit set, the field MUST be present; otherwise, the field MUST NOT be present.[<3>](#5-appendix-a-product-behavior)
 
-3. **Method Signature**: An Array of UnitySerializationHolder classes (1) as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 2.2.2.12. Each item of the Array contains the Remoting Type of an argument of the **[Remote Method](#remote-method)**. If the **MessageEnum** field of the preceding BinaryMethodCall record has the MethodSignatureInArray bit set, the field MUST be present; otherwise, the field MUST NOT be present. If present, the number of items in the Array MUST match the number of items in the Input Argument item.
+3. **[Method Signature](#method-signature)**: An Array of UnitySerializationHolder classes (1) as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 2.2.2.12. Each item of the Array contains the Remoting Type of an argument of the **[Remote Method](#remote-method)**. If the **MessageEnum** field of the preceding BinaryMethodCall record has the MethodSignatureInArray bit set, the field MUST be present; otherwise, the field MUST NOT be present. If present, the number of items in the Array MUST match the number of items in the Input Argument item.
 
-4. **[Call Context](#call-context)**: An instance of the Class (2) "System.Runtime.Remoting.Messaging.LogicalCallContext". The **[Library](#library)** name of the Class (2) is "mscorlib". Each name-value pair of the Call Context MUST be mapped to a **Member** name and Member value of the Class (2). If the **MessageEnum** field of the preceding BinaryMethodCall record has the ContextInArray bit set, the field MUST be present; otherwise, the field MUST NOT be present. 
+4. **[Call Context](#call-context)**: An instance of the Class (2) "System.Runtime.Remoting.Messaging.LogicalCallContext". The **[Library](#library)** name of the Class (2) is "mscorlib". Each name-value pair of the Call Context MUST be mapped to a **[Member](#member)** name and Member value of the Class (2). If the **MessageEnum** field of the preceding BinaryMethodCall record has the ContextInArray bit set, the field MUST be present; otherwise, the field MUST NOT be present.
 
 5. **[Message Properties](#message-properties)**: An Array that can contain instances of any Remoting Type. Each instance is a DictionaryEntry, as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 2.2.2.6. If the **MessageEnum** field of the preceding BinaryMethodCall record has the PropertiesInArray bit set, the field MUST be present; otherwise, the field MUST NOT be present.
 
@@ -1615,35 +1615,35 @@ The BinaryMethodReturn record contains the information returned by a **[Remote M
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 22.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. The value MUST be 22.
 
-**MessageEnum (4 bytes):** A MessageFlags value that indicates whether the **[Return Value](#return-value)**, **[Arguments](#argument)**, **[Message Properties](#message-properties)**, and **[Call Context](#call-context)** are present. The value also specifies whether the Return Value, Arguments, and Call Context are present in this record or the following MethodReturnCallArray record. For this record, the field MUST NOT have the MethodSignatureInArray or GenericMethod bits set.
+**MessageEnum (4 bytes):** A [MessageFlags](#2211-messageflags) value that indicates whether the **[Return Value](#return-value)**, **[Arguments](#argument)**, **[Message Properties](#message-properties)**, and **[Call Context](#call-context)** are present. The value also specifies whether the Return Value, Arguments, and Call Context are present in this record or the following [MethodReturnCallArray](#2234-methodreturncallarray) record. For this record, the field MUST NOT have the MethodSignatureInArray or GenericMethod bits set.
 
-**ReturnValue (variable):** A ValueWithCode that contains the Return Value of a Remote Method. If the **MessageEnum** field has the ReturnValueInline bit set, this field MUST be present; otherwise, this field MUST NOT be present.
+**ReturnValue (variable):** A [ValueWithCode](#2221-valuewithcode) that contains the Return Value of a Remote Method. If the **MessageEnum** field has the ReturnValueInline bit set, this field MUST be present; otherwise, this field MUST NOT be present.
 
-**CallContext (variable):** A StringValueWithCode that represents the **Logical Call ID**. This field is conditional. If the **MessageEnum** field has the ContextInline bit set, the field MUST be present; otherwise, the field MUST NOT be present.
+**CallContext (variable):** A [StringValueWithCode](#2222-stringvaluewithcode) that represents the **[Logical Call ID](#logical-call-id)**. This field is conditional. If the **MessageEnum** field has the ContextInline bit set, the field MUST be present; otherwise, the field MUST NOT be present.
 
-**Args (variable):** An ArrayOfValueWithCode that contains the **Output Arguments** of the method. This field is conditional. If the **MessageEnum** field has the ArgsInline bit set, the field MUST be present; otherwise, the field MUST NOT be present.
+**Args (variable):** An [ArrayOfValueWithCode](#2223-arrayofvaluewithcode) that contains the **[Output Arguments](#output-argument)** of the method. This field is conditional. If the **MessageEnum** field has the ArgsInline bit set, the field MUST be present; otherwise, the field MUST NOT be present.
 
 ## 2.2.3.4 MethodReturnCallArray
 
-The MethodReturnCallArray is a special use of the ArraySingleObject record. The record represents a **serialized Array** that can contain instances of any **[Remoting Type](#remoting-type)**. The items of the Array include **[Return Value](#return-value)**, **Output Arguments**, **[Exception](#exception)**, **[Call Context](#call-context)**, and **[Message Properties](#message-properties)**. Each item is conditional. The conditions for presence of the item are given with the definition of the item in the following list. The items, if present, MUST be in the following order:
+The MethodReturnCallArray is a special use of the [ArraySingleObject](#2432-arraysingleobject) record. The record represents a **[serialized Array](#serialize)** that can contain instances of any **[Remoting Type](#remoting-type)**. The items of the Array include **[Return Value](#return-value)**, **[Output Arguments](#output-argument)**, **[Exception](#exception)**, **[Call Context](#call-context)**, and **[Message Properties](#message-properties)**. Each item is conditional. The conditions for presence of the item are given with the definition of the item in the following list. The items, if present, MUST be in the following order:
 
-1. **[Return Value](#return-value)**: The Return Value of the method. This item is conditional. If the **MessageEnum** field of the preceding BinaryMethodReturn record has the ReturnValueInArray bit set, the item MUST be present; otherwise, the item MUST NOT be present.
+1. **[Return Value](#return-value)**: The Return Value of the method. This item is conditional. If the **MessageEnum** field of the preceding [BinaryMethodReturn](#2233-binarymethodreturn) record has the ReturnValueInArray bit set, the item MUST be present; otherwise, the item MUST NOT be present.
 
 2. **Output Arguments**: An Array that contains the Output Arguments for the method. This item is conditional. If the **MessageEnum** field of the preceding BinaryMethodReturn record has the ArgsInArray bit set, the item MUST be present; otherwise, the item MUST NOT be present.
 
 3. **[Exception](#exception)**: A **[Data Value](#data-value)** assignable to System.Exception **[Class (2)](#class)** as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 2.2.2.7. This item is conditional. If the **MessageEnum** field of the preceding BinaryMethodReturn record has the ExceptionInArray bit set, the item MUST be present; otherwise, the item MUST NOT be present.
 
-4. **[Call Context](#call-context)**: An instance of the Class (2) called "System.Runtime.Remoting.Messaging.LogicalCallContext". The **[Library](#library)** name of the Class (2) is "mscorlib". Each name-value pair of the Call Context MUST be mapped to a **Member** name and a Member value of the Class (2). If the **MessageEnum** field of the preceding BinaryMethodReturn record has the ContextInArray bit set, the field MUST be present; otherwise, the field MUST NOT be present.
+4. **[Call Context](#call-context)**: An instance of the Class (2) called "System.Runtime.Remoting.Messaging.LogicalCallContext". The **[Library](#library)** name of the Class (2) is "mscorlib". Each name-value pair of the Call Context MUST be mapped to a **[Member](#member)** name and a Member value of the Class (2). If the **MessageEnum** field of the preceding BinaryMethodReturn record has the ContextInArray bit set, the field MUST be present; otherwise, the field MUST NOT be present.
 
 5. **[Message Properties](#message-properties)**: An Array that can contain instances of any Remoting Type. Each instance is a DictionaryEntry, as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 2.2.2.6. If the **MessageEnum** field of the preceding BinaryMethodReturn record has the PropertiesInArray bit set, the field MUST be present; otherwise, the field MUST NOT be present.
 
 ## 2.3 Class Records
 
-This section defines **[Class (1)](#class)** records. A Class (1) record represents an instance of a Class (1). [MSNRTP] section 3.1.5.1.6 describes the mechanism to map a Class (1) instance to a record defined in this section. [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.9 describes the mechanism to map an **[Enum](#enum)** value to a record defined in this section.
+This section defines **[Class (1)](#class)** records. A Class (1) record represents an instance of a Class (1). [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.6 describes the mechanism to map a Class (1) instance to a record defined in this section. [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.9 describes the mechanism to map an **[Enum](#enum)** value to a record defined in this section.
 
-The values of the **[Members](#member)** of the Class (1) MUST be **[serialized](#serialize)** as records that follow this record, as specified in section 2.7. The order of the records MUST match the order of MemberNames as specified in the ClassInfo (section 2.3.1.1) structure.
+The values of the **[Members](#member)** of the Class (1) MUST be **[serialized](#serialize)** as records that follow this record, as specified in section 2.7. The order of the records MUST match the order of MemberNames as specified in the [ClassInfo (section 2.3.1.1)](#2311-classinfo) structure.
 
 ## 2.3.1 Common Structures
 
@@ -1704,17 +1704,17 @@ ClassInfo is a common structure used by all the **[Class (2)](#class)** records.
   </tbody>
 </table>
 
-**ObjectId (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that uniquely identifies the object in the **serialization stream**. An implementation MAY use any algorithm to generate the unique IDs. If the ObjectId is referenced by a MemberReference record elsewhere in the serialization stream, the ObjectId MUST be positive. If the ObjectId is not referenced by any MemberReference in the serialization stream, then the ObjectId SHOULD be positive, but MAY be negative.<4>
+**ObjectId (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that uniquely identifies the object in the **[serialization stream](#serialization-stream)**. An implementation MAY use any algorithm to generate the unique IDs. If the ObjectId is referenced by a [MemberReference](#253-memberreference) record elsewhere in the serialization stream, the ObjectId MUST be positive. If the ObjectId is not referenced by any MemberReference in the serialization stream, then the ObjectId SHOULD be positive, but MAY be negative.[<4>](#5-appendix-a-product-behavior)
 
-**Name (variable):** A LengthPrefixedString value that contains the name of the Class (1). The format of the string MUST be as specified in the RemotingTypeName, as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 2.2.1.2.
+**Name (variable):** A [LengthPrefixedString](#2116-lengthprefixedstring) value that contains the name of the Class (1). The format of the string MUST be as specified in the RemotingTypeName, as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 2.2.1.2.
 
 **MemberCount (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that contains the number of **[Members](#member)** in the Class (2). The value MUST be 0 or a positive integer.
 
-**MemberNames (variable):** A sequence of LengthPrefixedString values that represents the names of the Members in the class (2). The number of items in the sequence MUST be equal to the value specified in the **MemberCount** field. The MemberNames MAY be in any order.<5>
+**MemberNames (variable):** A sequence of LengthPrefixedString values that represents the names of the Members in the class (2). The number of items in the sequence MUST be equal to the value specified in the **MemberCount** field. The MemberNames MAY be in any order.[<5>](#5-appendix-a-product-behavior)
 
 ## 2.3.1.2 MemberTypeInfo
 
-The MemberTypeInfo is a common structure that contains type information for **Class (2) Members**. It has the following structure.
+The MemberTypeInfo is a common structure that contains type information for **[Class (2) Members](#class)**. It has the following structure.
 
 <table border="1">
   <thead>
@@ -1765,9 +1765,9 @@ The MemberTypeInfo is a common structure that contains type information for **Cl
   </tbody>
 </table>
 
-**BinaryTypeEnums (variable):** A sequence of BinaryTypeEnumeration values that represents the Member Types that are being transferred. The **[Array](#array)** MUST:
+**BinaryTypeEnums (variable):** A sequence of [BinaryTypeEnumeration](#2122-binarytypeenumeration) values that represents the Member Types that are being transferred. The **[Array](#array)** MUST:
 
-- Have the same number of items as the **MemberCount** field of the ClassInfo structure.
+- Have the same number of items as the **MemberCount** field of the [ClassInfo](#2311-classinfo) structure.
 
 - Be ordered such that the BinaryTypeEnumeration corresponds to the Member name in the MemberNames field of the ClassInfo structure. 
 
@@ -1847,17 +1847,17 @@ The ClassWithMembersAndTypes record is the most verbose of the Class records. It
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. Its value MUST be 5.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. Its value MUST be 5.
 
-**ClassInfo (variable):** A ClassInfo structure that provides information about the name and Members of the Class.
+**ClassInfo (variable):** A [ClassInfo](#2311-classinfo) structure that provides information about the name and Members of the Class.
 
-**MemberTypeInfo (variable):** A MemberTypeInfo structure that provides information about the Remoting Types of the Members.
+**MemberTypeInfo (variable):** A [MemberTypeInfo](#2312-membertypeinfo) structure that provides information about the Remoting Types of the Members.
 
-**LibraryId (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that references a BinaryLibrary record by its Library ID. A BinaryLibrary record with the LibraryId MUST appear earlier in the **serialization stream**.
+**LibraryId (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that references a [BinaryLibrary](#262-binarylibrary) record by its Library ID. A BinaryLibrary record with the LibraryId MUST appear earlier in the **[serialization stream](#serialization-stream)**.
 
 ## 2.3.2.2 ClassWithMembers
 
-The ClassWithMembers record is less verbose than ClassWithMembersAndTypes. It does not contain information about the **[Remoting Type](#remoting-type)** information of the **[Members](#member)**. This record can be used when the information is deemed unnecessary because it is known out of band or can be inferred from context.
+The ClassWithMembers record is less verbose than [ClassWithMembersAndTypes](#2321-classwithmembersandtypes). It does not contain information about the **[Remoting Type](#remoting-type)** information of the **[Members](#member)**. This record can be used when the information is deemed unnecessary because it is known out of band or can be inferred from context.
 
 <table border="1">
   <thead>
@@ -1906,15 +1906,15 @@ The ClassWithMembers record is less verbose than ClassWithMembersAndTypes. It do
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. Its value MUST be 3.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. Its value MUST be 3.
 
-**ClassInfo (variable):** A ClassInfo structure that provides information about the name and Members of the Class.
+**ClassInfo (variable):** A [ClassInfo](#2311-classinfo) structure that provides information about the name and Members of the Class.
 
-**LibraryId (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that references a BinaryLibrary record by its Library ID. The ID MUST be a positive integer. A BinaryLibrary record with the LibraryId MUST appear earlier in the **serialization stream**.
+**LibraryId (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that references a [BinaryLibrary](#262-binarylibrary) record by its Library ID. The ID MUST be a positive integer. A BinaryLibrary record with the LibraryId MUST appear earlier in the **[serialization stream](#serialization-stream)**.
 
 ## 2.3.2.3 SystemClassWithMembersAndTypes
 
-The SystemClassWithMembersAndTypes record is less verbose than ClassWithMembersAndTypes. It does not contain a LibraryId. This record implicitly specifies that the Class is in the **System Library**.
+The SystemClassWithMembersAndTypes record is less verbose than [ClassWithMembersAndTypes](#2321-classwithmembersandtypes). It does not contain a LibraryId. This record implicitly specifies that the Class is in the **[System Library](#system-library)**.
 
 <table border="1">
   <thead>
@@ -1966,15 +1966,15 @@ The SystemClassWithMembersAndTypes record is less verbose than ClassWithMembersA
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. Its value MUST be 4.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. Its value MUST be 4.
 
-**ClassInfo (variable):** A ClassInfo structure that provides information about the name and **[Members](#member)** of the Class.
+**ClassInfo (variable):** A [ClassInfo](#2311-classinfo) structure that provides information about the name and **[Members](#member)** of the Class.
 
-**MemberTypeInfo (variable):** A MemberTypeInfo structure that provides information about the **[Remoting Type](#remoting-type)** of the Members.
+**MemberTypeInfo (variable):** A [MemberTypeInfo](#2312-membertypeinfo) structure that provides information about the **[Remoting Type](#remoting-type)** of the Members.
 
 ## 2.3.2.4 SystemClassWithMembers
 
-The SystemClassWithMembers record is less verbose than ClassWithMembersAndTypes. It does not contain a LibraryId or the information about the **[Remoting Types](#remoting-type)** of the **[Members](#member)**. This record implicitly specifies that the Class is in the **System Library**. This record can be used when the information is deemed unnecessary because it is known out of band or can be inferred from context.
+The SystemClassWithMembers record is less verbose than [ClassWithMembersAndTypes](#2321-classwithmembersandtypes). It does not contain a LibraryId or the information about the **[Remoting Types](#remoting-type)** of the **[Members](#member)**. This record implicitly specifies that the Class is in the **[System Library](#system-library)**. This record can be used when the information is deemed unnecessary because it is known out of band or can be inferred from context.
 
 <table border="1">
   <thead>
@@ -2022,13 +2022,13 @@ The SystemClassWithMembers record is less verbose than ClassWithMembersAndTypes.
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. Its value MUST be 2.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. Its value MUST be 2.
 
-**ClassInfo (variable):** A ClassInfo structure that provides information about the name and Members of the Class.
+**ClassInfo (variable):** A [ClassInfo](#2311-classinfo) structure that provides information about the name and Members of the Class.
 
 ## 2.3.2.5 ClassWithId
 
-The ClassWithId record is the most compact. It has no metadata. It refers to metadata defined in SystemClassWithMembers, SystemClassWithMembersAndTypes, ClassWithMembers, or ClassWithMembersAndTypes record. 
+The ClassWithId record is the most compact. It has no metadata. It refers to metadata defined in [SystemClassWithMembers](#2324-systemclasswithmembers), [SystemClassWithMembersAndTypes](#2323-systemclasswithmembersandtypes), [ClassWithMembers](#2322-classwithmembers), or [ClassWithMembersAndTypes](#2321-classwithmembersandtypes) record. 
 
 <table border="1">
   <thead>
@@ -2078,9 +2078,9 @@ The ClassWithId record is the most compact. It has no metadata. It refers to met
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 1.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. The value MUST be 1.
 
-**ObjectId (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that uniquely identifies the object in the **serialization stream**.
+**ObjectId (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that uniquely identifies the object in the **[serialization stream](#serialization-stream)**.
 
 **MetadataId (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that references one of the other Class records by its ObjectId. A SystemClassWithMembers, SystemClassWithMembersAndTypes, ClassWithMembers, or ClassWithMembersAndTypes record with the value of this field in its **ObjectId** field MUST appear earlier in the serialization stream.
 
@@ -2088,7 +2088,7 @@ The ClassWithId record is the most compact. It has no metadata. It refers to met
 
 This section defines **[Array](#array)** records that represent Array instances. [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.7, describes the mechanism to map an Array instance to a record defined in this section.
 
-Items of an Array MUST be **[serialized](#serialize)** as records following the Array record, as specified in section 2.7. The number of records that contain the Array items depends on the type of Array record. For the ArraySingleObject, ArraySinglePrimitive, and ArraySingleString records, the number of records containing Array items MUST be equal to the value of the **Length** field of the **ArrayInfo** field. For BinaryArray records, the number of records containing Array items MUST be equal to the product of the values contained in the **Lengths** field of the BinaryArray record. In the cases where an item of an Array can contain a **[Null Object](#null-object)**, multiple ObjectNull records in sequence MAY be represented by a single ObjectNullMultiple (section 2.5.5) or ObjectNullMultiple256 (section 2.5.6) record. Each of these records contains a **NullCount** field that states how many ObjectNull records that the record represents. For the purpose of calculating the number of records, a single ObjectNullMultiple or ObjectNullMultiple256 record is counted as many times as the value specified in the **NullCount** field.<6>
+Items of an Array MUST be **[serialized](#serialize)** as records following the Array record, as specified in section [2.7](#27-binary-record-grammar). The number of records that contain the Array items depends on the type of Array record. For the [ArraySingleObject](#2432-arraysingleobject), [ArraySinglePrimitive](#2433-arraysingleprimitive), and [ArraySingleString](#2434-arraysinglestring) records, the number of records containing Array items MUST be equal to the value of the **Length** field of the **ArrayInfo** field. For [BinaryArray](#2431-binaryarray) records, the number of records containing Array items MUST be equal to the product of the values contained in the **Lengths** field of the BinaryArray record. In the cases where an item of an Array can contain a **[Null Object](#null-object)**, multiple ObjectNull records in sequence MAY be represented by a single [ObjectNullMultiple (section 2.5.5)](#255-objectnullmultiple) or [ObjectNullMultiple256 (section 2.5.6)](#256-objectnullmultiple256) record. Each of these records contains a **NullCount** field that states how many [ObjectNull](#254-objectnull) records that the record represents. For the purpose of calculating the number of records, a single ObjectNullMultiple or ObjectNullMultiple256 record is counted as many times as the value specified in the **NullCount** field.[<6>](#5-appendix-a-product-behavior)
 
 ## 2.4.1 Enumerations
 
@@ -2156,7 +2156,7 @@ The ArrayInfo is a common structure that is used by **[Array](#array)** records.
   </tbody>
 </table>
 
-**ObjectId (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that uniquely identifies the Array instance in the **serialization stream**. The ID MUST be a positive integer. An implementation MAY use any algorithm to generate the unique IDs.<7>
+**ObjectId (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that uniquely identifies the Array instance in the **[serialization stream](#serialization-stream)**. The ID MUST be a positive integer. An implementation MAY use any algorithm to generate the unique IDs.[<7>](#5-appendix-a-product-behavior)
 
 **Length (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that specifies the number of items in the Array. The value MUST be 0 or a positive integer.
 
@@ -2228,11 +2228,11 @@ BinaryArray is the most general form of **[Array](#array)** records. The record 
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. Its value MUST be 7.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. Its value MUST be 7.
 
-**ObjectId (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that uniquely identifies the Array in the **serialization stream**. The value MUST be a positive integer. An implementation MAY use any algorithm to generate the unique IDs.<8>
+**ObjectId (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that uniquely identifies the Array in the **[serialization stream](#serialization-stream)**. The value MUST be a positive integer. An implementation MAY use any algorithm to generate the unique IDs.[<8>](#5-appendix-a-product-behavior)
 
-**BinaryArrayTypeEnum (1 byte):** A BinaryArrayTypeEnumeration value that identifies the type of the Array.
+**BinaryArrayTypeEnum (1 byte):** A [BinaryArrayTypeEnumeration](#2411-binaryarraytypeenumeration) value that identifies the type of the Array.
 
 **Rank (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that specifies the rank (number of dimensions) of the Array. The value MUST be 0 or a positive integer.
 
@@ -2250,18 +2250,18 @@ BinaryArray is the most general form of **[Array](#array)** records. The record 
 | Object           | None                                                          |
 | String           | None                                                          |
 | SystemClass      | String (Class name as specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 2.2.1.2) |
-| Class            | ClassTypeInfo                                                 |
+| Class            | [ClassTypeInfo](#2118-classtypeinfo)                                                 |
 | ObjectArray      | None                                                          |
 | StringArray      | None                                                          |
 | PrimitiveArray   | PrimitiveTypeEnum                                             |
 
 If the BinaryTypeEnum value of the **TypeEnum** field is Object, String, ObjectArray, or StringArray, this field MUST NOT be present in the serialization stream.
 
-If the BinaryTypeEnum value is Primitive, the PrimitiveTypeEnumeration value in AdditionalTypeInfo MUST NOT be Null (17) or String (18).
+If the BinaryTypeEnum value is Primitive, the [PrimitiveTypeEnumeration](#2123-primitivetypeenumeration) value in AdditionalTypeInfo MUST NOT be Null (17) or String (18).
 
 ## 2.4.3.2 ArraySingleObject
 
-The ArraySingleObject record contains a single-dimensional **[Array](#array)** in which each **Member** record MAY contain any **[Data Value](#data-value)**.
+The ArraySingleObject record contains a single-dimensional **[Array](#array)** in which each **[Member](#member)** record MAY contain any **[Data Value](#data-value)**.
 
 <table border="1">
   <thead>
@@ -2310,13 +2310,13 @@ The ArraySingleObject record contains a single-dimensional **[Array](#array)** i
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 16.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. The value MUST be 16.
 
-**ArrayInfo (8 bytes):** An ArrayInfo structure that specifies the ID and the length of the Array instance.
+**ArrayInfo (8 bytes):** An [ArrayInfo](#2421-arrayinfo) structure that specifies the ID and the length of the Array instance.
 
 ## 2.4.3.3 ArraySinglePrimitive
 
-The ArraySinglePrimitive record contains a single-dimensional **[Array](#array)** in which all **[Members](#member)** are Primitive Value.
+The ArraySinglePrimitive record contains a single-dimensional **[Array](#array)** in which all **[Members](#member)** are **[Primitive Value](#primitive-value)**.
 
 <table border="1">
   <thead>
@@ -2366,11 +2366,11 @@ The ArraySinglePrimitive record contains a single-dimensional **[Array](#array)*
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 15.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. The value MUST be 15.
 
-**ArrayInfo (8 bytes):** An ArrayInfo structure that specifies the ID and the length of the Array instance.
+**ArrayInfo (8 bytes):** An [ArrayInfo](#2421-arrayinfo) structure that specifies the ID and the length of the Array instance.
 
-**PrimitiveTypeEnum (1 byte):** A PrimitiveTypeEnumeration value that identifies the **[Primitive Type](#primitive-type)** of the items of the Array. The value MUST NOT be 17 (Null) or 18 (String).
+**PrimitiveTypeEnum (1 byte):** A [PrimitiveTypeEnumeration](#2123-primitivetypeenumeration) value that identifies the **[Primitive Type](#primitive-type)** of the items of the Array. The value MUST NOT be 17 (Null) or 18 (String).
 
 This record MUST be followed by a sequence of MemberPrimitiveUnTyped records that contain values whose Primitive Type is specified by the **PrimitiveTypeEnum** field. The number of records in the sequence MUST match the value specified in the **Length** field of ArrayInfo.
 
@@ -2425,17 +2425,17 @@ The ArraySingleString record contains a single-dimensional **[Array](#array)** w
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 17.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. The value MUST be 17.
 
-**ArrayInfo (8 bytes):** An ArrayInfo structure that specifies the ID and the length of the Array instance.
+**ArrayInfo (8 bytes):** An [ArrayInfo](#2421-arrayinfo) structure that specifies the ID and the length of the Array instance.
 
 ## 2.5 Member Reference Records
 
-**[Arrays](#array)** and classes are containers of **Member** values; that is, graph nodes that represent instances of Arrays and Classes that have outbound edges. The Member values are the graph nodes that are destinations for the outbound edges. In the **serialization stream**, the Member values follow the Array and the Class records. The Member values are **[serialized](#serialize)** by using the Member Reference records.
+**[Arrays](#array)** and classes are containers of **[Member](#member)** values; that is, graph nodes that represent instances of Arrays and Classes that have outbound edges. The Member values are the graph nodes that are destinations for the outbound edges. In the **[serialization stream](#serialization-stream)**, the Member values follow the Array and the Class records. The Member values are **[serialized](#serialize)** by using the Member Reference records.
 
 ## 2.5.1 MemberPrimitiveTyped
 
-The MemberPrimitiveTyped record contains a **[Primitive Type](#primitive-type)** value other than String. The mechanism to serialize a **[Primitive Type](#primitive-type)** is described in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.8. 
+The MemberPrimitiveTyped record contains a **[Primitive Type](#primitive-type)** value other than String. The mechanism to serialize a **[Primitive Value](#primitive-value)** is described in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.8. 
 
 <table border="1">
   <thead>
@@ -2484,15 +2484,15 @@ The MemberPrimitiveTyped record contains a **[Primitive Type](#primitive-type)**
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 8.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. The value MUST be 8.
 
-**PrimitiveTypeEnum (1 byte):** A PrimitiveTypeEnumeration value that specifies the Primitive Type of data that is being transmitted. This field MUST NOT contain a value of 17 (Null) or 18 (String).
+**PrimitiveTypeEnum (1 byte):** A [PrimitiveTypeEnumeration](#2123-primitivetypeenumeration) value that specifies the Primitive Type of data that is being transmitted. This field MUST NOT contain a value of 17 (Null) or 18 (String).
 
 **Value (variable):** The value whose type is inferred from the **PrimitiveTypeEnum** field as specified in the table in section 2.1.2.3.
 
 ## 2.5.2 MemberPrimitiveUntyped
 
-The MemberPrimitiveUnTyped record is the most compact record to represent a **[Primitive Type](#primitive-type)** value. This type of record does not have a RecordTypeEnum to indicate the record type. The record MUST be used when a Class Member or **[Array](#array)** item is a Primitive Type. Because the containing Class or Array record specifies the Primitive Type of each Member, the Primitive Type is not respecified along with the value. Also, the **[Primitive Values](#primitive-value)** cannot be referenced by any other record; therefore it does not require an ObjectId. This record has no field besides the value. The mechanism to **serialize** a Primitive Value is described in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.8.
+The MemberPrimitiveUnTyped record is the most compact record to represent a **[Primitive Type](#primitive-type)** value. This type of record does not have a RecordTypeEnum to indicate the record type. The record MUST be used when a Class Member or **[Array](#array)** item is a Primitive Type. Because the containing Class or Array record specifies the Primitive Type of each Member, the Primitive Type is not respecified along with the value. Also, the **[Primitive Values](#primitive-value)** cannot be referenced by any other record; therefore it does not require an ObjectId. This record has no field besides the value. The mechanism to **[serialize](#serialize)** a Primitive Value is described in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.8.
 
 <table border="1">
   <thead>
@@ -2543,7 +2543,7 @@ The MemberPrimitiveUnTyped record is the most compact record to represent a **[P
 
 ## 2.5.3 MemberReference
 
-The MemberReference record contains a reference to another record that contains the actual value. The record is used to **serialize** values of a Class Member and **[Array](#array)** items. The mechanism to serialize a Class instance is described in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.6. The mechanism to serialize an Array instance is described in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.7.
+The MemberReference record contains a reference to another record that contains the actual value. The record is used to **[serialize](#serialize)** values of a Class Member and **[Array](#array)** items. The mechanism to serialize a Class instance is described in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.6. The mechanism to serialize an Array instance is described in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.7.
 
 <table border="1">
   <thead>
@@ -2591,17 +2591,17 @@ The MemberReference record contains a reference to another record that contains 
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 9.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. The value MUST be 9.
 
 **IdRef (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that is an ID of an object defined in another record.
 
 - The value MUST be a positive integer.
 
-- A Class, Array, or BinaryObjectString record MUST exist in the **serialization stream** with the value as its ObjectId. Unlike other ID references, there is no restriction on where the record that defines the ID appears in the serialization stream; that is, it MAY appear after the referencing record.<9>
+- A Class, Array, or [BinaryObjectString](#257-binaryobjectstring) record MUST exist in the **[serialization stream](#serialization-stream)** with the value as its ObjectId. Unlike other ID references, there is no restriction on where the record that defines the ID appears in the serialization stream; that is, it MAY appear after the referencing record.[<9>](#5-appendix-a-product-behavior)
 
 ## 2.5.4 ObjectNull
 
-The ObjectNull record contains a **[Null Object](#null-object)**. The mechanism to **serialize** a Null Object is described in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.12.
+The ObjectNull record contains a **[Null Object](#null-object)**. The mechanism to **[serialize](#serialize)** a Null Object is described in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.12.
 
 <table border="1">
   <thead>
@@ -2645,11 +2645,11 @@ The ObjectNull record contains a **[Null Object](#null-object)**. The mechanism 
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 10.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. The value MUST be 10.
 
 ## 2.5.5 ObjectNullMultiple
 
-The ObjectNullMultiple record provides a more compact form for multiple consecutive Null records than using individual ObjectNull records. The mechanism to **serialize** a **[Null Object](#null-object)** is described in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.12.
+The ObjectNullMultiple record provides a more compact form for multiple consecutive Null records than using individual ObjectNull records. The mechanism to **[serialize](#serialize)** a **[Null Object](#null-object)** is described in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.12.
 
 <table border="1">
   <thead>
@@ -2697,13 +2697,13 @@ The ObjectNullMultiple record provides a more compact form for multiple consecut
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 14.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. The value MUST be 14.
 
 **NullCount (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that is the count of the number of consecutive Null Objects. The value MUST be a positive integer.
 
 ## 2.5.6 ObjectNullMultiple256
 
-The ObjectNullMultiple256 record provides the most compact form for multiple, consecutive Null records when the count of Null records is less than 256. The mechanism to **serialize** a **[Null Object](#null-object)** is described in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.12.
+The ObjectNullMultiple256 record provides the most compact form for multiple, consecutive Null records when the count of Null records is less than 256. The mechanism to **[serialize](#serialize)** a **[Null Object](#null-object)** is described in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.12.
 
 <table border="1">
   <thead>
@@ -2748,13 +2748,13 @@ The ObjectNullMultiple256 record provides the most compact form for multiple, co
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 13.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. The value MUST be 13.
 
 **NullCount (1 byte):** A BYTE value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.6) that is the count of the number of consecutive Null objects. The value MUST be in the range of 0 to 255, inclusive.
 
 ## 2.5.7 BinaryObjectString
 
-The BinaryObjectString record identifies an object as a String object, and contains information about it. The mechanism to **serialize** a string is described in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.11.
+The BinaryObjectString record identifies an object as a String object, and contains information about it. The mechanism to **[serialize](#serialize)** a string is described in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 3.1.5.1.11.
 
 <table border="1">
   <thead>
@@ -2804,11 +2804,11 @@ The BinaryObjectString record identifies an object as a String object, and conta
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 6.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. The value MUST be 6.
 
-**ObjectId (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that uniquely identifies the string instance in the **serialization stream**. The value MUST be a positive integer. An implementation MAY use any algorithm to generate the unique IDs.<10>
+**ObjectId (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that uniquely identifies the string instance in the **[serialization stream](#serialization-stream)**. The value MUST be a positive integer. An implementation MAY use any algorithm to generate the unique IDs.[<10>](#5-appendix-a-product-behavior)
 
-**Value (variable):** A LengthPrefixedString value.
+**Value (variable):** A [LengthPrefixedString](#2116-lengthprefixedstring) value.
 
 ## 2.6 Other Records
 
@@ -2816,7 +2816,7 @@ The following sections define the records that are not part of any of the previo
 
 ## 2.6.1 SerializationHeaderRecord
 
-The SerializationHeaderRecord record MUST be the first record in a binary **serialization**. This record has the major and minor version of the format and the IDs of the top object and the headers.
+The SerializationHeaderRecord record MUST be the first record in a binary **[serialization](#serialization)**. This record has the major and minor version of the format and the IDs of the top object and the headers.
 
 <table border="1">
   <thead>
@@ -2872,14 +2872,14 @@ The SerializationHeaderRecord record MUST be the first record in a binary **seri
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 0.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. The value MUST be 0.
 
 **RootId (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that identifies the root of the graph of nodes. The value of the field is set as follows:
-- If a BinaryMethodCall record is present in the **serialization stream** and if there is no MethodCallArray record following it, the value of this field MUST be 0; if a MethodCallArray record follows the BinaryMethodCall record, the value of this field MUST contain the ObjectId of the MethodCallArray.
+- If a [BinaryMethodCall](#2231-binarymethodcall) record is present in the **[serialization stream](#serialization-stream)** and if there is no [MethodCallArray](#2232-methodcallarray) record following it, the value of this field MUST be 0; if a MethodCallArray record follows the BinaryMethodCall record, the value of this field MUST contain the ObjectId of the MethodCallArray.
 
-- If a BinaryMethodReturn record is present in the serialization stream and if there is no MethodReturnCallArray record following it, the value of this field MUST be 0; if a MethodReturnCallArray record follows the BinaryMethodReturn record, the value of this field MUST contain the ObjectId of the MethodReturnCallArray.
+- If a [BinaryMethodReturn](#2233-binarymethodreturn) record is present in the serialization stream and if there is no [MethodReturnCallArray](#2234-methodreturncallarray) record following it, the value of this field MUST be 0; if a MethodReturnCallArray record follows the BinaryMethodReturn record, the value of this field MUST contain the ObjectId of the MethodReturnCallArray.
 
-- If neither the BinaryMethodCall nor BinaryMethodReturn record is present in the serialization stream, the value of this field MUST contain the ObjectId of a Class, **[Array](#array)**, or BinaryObjectString record contained in the serialization stream.
+- If neither the BinaryMethodCall nor BinaryMethodReturn record is present in the serialization stream, the value of this field MUST contain the ObjectId of a Class, **[Array](#array)**, or [BinaryObjectString](#257-binaryobjectstring) record contained in the serialization stream.
 
 **HeaderId (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that identifies the Array that contains the header objects. The value of the field is set as follows:
 - If a BinaryMethodCall record is present in the serialization stream and if there is no MethodCallArray record following it, the value of this field MUST be 0; if a MethodCallArray record follows the BinaryMethodCall record, the value of this field MUST be -1.
@@ -2946,15 +2946,15 @@ The BinaryLibrary record associates an INT32 ID (as specified in [[MS-DTYP]](htt
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 12.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. The value MUST be 12.
 
-**LibraryId (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that uniquely identifies the Library name in the **serialization stream**. The value MUST be a positive integer. An implementation MAY use any algorithm to generate the unique IDs.<11>
+**LibraryId (4 bytes):** An INT32 value (as specified in [[MS-DTYP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-dtyp) section 2.2.22) that uniquely identifies the Library name in the **[serialization stream](#serialization-stream)**. The value MUST be a positive integer. An implementation MAY use any algorithm to generate the unique IDs.[<11>](#5-appendix-a-product-behavior)
 
-**LibraryName (variable):** A LengthPrefixedString value that represents the Library name. The format of the string is specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 2.2.1.3.
+**LibraryName (variable):** A [LengthPrefixedString](#2116-lengthprefixedstring) value that represents the Library name. The format of the string is specified in [[MS-NRTP]](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrtp) section 2.2.1.3.
 
 ## 2.6.3 MessageEnd
 
-The MessageEnd record marks the end of the **serialization stream**.
+The MessageEnd record marks the end of the **[serialization stream](#serialization-stream)**.
 
 <table border="1">
   <thead>
@@ -2998,11 +2998,11 @@ The MessageEnd record marks the end of the **serialization stream**.
   </tbody>
 </table>
 
-**RecordTypeEnum (1 byte):** A RecordTypeEnumeration value that identifies the record type. The value MUST be 11.
+**RecordTypeEnum (1 byte):** A [RecordTypeEnumeration](#2121-recordtypeenumeration) value that identifies the record type. The value MUST be 11.
 
 ## 2.7 Binary Record Grammar
 
-This section specifies the grammar using the Augmented Backus-Naur Form (ABNF) syntax specified in [[RFC4234]](#121-normative-references) that defines how the records can appear in the **serialization stream**.
+This section specifies the grammar using the Augmented Backus-Naur Form (ABNF) syntax specified in [[RFC4234]](#121-normative-references) that defines how the records can appear in the **[serialization stream](#serialization-stream)**.
 
 <table>
   <thead>
