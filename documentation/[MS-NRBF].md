@@ -3100,7 +3100,12 @@ The client invokes a method "SendAddress" on a remote **[Server Type](#server-ty
 
 The following is a sequence diagram for the preceding message exchange pattern.
 
-![Sequence Diagram](https://github.com/OfficialSirH/non-binary-formatter/blob/main/documentation/Sequence_Diagram.png?raw=true)
+```mermaid
+zenuml
+    title Sequence Diagram
+    Client->"DOJRemotingMetadata.MyServer": SendAddress(Address)
+    "DOJRemotingMetadata.MyServer"->Client: "Address Received"
+```
 
 <table>
   <thead>
