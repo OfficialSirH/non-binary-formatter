@@ -1,6 +1,6 @@
 use std::io::Read;
 
-use crate::errors::NrbfError;
+use crate::errors::Error;
 
 #[derive(Debug)]
 pub struct Char {
@@ -8,7 +8,7 @@ pub struct Char {
 }
 
 impl Char {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let mut buffer = [0u8; 1];
         reader.read_exact(&mut buffer)?;
         let length_encoded_byte = buffer[0];
@@ -18,13 +18,13 @@ impl Char {
             0b11000000..=0b11011111 => 2,
             0b11100000..=0b11101111 => 3,
             0b11110000..=0b11110111 => 4,
-            _ => return Err(NrbfError::InvalidString),
+            _ => return Err(Error::InvalidString),
         };
 
         let mut buffer = vec![0u8; length];
         reader.read_exact(&mut buffer)?;
         let value = String::from_utf8(buffer)
-            .map_err(|_| NrbfError::InvalidString)?
+            .map_err(|_| Error::InvalidString)?
             .chars()
             .next()
             .unwrap();

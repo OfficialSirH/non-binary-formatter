@@ -1,11 +1,11 @@
 use nonbinary_formatter::{
-    common::enumerations::RecordTypeEnumeration, errors::NrbfError,
+    common::enumerations::RecordTypeEnumeration, deserializer::from_reader, errors::Error,
     records::class::ClassWithMembersAndTypes,
 };
 
 #[test]
 // TODO: fix deserialization errors within this
-fn test_classwithmembertypes_deserialization() -> Result<(), NrbfError> {
+fn test_classwithmembertypes_deserialization() -> Result<(), Error> {
     let data = [
         0x05, // RecordTypeEnum: ClassWithMembersAndTypes
         0x02, 0x00, 0x00, 0x00,       // ObjectId: 2
@@ -40,7 +40,7 @@ fn test_classwithmembertypes_deserialization() -> Result<(), NrbfError> {
     ];
 
     let mut cursor = std::io::Cursor::new(data);
-    let record_type = RecordTypeEnumeration::deserialize(&mut cursor)?;
+    let record_type: RecordTypeEnumeration = from_reader(&mut cursor)?;
     assert_eq!(RecordTypeEnumeration::ClassWithMembersAndTypes, record_type);
     let class = ClassWithMembersAndTypes::deserialize(&mut cursor)?;
 

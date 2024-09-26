@@ -1,6 +1,6 @@
 use std::io::Read;
 
-use crate::errors::NrbfError;
+use crate::errors::Error;
 
 use super::ArrayInfo;
 
@@ -11,7 +11,7 @@ pub struct ArraySingleString {
 }
 
 impl ArraySingleString {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let array_info = ArrayInfo::deserialize(reader)?;
 
         Ok(ArraySingleString { array_info })

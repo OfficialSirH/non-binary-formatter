@@ -2,7 +2,7 @@ use std::io::Read;
 
 use strum::FromRepr;
 
-use crate::errors::NrbfError;
+use crate::errors::Error;
 
 #[derive(Debug, FromRepr, PartialEq)]
 #[repr(u8)]
@@ -22,12 +22,12 @@ pub struct DateTime {
 }
 
 impl DateTime {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let mut buffer = [0u8; 8];
         reader.read_exact(&mut buffer)?;
 
         let kind =
-            DateTimeKind::from_repr(buffer[7] & 0b0000_0011).ok_or(NrbfError::InvalidEnum)?;
+            DateTimeKind::from_repr(buffer[7] & 0b0000_0011).ok_or(Error::InvalidEnum)?;
         buffer[7] &= 0b1111_1100;
         let value = i64::from_le_bytes(buffer);
 

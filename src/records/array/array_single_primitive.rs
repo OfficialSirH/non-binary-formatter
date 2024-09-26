@@ -1,6 +1,8 @@
 use std::io::Read;
 
-use crate::{common::enumerations::PrimitiveTypeEnumeration, errors::NrbfError};
+use crate::{
+    common::enumerations::PrimitiveTypeEnumeration, deserializer::from_reader, errors::Error,
+};
 
 use super::ArrayInfo;
 
@@ -13,10 +15,10 @@ pub struct ArraySinglePrimitive {
 }
 
 impl ArraySinglePrimitive {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let array_info = ArrayInfo::deserialize(reader)?;
 
-        let primitive_type_enum = PrimitiveTypeEnumeration::deserialize(reader)?;
+        let primitive_type_enum: PrimitiveTypeEnumeration = from_reader(reader)?;
 
         Ok(ArraySinglePrimitive {
             array_info,

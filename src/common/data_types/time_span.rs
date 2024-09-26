@@ -1,6 +1,6 @@
 use std::io::Read;
 
-use crate::errors::NrbfError;
+use crate::errors::Error;
 
 #[derive(Debug)]
 pub struct TimeSpan {
@@ -8,7 +8,7 @@ pub struct TimeSpan {
 }
 
 impl TimeSpan {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let mut buffer = [0u8; 8];
         reader.read_exact(&mut buffer)?;
         let value = i64::from_le_bytes(buffer);

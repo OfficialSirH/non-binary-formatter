@@ -2,7 +2,7 @@ use std::io::Read;
 
 use strum::FromRepr;
 
-use crate::{errors::NrbfError, readers::read_bytes};
+use crate::{errors::Error, readers::read_bytes};
 
 // this is for the docs
 #[allow(unused)]
@@ -47,9 +47,9 @@ pub enum MessageFlags {
 
 // CURRENT TODO: implement the valid combinations
 impl MessageFlags {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<MessageFlags, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<MessageFlags, Error> {
         let value = read_bytes(reader)?;
 
-        MessageFlags::from_repr(value).ok_or(NrbfError::InvalidEnum)
+        MessageFlags::from_repr(value).ok_or(Error::InvalidEnum)
     }
 }

@@ -1,6 +1,6 @@
 use std::io::Read;
 
-use crate::errors::NrbfError;
+use crate::errors::Error;
 
 use super::{ArrayOfValueWithCode, MessageFlags, StringValueWithCode, ValueWithCode};
 
@@ -12,7 +12,7 @@ pub struct BinaryMethodReturn {
 }
 
 impl BinaryMethodReturn {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let message_enum = MessageFlags::deserialize(reader)?;
 
         let return_value = ValueWithCode::deserialize(reader)?;

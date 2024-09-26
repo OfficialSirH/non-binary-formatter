@@ -2,7 +2,8 @@ use std::io::Read;
 
 use crate::{
     common::{data_types::LengthPrefixedString, enumerations::PrimitiveTypeEnumeration},
-    errors::NrbfError,
+    deserializer::from_reader,
+    errors::Error,
     readers::read_bytes,
 };
 
@@ -17,8 +18,8 @@ pub struct MemberPrimitiveTyped {
 }
 
 impl MemberPrimitiveTyped {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
-        let primitive_type_enum = PrimitiveTypeEnumeration::deserialize(reader)?;
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
+        let primitive_type_enum: PrimitiveTypeEnumeration = from_reader(reader)?;
 
         let value = PrimitiveValue::try_from((reader, &primitive_type_enum))?;
 
@@ -42,7 +43,7 @@ pub struct MemberPrimitiveUnTyped {
 }
 
 impl<R: Read> TryFrom<(&mut R, &PrimitiveTypeEnumeration)> for MemberPrimitiveUnTyped {
-    type Error = NrbfError;
+    type Error = Error;
 
     fn try_from(
         (reader, primitive_type_enum): (&mut R, &PrimitiveTypeEnumeration),
@@ -63,7 +64,7 @@ pub struct MemberReference {
 }
 
 impl MemberReference {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let id_ref = read_bytes(reader)?;
 
         Ok(MemberReference { id_ref })
@@ -84,7 +85,7 @@ pub struct ObjectNullMultiple {
 }
 
 impl ObjectNullMultiple {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let null_count = read_bytes(reader)?;
 
         Ok(ObjectNullMultiple { null_count })
@@ -100,7 +101,7 @@ pub struct ObjectNullMultiple256 {
 }
 
 impl ObjectNullMultiple256 {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let null_count = read_bytes(reader)?;
 
         Ok(ObjectNullMultiple256 { null_count })
@@ -116,7 +117,7 @@ pub struct BinaryObjectString {
 }
 
 impl BinaryObjectString {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let object_id = read_bytes(reader)?;
         let value = LengthPrefixedString::deserialize(reader)?;
         Ok(BinaryObjectString { object_id, value })

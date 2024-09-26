@@ -1,8 +1,10 @@
-use std::io::Read;
+use std::fmt;
 
+use serde::{
+    de::{self, Visitor},
+    Deserialize,
+};
 use strum::FromRepr;
-
-use crate::{errors::NrbfError, readers::read_bytes};
 
 /// The [`BinaryTypeEnumeration`] identifies the Remoting Type of a Class (2) Member or an Array item.
 /// The size of the enumeration is a BYTE.
@@ -36,17 +38,49 @@ pub enum BinaryTypeEnumeration {
     PrimitiveArray = 7,
 }
 
-#[cfg(test)]
-mod binary_type_enum_tests {
+//////////////////////////////////////////
+// BinaryTypeEnumeration Deserializer ///
+////////////////////////////////////////
+struct BinaryTypeEnumerationVisitor;
+
+impl<'de> Visitor<'de> for BinaryTypeEnumerationVisitor {
+    type Value = BinaryTypeEnumeration;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("an integer between 0 and 127")
+    }
+
+    fn visit_u8<E>(self, v: u8) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        BinaryTypeEnumeration::from_repr(v).ok_or(E::custom(format!(
+            "u8 value doesn't map to any BinaryTypeEnumeration variant: {}",
+            v
+        )))
+    }
+}
+
+impl<'de> Deserialize<'de> for BinaryTypeEnumeration {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        deserializer.deserialize_u8(BinaryTypeEnumerationVisitor)
+    }
+}
+//////////////////////////////////////////
+// BinaryTypeEnumeration Deserializer ///
+////////////////////////////////////////
+
+#[test]
+fn binary_type_enum_test() {
     use crate::common::enumerations::BinaryTypeEnumeration;
 
-    #[test]
-    fn from_u8_repr() {
-        assert_eq!(
-            BinaryTypeEnumeration::from_repr(4).unwrap(),
-            BinaryTypeEnumeration::Class
-        )
-    }
+    assert_eq!(
+        BinaryTypeEnumeration::from_repr(4).unwrap(),
+        BinaryTypeEnumeration::Class
+    )
 }
 
 #[derive(Debug, FromRepr, PartialEq, Eq)]
@@ -74,14 +108,40 @@ pub enum RecordTypeEnumeration {
     MethodReturn = 22,
 }
 
-impl RecordTypeEnumeration {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
-        let mut record_type = [0u8; 1];
-        reader.read_exact(&mut record_type)?;
+//////////////////////////////////////////
+// RecordTypeEnumeration Deserializer ///
+////////////////////////////////////////
+struct RecordTypeEnumerationVisitor;
 
-        RecordTypeEnumeration::from_repr(record_type[0]).ok_or(NrbfError::InvalidEnum)
+impl<'de> Visitor<'de> for RecordTypeEnumerationVisitor {
+    type Value = RecordTypeEnumeration;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("an integer between 0 and 127")
+    }
+
+    fn visit_u8<E>(self, v: u8) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        RecordTypeEnumeration::from_repr(v).ok_or(E::custom(format!(
+            "u8 value doesn't map to any RecordTypeEnumeration variant: {}",
+            v
+        )))
     }
 }
+
+impl<'de> Deserialize<'de> for RecordTypeEnumeration {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        deserializer.deserialize_u8(RecordTypeEnumerationVisitor)
+    }
+}
+//////////////////////////////////////////
+// RecordTypeEnumeration Deserializer ///
+////////////////////////////////////////
 
 // Documentation Types Import
 #[allow(unused)]
@@ -130,10 +190,37 @@ pub enum PrimitiveTypeEnumeration {
     String = 18,
 }
 
-impl PrimitiveTypeEnumeration {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<PrimitiveTypeEnumeration, NrbfError> {
-        let value = read_bytes(reader)?;
+/////////////////////////////////////////////
+// PrimitiveTypeEnumeration Deserializer ///
+///////////////////////////////////////////
+struct PrimitiveTypeEnumerationVisitor;
 
-        PrimitiveTypeEnumeration::from_repr(value).ok_or(NrbfError::InvalidEnum)
+impl<'de> Visitor<'de> for PrimitiveTypeEnumerationVisitor {
+    type Value = PrimitiveTypeEnumeration;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("an integer between 0 and 127")
+    }
+
+    fn visit_u8<E>(self, v: u8) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        PrimitiveTypeEnumeration::from_repr(v).ok_or(E::custom(format!(
+            "u8 value doesn't map to any PrimitiveTypeEnumeration variant: {}",
+            v
+        )))
     }
 }
+
+impl<'de> Deserialize<'de> for PrimitiveTypeEnumeration {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        deserializer.deserialize_u8(PrimitiveTypeEnumerationVisitor)
+    }
+}
+/////////////////////////////////////////////
+// PrimitiveTypeEnumeration Deserializer ///
+///////////////////////////////////////////

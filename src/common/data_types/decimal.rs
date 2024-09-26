@@ -1,7 +1,7 @@
 use ::f128::f128;
 use std::io::Read;
 
-use crate::errors::NrbfError;
+use crate::errors::Error;
 
 use super::LengthPrefixedString;
 
@@ -12,7 +12,7 @@ pub struct Decimal {
 }
 
 impl Decimal {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let string_value = LengthPrefixedString::deserialize(reader)?;
         let value = f128::parse(string_value.value.as_str()).unwrap();
 

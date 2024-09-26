@@ -9,7 +9,8 @@ use crate::{
         },
         enumerations::{BinaryTypeEnumeration, PrimitiveTypeEnumeration},
     },
-    errors::NrbfError,
+    deserializer::from_reader,
+    errors::Error,
     readers::read_bytes,
 };
 
@@ -29,15 +30,13 @@ pub enum AdditionalTypeInfo {
 }
 
 impl<R: Read> TryFrom<(&mut R, &BinaryTypeEnumeration)> for AdditionalTypeInfo {
-    type Error = NrbfError;
+    type Error = Error;
 
     fn try_from(
         (reader, binary_type_enum): (&mut R, &BinaryTypeEnumeration),
     ) -> Result<Self, Self::Error> {
         let res = match binary_type_enum {
-            BinaryTypeEnumeration::Primitive => {
-                AdditionalTypeInfo::Primitive(PrimitiveTypeEnumeration::deserialize(reader)?)
-            }
+            BinaryTypeEnumeration::Primitive => AdditionalTypeInfo::Primitive(from_reader(reader)?),
             BinaryTypeEnumeration::SystemClass => {
                 AdditionalTypeInfo::SystemClass(LengthPrefixedString::deserialize(reader)?)
             }
@@ -45,7 +44,7 @@ impl<R: Read> TryFrom<(&mut R, &BinaryTypeEnumeration)> for AdditionalTypeInfo {
                 AdditionalTypeInfo::Class(ClassTypeInfo::deserialize(reader)?)
             }
             BinaryTypeEnumeration::PrimitiveArray => {
-                AdditionalTypeInfo::PrimitiveArray(PrimitiveTypeEnumeration::deserialize(reader)?)
+                AdditionalTypeInfo::PrimitiveArray(from_reader(reader)?)
             }
             BinaryTypeEnumeration::String
             | BinaryTypeEnumeration::Object
@@ -81,7 +80,7 @@ pub enum PrimitiveValue {
 }
 
 impl<R: Read> TryFrom<(&mut R, &PrimitiveTypeEnumeration)> for PrimitiveValue {
-    type Error = NrbfError;
+    type Error = Error;
 
     fn try_from(
         (reader, primitive_type_enum): (&mut R, &PrimitiveTypeEnumeration),
@@ -140,14 +139,14 @@ pub enum BinaryValue {
 }
 
 impl<R: Read> TryFrom<(&mut R, &BinaryTypeEnumeration)> for BinaryValue {
-    type Error = NrbfError;
+    type Error = Error;
 
     fn try_from(
         (reader, binary_type_enum): (&mut R, &BinaryTypeEnumeration),
     ) -> Result<Self, Self::Error> {
         let res = match binary_type_enum {
             BinaryTypeEnumeration::Primitive => {
-                let primitive_type_enum = PrimitiveTypeEnumeration::deserialize(reader)?;
+                let primitive_type_enum: PrimitiveTypeEnumeration = from_reader(reader)?;
 
                 BinaryValue::Primitive(PrimitiveValue::try_from((reader, &primitive_type_enum))?)
             }

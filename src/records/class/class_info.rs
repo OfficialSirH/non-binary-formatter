@@ -1,6 +1,6 @@
 use std::io::Read;
 
-use crate::{common::data_types::LengthPrefixedString, errors::NrbfError, readers::read_bytes};
+use crate::{common::data_types::LengthPrefixedString, errors::Error, readers::read_bytes};
 
 #[derive(Debug)]
 pub struct ClassInfo {
@@ -10,7 +10,7 @@ pub struct ClassInfo {
 }
 
 impl ClassInfo {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let object_id = read_bytes(reader)?;
         let name = LengthPrefixedString::deserialize(reader)?;
 

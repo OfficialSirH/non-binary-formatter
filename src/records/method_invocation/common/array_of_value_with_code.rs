@@ -1,6 +1,6 @@
 use std::io::Read;
 
-use crate::{errors::NrbfError, readers::read_bytes};
+use crate::{errors::Error, readers::read_bytes};
 
 use super::ValueWithCode;
 
@@ -12,7 +12,7 @@ pub struct ArrayOfValueWithCode {
 }
 
 impl ArrayOfValueWithCode {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let length: usize = read_bytes(reader)?;
 
         let mut list_of_value_with_code: Vec<ValueWithCode> = Vec::with_capacity(length);

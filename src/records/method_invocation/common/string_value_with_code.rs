@@ -2,7 +2,8 @@ use std::io::Read;
 
 use crate::{
     common::{data_types::LengthPrefixedString, enumerations::PrimitiveTypeEnumeration},
-    errors::NrbfError,
+    deserializer::from_reader,
+    errors::Error,
 };
 
 // Documentation Types Import
@@ -18,8 +19,8 @@ pub struct StringValueWithCode {
 }
 
 impl StringValueWithCode {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
-        let primitive_type_enum = PrimitiveTypeEnumeration::deserialize(reader)?;
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
+        let primitive_type_enum: PrimitiveTypeEnumeration = from_reader(reader)?;
 
         let value = LengthPrefixedString::deserialize(reader)?;
 

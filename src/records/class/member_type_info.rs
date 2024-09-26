@@ -1,7 +1,7 @@
 use std::io::Read;
 
 use crate::{
-    common::enumerations::BinaryTypeEnumeration, errors::NrbfError, records::AdditionalTypeInfo,
+    common::enumerations::BinaryTypeEnumeration, errors::Error, records::AdditionalTypeInfo,
 };
 
 #[derive(Debug)]
@@ -11,15 +11,14 @@ pub struct MemberTypeInfo {
 }
 
 impl MemberTypeInfo {
-    pub fn deserialize<R: Read>(reader: &mut R, member_count: usize) -> Result<Self, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R, member_count: usize) -> Result<Self, Error> {
         // Read member types
         let mut binary_type_enums = Vec::with_capacity(member_count);
         for _ in 0..member_count {
             let mut type_byte = [0u8; 1];
             reader.read_exact(&mut type_byte)?;
-            binary_type_enums.push(
-                BinaryTypeEnumeration::from_repr(type_byte[0]).ok_or(NrbfError::InvalidEnum)?,
-            );
+            binary_type_enums
+                .push(BinaryTypeEnumeration::from_repr(type_byte[0]).ok_or(Error::InvalidEnum)?);
         }
 
         // Read additional info

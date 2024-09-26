@@ -1,6 +1,6 @@
 use std::io::Read;
 
-use crate::{errors::NrbfError, readers::read_bytes};
+use crate::{errors::Error, readers::read_bytes};
 
 /// The number of bits to shift for each chunk magnitude to calculate the length of the string
 pub const LENGTH_CHUNK_BIT_STEP: u32 = 7;
@@ -29,7 +29,7 @@ impl LengthPrefixedString {
     /// assert!(result.is_ok());
     /// assert_eq!("Hello World", result.unwrap().value);
     /// ```
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let mut string_length: u32 = 0;
         for i in 0..5 {
             let (continues_chunk, value) = Self::read_chunk(reader)?;
@@ -45,7 +45,7 @@ impl LengthPrefixedString {
 
         let mut buffer = vec![0u8; string_length as usize];
         reader.read_exact(&mut buffer)?;
-        let value = String::from_utf8(buffer).map_err(|_| NrbfError::InvalidString)?;
+        let value = String::from_utf8(buffer).map_err(|_| Error::InvalidString)?;
 
         Ok(LengthPrefixedString { value })
     }
@@ -76,7 +76,7 @@ impl LengthPrefixedString {
     /// assert_eq!(false, continues_chunk);
     /// assert_eq!(11, value);
     /// ```
-    pub fn read_chunk<R: Read>(reader: &mut R) -> Result<(bool, u32), NrbfError> {
+    pub fn read_chunk<R: Read>(reader: &mut R) -> Result<(bool, u32), Error> {
         let byte: u8 = read_bytes(reader)?;
 
         let continues_chunk = (byte >> 7) & 1 == 1;

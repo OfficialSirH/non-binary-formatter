@@ -1,6 +1,6 @@
 use std::io::Read;
 
-use crate::errors::NrbfError;
+use crate::errors::Error;
 
 use super::{ArrayOfValueWithCode, MessageFlags, StringValueWithCode};
 
@@ -13,7 +13,7 @@ pub struct BinaryMethodCall {
 }
 
 impl BinaryMethodCall {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let message_enum = MessageFlags::deserialize(reader)?;
 
         let method_name = StringValueWithCode::deserialize(reader)?;

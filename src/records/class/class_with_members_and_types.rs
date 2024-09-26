@@ -1,6 +1,6 @@
 use std::io::Read;
 
-use crate::{errors::NrbfError, readers::read_bytes};
+use crate::{errors::Error, readers::read_bytes};
 
 use super::{ClassInfo, MemberTypeInfo};
 
@@ -12,7 +12,7 @@ pub struct ClassWithMembersAndTypes {
 }
 
 impl ClassWithMembersAndTypes {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let class_info = ClassInfo::deserialize(reader)?;
 
         let member_type_info = MemberTypeInfo::deserialize(reader, class_info.member_names.len())?;

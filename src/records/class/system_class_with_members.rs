@@ -1,6 +1,6 @@
 use std::io::Read;
 
-use crate::errors::NrbfError;
+use crate::errors::Error;
 
 use super::ClassInfo;
 
@@ -10,7 +10,7 @@ pub struct SystemClassWithMembers {
 }
 
 impl SystemClassWithMembers {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let class_info = ClassInfo::deserialize(reader)?;
 
         Ok(SystemClassWithMembers { class_info })

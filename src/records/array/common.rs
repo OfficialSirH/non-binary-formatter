@@ -1,6 +1,6 @@
 use std::io::Read;
 
-use crate::{errors::NrbfError, readers::read_bytes};
+use crate::{errors::Error, readers::read_bytes};
 
 /// The [`ArrayInfo`] is a common structure that is used by Array records.
 #[derive(Debug)]
@@ -10,7 +10,7 @@ pub struct ArrayInfo {
 }
 
 impl ArrayInfo {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, NrbfError> {
+    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let object_id = read_bytes(reader)?;
 
         let length = read_bytes(reader)?;
