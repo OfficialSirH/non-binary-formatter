@@ -22,7 +22,7 @@ impl StringValueWithCode {
     pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let primitive_type_enum: PrimitiveTypeEnumeration = from_reader(reader)?;
 
-        let value = LengthPrefixedString::deserialize(reader)?;
+        let value: LengthPrefixedString = from_reader(reader)?;
 
         Ok(StringValueWithCode {
             primitive_type_enum,

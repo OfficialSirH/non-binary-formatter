@@ -38,9 +38,7 @@ pub enum BinaryTypeEnumeration {
     PrimitiveArray = 7,
 }
 
-//////////////////////////////////////////
-// BinaryTypeEnumeration Deserializer ///
-////////////////////////////////////////
+// region: BinaryTypeEnumeration Deserialization
 struct BinaryTypeEnumerationVisitor;
 
 impl<'de> Visitor<'de> for BinaryTypeEnumerationVisitor {
@@ -69,9 +67,7 @@ impl<'de> Deserialize<'de> for BinaryTypeEnumeration {
         deserializer.deserialize_u8(BinaryTypeEnumerationVisitor)
     }
 }
-//////////////////////////////////////////
-// BinaryTypeEnumeration Deserializer ///
-////////////////////////////////////////
+// endregion
 
 #[test]
 fn binary_type_enum_test() {
@@ -108,9 +104,7 @@ pub enum RecordTypeEnumeration {
     MethodReturn = 22,
 }
 
-//////////////////////////////////////////
-// RecordTypeEnumeration Deserializer ///
-////////////////////////////////////////
+// region: RecordTypeEnumeration Deserialization
 struct RecordTypeEnumerationVisitor;
 
 impl<'de> Visitor<'de> for RecordTypeEnumerationVisitor {
@@ -139,9 +133,7 @@ impl<'de> Deserialize<'de> for RecordTypeEnumeration {
         deserializer.deserialize_u8(RecordTypeEnumerationVisitor)
     }
 }
-//////////////////////////////////////////
-// RecordTypeEnumeration Deserializer ///
-////////////////////////////////////////
+// endregion
 
 // Documentation Types Import
 #[allow(unused)]
@@ -190,9 +182,7 @@ pub enum PrimitiveTypeEnumeration {
     String = 18,
 }
 
-/////////////////////////////////////////////
-// PrimitiveTypeEnumeration Deserializer ///
-///////////////////////////////////////////
+// region: PrimitiveTypeEnumeration Deserialization
 struct PrimitiveTypeEnumerationVisitor;
 
 impl<'de> Visitor<'de> for PrimitiveTypeEnumerationVisitor {
@@ -221,6 +211,4 @@ impl<'de> Deserialize<'de> for PrimitiveTypeEnumeration {
         deserializer.deserialize_u8(PrimitiveTypeEnumerationVisitor)
     }
 }
-/////////////////////////////////////////////
-// PrimitiveTypeEnumeration Deserializer ///
-///////////////////////////////////////////
+// endregion

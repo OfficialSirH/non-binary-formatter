@@ -1,6 +1,6 @@
 use std::io::Read;
 
-use crate::{errors::Error, readers::read_bytes};
+use crate::{deserializer::from_reader, errors::Error, readers::read_bytes};
 
 use super::LengthPrefixedString;
 
@@ -12,7 +12,7 @@ pub struct ClassTypeInfo {
 
 impl ClassTypeInfo {
     pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
-        let type_name = LengthPrefixedString::deserialize(reader)?;
+        let type_name: LengthPrefixedString = from_reader(reader)?;
         let library_id = read_bytes(reader)?;
 
         Ok(ClassTypeInfo {
@@ -39,10 +39,8 @@ mod tests {
         encoded_class_type_info.extend_from_slice(&69420_i32.to_le_bytes());
 
         let mut reader = Cursor::new(&encoded_class_type_info);
-        let result = ClassTypeInfo::deserialize(&mut reader);
+        let value = ClassTypeInfo::deserialize(&mut reader).unwrap();
 
-        assert!(result.is_ok());
-        let value = result.unwrap();
         assert_eq!("Hello World", value.type_name.value);
         assert_eq!(69420, value.library_id);
     }

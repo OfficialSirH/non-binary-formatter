@@ -1,6 +1,6 @@
-use std::io::Read;
+use std::fmt;
 
-use crate::{errors::Error, readers::read_bytes};
+use serde::{de::Visitor, Deserialize};
 
 /// The number of bits to shift for each chunk magnitude to calculate the length of the string
 pub const LENGTH_CHUNK_BIT_STEP: u32 = 7;
@@ -10,85 +10,46 @@ pub struct LengthPrefixedString {
     pub value: String,
 }
 
-impl LengthPrefixedString {
-    /// Deserializes a LengthPrefixedString from the binary data
-    /// # Errors
-    /// Returns an error if the string is invalid
-    /// # Examples
-    /// ```
-    /// use std::io::Cursor;
-    /// use nrbf::common::data_types::LengthPrefixedString;
-    ///
-    /// let encoded_string = [
-    ///    0b00001011, // Length: 11
-    ///   0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x20, 0x57, 0x6F, 0x72, 0x6C, 0x64, // "Hello World"
-    /// ];
-    /// let mut reader = Cursor::new(&encoded_string);
-    /// let result = LengthPrefixedString::deserialize(&mut reader);
-    ///
-    /// assert!(result.is_ok());
-    /// assert_eq!("Hello World", result.unwrap().value);
-    /// ```
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
-        let mut string_length: u32 = 0;
-        for i in 0..5 {
-            let (continues_chunk, value) = Self::read_chunk(reader)?;
-            string_length += match i {
-                0 => value,
-                1..=4 => value * 2_u32.pow(i * LENGTH_CHUNK_BIT_STEP),
-                _ => 0,
-            };
-            if !continues_chunk {
-                break;
-            }
-        }
+// region: LengthPrefixedString Deserialization
+struct LengthPrefixedStringVisitor;
 
-        let mut buffer = vec![0u8; string_length as usize];
-        reader.read_exact(&mut buffer)?;
-        let value = String::from_utf8(buffer).map_err(|_| Error::InvalidString)?;
+impl<'de> Visitor<'de> for LengthPrefixedStringVisitor {
+    type Value = LengthPrefixedString;
 
-        Ok(LengthPrefixedString { value })
+    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("a string")
     }
 
-    /// returns a tuple of `(continues_to_next_chunk, value)`
-    ///
-    /// `continues_to_next_chunk` is a boolean that indicates if the next byte is part of the length
-    ///
-    /// `value` is the value of the current chunk
-    /// # Errors
-    /// Returns an error if it can't read the next byte
-    /// # Examples
-    /// ```
-    /// use std::io::Cursor;
-    /// use nrbf::common::data_types::LengthPrefixedString;
-    /// use nrbf::readers::read_bytes;
-    ///
-    /// let encoded_string = [
-    ///    0b00001011, // Length: 11
-    ///  0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x20, 0x57, 0x6F, 0x72, 0x6C, 0x64, // "Hello World"
-    /// ];
-    ///
-    /// let mut reader = Cursor::new(&encoded_string);
-    /// let result = LengthPrefixedString::read_chunk(&mut reader);
-    ///
-    /// assert!(result.is_ok());
-    /// let (continues_chunk, value) = result.unwrap();
-    /// assert_eq!(false, continues_chunk);
-    /// assert_eq!(11, value);
-    /// ```
-    pub fn read_chunk<R: Read>(reader: &mut R) -> Result<(bool, u32), Error> {
-        let byte: u8 = read_bytes(reader)?;
+    fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
+        Ok(LengthPrefixedString {
+            value: v.to_owned(),
+        })
+    }
 
-        let continues_chunk = (byte >> 7) & 1 == 1;
-        let value = byte << 1 >> 1;
-
-        Ok((continues_chunk, value as u32))
+    fn visit_string<E>(self, v: String) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
+        Ok(LengthPrefixedString { value: v })
     }
 }
 
+impl<'de> Deserialize<'de> for LengthPrefixedString {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        deserializer.deserialize_string(LengthPrefixedStringVisitor)
+    }
+}
+// endregion
+
 #[cfg(test)]
 mod tests {
-    use crate::common::data_types::LengthPrefixedString;
+    use crate::{common::data_types::LengthPrefixedString, deserializer::from_reader};
 
     #[test]
     /// Test the deserialization of an example LengthPrefixedString
@@ -99,10 +60,9 @@ mod tests {
         ];
 
         let mut reader = std::io::Cursor::new(&encoded_string);
-        let result = LengthPrefixedString::deserialize(&mut reader);
+        let result: LengthPrefixedString = from_reader(&mut reader).unwrap();
 
-        assert!(result.is_ok());
-        assert_eq!("Hello World", result.unwrap().value);
+        assert_eq!("Hello World", result.value);
     }
 
     #[ignore = "This thing is a memory monster that takes up quite some time to run"]
@@ -118,9 +78,8 @@ mod tests {
         }
 
         let mut reader = std::io::Cursor::new(&encoded_string);
-        let result = LengthPrefixedString::deserialize(&mut reader);
+        let result: LengthPrefixedString = from_reader(&mut reader).unwrap();
 
-        assert!(result.is_ok());
-        assert_eq!(2_u32.pow(31) - 1, result.unwrap().value.len() as u32);
+        assert_eq!(2_u32.pow(31) - 1, result.value.len() as u32);
     }
 }

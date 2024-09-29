@@ -6,7 +6,10 @@ use serde::{
     Deserialize,
 };
 
-use crate::errors::{Error, Result};
+use crate::{
+    common::data_types::LENGTH_CHUNK_BIT_STEP,
+    errors::{Error, Result},
+};
 
 pub struct Deserializer<'de, R: Read> {
     reader: &'de mut R,
@@ -23,12 +26,7 @@ where
     T: Deserialize<'a>,
 {
     let mut deserializer = Deserializer::from_reader(r);
-    let t = T::deserialize(&mut deserializer)?;
-    if deserializer.reader.bytes().count() == 0 {
-        Ok(t)
-    } else {
-        Err(Error::TrailingBytes)
-    }
+    T::deserialize(&mut deserializer)
 }
 
 impl<'de, R: Read> Deserializer<'de, R> {
@@ -40,6 +38,13 @@ impl<'de, R: Read> Deserializer<'de, R> {
         self.reader.read_exact(&mut buffer)?;
 
         Ok(T::from_le_bytes(&buffer))
+    }
+
+    pub fn read_exact_bytes(&mut self, count: usize) -> Result<Vec<u8>> {
+        let mut buffer = vec![0u8; count];
+        self.reader.read_exact(&mut buffer)?;
+
+        Ok(buffer)
     }
 }
 
@@ -133,12 +138,28 @@ impl<'de, 'a, R: Read> de::Deserializer<'de> for &'a mut Deserializer<'de, R> {
         visitor.visit_f64(self.read_bytes()?)
     }
 
-    /// # UNSUPPORTED OPERATION
-    fn deserialize_char<V>(self, _visitor: V) -> std::result::Result<V::Value, Self::Error>
+    fn deserialize_char<V>(self, visitor: V) -> std::result::Result<V::Value, Self::Error>
     where
         V: Visitor<'de>,
     {
-        panic!("Unsupported Method: No char deserialization")
+        let length_encoded_byte: u8 = self.read_bytes()?;
+
+        let length = match length_encoded_byte {
+            0b00000000..=0b01111111 => 1,
+            0b11000000..=0b11011111 => 2,
+            0b11100000..=0b11101111 => 3,
+            0b11110000..=0b11110111 => 4,
+            _ => return Err(Error::InvalidChar),
+        };
+
+        let buffer = self.read_exact_bytes(length)?;
+        let value = String::from_utf8(buffer)
+            .map_err(|_| Error::InvalidChar)?
+            .chars()
+            .next()
+            .unwrap();
+
+        visitor.visit_char(value)
     }
 
     /// # UNSUPPORTED OPERATION
@@ -149,12 +170,36 @@ impl<'de, 'a, R: Read> de::Deserializer<'de> for &'a mut Deserializer<'de, R> {
         panic!("Unsupported Method: No str deserialization")
     }
 
-    /// # UNSUPPORTED OPERATION
-    fn deserialize_string<V>(self, _visitor: V) -> std::result::Result<V::Value, Self::Error>
+    fn deserialize_string<V>(self, visitor: V) -> std::result::Result<V::Value, Self::Error>
     where
         V: Visitor<'de>,
     {
-        panic!("Unsupported Method: No string deserialization")
+        let mut read_chunk = || -> Result<(bool, u32)> {
+            let byte: u8 = self.read_bytes()?;
+
+            let continues_chunk = (byte >> LENGTH_CHUNK_BIT_STEP) & 1 == 1;
+            let value = byte << 1 >> 1;
+
+            Ok((continues_chunk, value as u32))
+        };
+
+        let mut string_length: u32 = 0;
+        for i in 0..5 {
+            let (continues_chunk, value) = read_chunk()?;
+            string_length += match i {
+                0 => value,
+                1..=4 => value * 2_u32.pow(i * LENGTH_CHUNK_BIT_STEP),
+                _ => 0,
+            };
+            if !continues_chunk {
+                break;
+            }
+        }
+
+        let buffer = self.read_exact_bytes(string_length as usize)?;
+        let value = String::from_utf8(buffer).map_err(|_| Error::InvalidString)?;
+
+        visitor.visit_string(value)
     }
 
     /// # UNSUPPORTED OPERATION

@@ -22,6 +22,7 @@ pub enum Error {
     IoError(IoError),
     UnexpectedRecordType,
     InvalidBuffer,
+    InvalidChar,
     InvalidString,
     InvalidEnum,
     InvalidDateTimeKind,

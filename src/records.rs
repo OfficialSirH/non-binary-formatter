@@ -38,7 +38,7 @@ impl<R: Read> TryFrom<(&mut R, &BinaryTypeEnumeration)> for AdditionalTypeInfo {
         let res = match binary_type_enum {
             BinaryTypeEnumeration::Primitive => AdditionalTypeInfo::Primitive(from_reader(reader)?),
             BinaryTypeEnumeration::SystemClass => {
-                AdditionalTypeInfo::SystemClass(LengthPrefixedString::deserialize(reader)?)
+                AdditionalTypeInfo::SystemClass(from_reader(reader)?)
             }
             BinaryTypeEnumeration::Class => {
                 AdditionalTypeInfo::Class(ClassTypeInfo::deserialize(reader)?)
@@ -92,7 +92,7 @@ impl<R: Read> TryFrom<(&mut R, &PrimitiveTypeEnumeration)> for PrimitiveValue {
                 PrimitiveValue::Boolean(boolean > 0)
             }
             PrimitiveTypeEnumeration::Byte => PrimitiveValue::Byte(read_bytes(reader)?),
-            PrimitiveTypeEnumeration::Char => PrimitiveValue::Char(Char::deserialize(reader)?),
+            PrimitiveTypeEnumeration::Char => PrimitiveValue::Char(from_reader(reader)?),
             PrimitiveTypeEnumeration::Decimal => {
                 PrimitiveValue::Decimal(Decimal::deserialize(reader)?)
             }
@@ -116,9 +116,7 @@ impl<R: Read> TryFrom<(&mut R, &PrimitiveTypeEnumeration)> for PrimitiveValue {
             PrimitiveTypeEnumeration::UInt32 => PrimitiveValue::UInt32(read_bytes(reader)?),
             PrimitiveTypeEnumeration::UInt64 => PrimitiveValue::UInt64(read_bytes(reader)?),
             PrimitiveTypeEnumeration::Null => PrimitiveValue::Null(ObjectNull {}),
-            PrimitiveTypeEnumeration::String => {
-                PrimitiveValue::String(LengthPrefixedString::deserialize(reader)?)
-            }
+            PrimitiveTypeEnumeration::String => PrimitiveValue::String(from_reader(reader)?),
         };
 
         Ok(res)
@@ -150,9 +148,7 @@ impl<R: Read> TryFrom<(&mut R, &BinaryTypeEnumeration)> for BinaryValue {
 
                 BinaryValue::Primitive(PrimitiveValue::try_from((reader, &primitive_type_enum))?)
             }
-            BinaryTypeEnumeration::String => {
-                BinaryValue::String(LengthPrefixedString::deserialize(reader)?)
-            }
+            BinaryTypeEnumeration::String => BinaryValue::String(from_reader(reader)?),
             BinaryTypeEnumeration::Object => BinaryValue::Object,
             BinaryTypeEnumeration::SystemClass => BinaryValue::SystemClass,
             BinaryTypeEnumeration::Class => BinaryValue::Class,

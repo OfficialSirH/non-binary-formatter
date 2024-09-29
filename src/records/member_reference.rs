@@ -119,7 +119,7 @@ pub struct BinaryObjectString {
 impl BinaryObjectString {
     pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let object_id = read_bytes(reader)?;
-        let value = LengthPrefixedString::deserialize(reader)?;
+        let value: LengthPrefixedString = from_reader(reader)?;
         Ok(BinaryObjectString { object_id, value })
     }
 }

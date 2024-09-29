@@ -1,56 +1,59 @@
-use std::io::Read;
+use std::fmt;
 
-use crate::errors::Error;
+use serde::{
+    de::{self, Visitor},
+    Deserialize,
+};
 
 #[derive(Debug)]
 pub struct Char {
     pub value: char,
 }
 
-impl Char {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
-        let mut buffer = [0u8; 1];
-        reader.read_exact(&mut buffer)?;
-        let length_encoded_byte = buffer[0];
+// region: Char Deserialization
+struct CharVisitor;
 
-        let length = match length_encoded_byte {
-            0b00000000..=0b01111111 => 1,
-            0b11000000..=0b11011111 => 2,
-            0b11100000..=0b11101111 => 3,
-            0b11110000..=0b11110111 => 4,
-            _ => return Err(Error::InvalidString),
-        };
+impl<'de> Visitor<'de> for CharVisitor {
+    type Value = Char;
 
-        let mut buffer = vec![0u8; length];
-        reader.read_exact(&mut buffer)?;
-        let value = String::from_utf8(buffer)
-            .map_err(|_| Error::InvalidString)?
-            .chars()
-            .next()
-            .unwrap();
+    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("a char")
+    }
 
-        Ok(Char { value })
+    fn visit_char<E>(self, v: char) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        Ok(Char { value: v })
     }
 }
+
+impl<'de> Deserialize<'de> for Char {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        deserializer.deserialize_char(CharVisitor)
+    }
+}
+// endregion
 
 #[cfg(test)]
 mod tests {
     use std::io::Cursor;
 
-    use crate::common::data_types::Char;
+    use crate::{common::data_types::Char, deserializer::from_reader};
 
     #[test]
-    fn test_char_deserialize() {
+    fn test_char() {
         let encoded_char = [
             0b11000001, // Length: 2
             0xC3, 0xA1, // UTF-8: 0xC3A1 -> Unicode: 0xE1 -> "á"
         ];
 
         let mut reader = Cursor::new(&encoded_char);
-        let result = Char::deserialize(&mut reader);
+        let result: Char = from_reader(&mut reader).unwrap();
 
-        assert!(result.is_ok());
-        let value = result.unwrap();
-        assert_eq!('á', value.value);
+        assert_eq!('á', result.value);
     }
 }
