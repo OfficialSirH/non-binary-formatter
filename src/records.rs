@@ -40,9 +40,7 @@ impl<R: Read> TryFrom<(&mut R, &BinaryTypeEnumeration)> for AdditionalTypeInfo {
             BinaryTypeEnumeration::SystemClass => {
                 AdditionalTypeInfo::SystemClass(from_reader(reader)?)
             }
-            BinaryTypeEnumeration::Class => {
-                AdditionalTypeInfo::Class(ClassTypeInfo::deserialize(reader)?)
-            }
+            BinaryTypeEnumeration::Class => AdditionalTypeInfo::Class(from_reader(reader)?),
             BinaryTypeEnumeration::PrimitiveArray => {
                 AdditionalTypeInfo::PrimitiveArray(from_reader(reader)?)
             }

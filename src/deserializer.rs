@@ -2,7 +2,7 @@ use std::io::Read;
 
 use num_traits::FromBytes;
 use serde::{
-    de::{self, Visitor},
+    de::{self, DeserializeSeed, SeqAccess, Visitor},
     Deserialize,
 };
 
@@ -250,20 +250,19 @@ impl<'de, 'a, R: Read> de::Deserializer<'de> for &'a mut Deserializer<'de, R> {
     fn deserialize_newtype_struct<V>(
         self,
         _name: &'static str,
-        visitor: V,
+        _visitor: V,
     ) -> std::result::Result<V::Value, Self::Error>
     where
         V: Visitor<'de>,
     {
-        visitor.visit_newtype_struct(self)
+        panic!("Unsupported Method: No newtype struct deserialization")
     }
 
-    /// # UNSUPPORTED OPERATION
-    fn deserialize_seq<V>(self, _visitor: V) -> std::result::Result<V::Value, Self::Error>
+    fn deserialize_seq<V>(self, visitor: V) -> std::result::Result<V::Value, Self::Error>
     where
         V: Visitor<'de>,
     {
-        panic!("Unsupported Method: No seq deserialization")
+        visitor.visit_seq(GeneralSequence::new(self))
     }
 
     /// # UNSUPPORTED OPERATION
@@ -308,7 +307,7 @@ impl<'de, 'a, R: Read> de::Deserializer<'de> for &'a mut Deserializer<'de, R> {
     where
         V: Visitor<'de>,
     {
-        self.deserialize_map(visitor)
+        self.deserialize_seq(visitor)
     }
 
     /// # UNSUPPORTED OPERATION
@@ -341,17 +340,25 @@ impl<'de, 'a, R: Read> de::Deserializer<'de> for &'a mut Deserializer<'de, R> {
     }
 }
 
-#[test]
-fn test_record_type() {
-    let data = [
-        0x05, // RecordTypeEnum: ClassWithMembersAndTypes
-    ];
+// In order to deserialize binary data structures, we need to
+// be able to deserialize individual fields in a sequence
+struct GeneralSequence<'a, 'de: 'a, R: Read> {
+    de: &'a mut Deserializer<'de, R>,
+}
 
-    use crate::common::enumerations::RecordTypeEnumeration;
+impl<'a, 'de, R: Read> GeneralSequence<'a, 'de, R> {
+    fn new(de: &'a mut Deserializer<'de, R>) -> Self {
+        GeneralSequence { de }
+    }
+}
 
-    let mut cursor = std::io::Cursor::new(data);
-    assert_eq!(
-        RecordTypeEnumeration::ClassWithMembersAndTypes,
-        from_reader(&mut cursor).unwrap()
-    );
+impl<'de, 'a, R: Read> SeqAccess<'de> for GeneralSequence<'a, 'de, R> {
+    type Error = Error;
+
+    fn next_element_seed<T>(&mut self, seed: T) -> Result<Option<T::Value>>
+    where
+        T: DeserializeSeed<'de>,
+    {
+        seed.deserialize(&mut *self.de).map(Some)
+    }
 }

@@ -1,6 +1,6 @@
-use std::io::Read;
+use std::fmt;
 
-use crate::{deserializer::from_reader, errors::Error, readers::read_bytes};
+use serde::{de::Visitor, Deserialize};
 
 use super::LengthPrefixedString;
 
@@ -10,23 +10,50 @@ pub struct ClassTypeInfo {
     pub library_id: i32,
 }
 
-impl ClassTypeInfo {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
-        let type_name: LengthPrefixedString = from_reader(reader)?;
-        let library_id = read_bytes(reader)?;
+// region: ClassTypeInfo Deserialization
+impl<'de> Deserialize<'de> for ClassTypeInfo {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        struct ClassTypeInfoVisitor;
 
-        Ok(ClassTypeInfo {
-            type_name,
-            library_id,
-        })
+        impl<'de> Visitor<'de> for ClassTypeInfoVisitor {
+            type Value = ClassTypeInfo;
+
+            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+                formatter.write_str("struct ClassTypeInfo")
+            }
+
+            fn visit_seq<A>(self, mut seq: A) -> Result<Self::Value, A::Error>
+            where
+                A: serde::de::SeqAccess<'de>,
+            {
+                let type_name = seq
+                    .next_element()?
+                    .ok_or_else(|| serde::de::Error::invalid_length(0, &self))?;
+                let library_id = seq
+                    .next_element()?
+                    .ok_or_else(|| serde::de::Error::invalid_length(1, &self))?;
+
+                Ok(ClassTypeInfo {
+                    type_name,
+                    library_id,
+                })
+            }
+        }
+
+        const FIELDS: &[&str] = &["type_name", "library_id"];
+        deserializer.deserialize_struct("ClassTypeInfo", FIELDS, ClassTypeInfoVisitor)
     }
 }
+// endregion
 
 #[cfg(test)]
 mod tests {
     use std::io::Cursor;
 
-    use crate::common::data_types::ClassTypeInfo;
+    use crate::{common::data_types::ClassTypeInfo, deserializer::from_reader};
 
     #[test]
     fn test_class_type_info_deserialize() {
@@ -39,7 +66,7 @@ mod tests {
         encoded_class_type_info.extend_from_slice(&69420_i32.to_le_bytes());
 
         let mut reader = Cursor::new(&encoded_class_type_info);
-        let value = ClassTypeInfo::deserialize(&mut reader).unwrap();
+        let value: ClassTypeInfo = from_reader(&mut reader).unwrap();
 
         assert_eq!("Hello World", value.type_name.value);
         assert_eq!(69420, value.library_id);

@@ -17,7 +17,7 @@ impl<'de> Visitor<'de> for CharVisitor {
     type Value = Char;
 
     fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        formatter.write_str("a char")
+        formatter.write_str("char")
     }
 
     fn visit_char<E>(self, v: char) -> Result<Self::Value, E>
