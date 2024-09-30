@@ -91,25 +91,15 @@ impl<R: Read> TryFrom<(&mut R, &PrimitiveTypeEnumeration)> for PrimitiveValue {
             }
             PrimitiveTypeEnumeration::Byte => PrimitiveValue::Byte(read_bytes(reader)?),
             PrimitiveTypeEnumeration::Char => PrimitiveValue::Char(from_reader(reader)?),
-            PrimitiveTypeEnumeration::Decimal => {
-                PrimitiveValue::Decimal(Decimal::deserialize(reader)?)
-            }
-            PrimitiveTypeEnumeration::Double => {
-                PrimitiveValue::Double(Double::deserialize(reader)?)
-            }
+            PrimitiveTypeEnumeration::Decimal => PrimitiveValue::Decimal(from_reader(reader)?),
+            PrimitiveTypeEnumeration::Double => PrimitiveValue::Double(from_reader(reader)?),
             PrimitiveTypeEnumeration::Int16 => PrimitiveValue::Int16(read_bytes(reader)?),
             PrimitiveTypeEnumeration::Int32 => PrimitiveValue::Int32(read_bytes(reader)?),
             PrimitiveTypeEnumeration::Int64 => PrimitiveValue::Int64(read_bytes(reader)?),
             PrimitiveTypeEnumeration::SByte => PrimitiveValue::SByte(read_bytes(reader)?),
-            PrimitiveTypeEnumeration::Single => {
-                PrimitiveValue::Single(Single::deserialize(reader)?)
-            }
-            PrimitiveTypeEnumeration::TimeSpan => {
-                PrimitiveValue::TimeSpan(TimeSpan::deserialize(reader)?)
-            }
-            PrimitiveTypeEnumeration::DateTime => {
-                PrimitiveValue::DateTime(DateTime::deserialize(reader)?)
-            }
+            PrimitiveTypeEnumeration::Single => PrimitiveValue::Single(from_reader(reader)?),
+            PrimitiveTypeEnumeration::TimeSpan => PrimitiveValue::TimeSpan(from_reader(reader)?),
+            PrimitiveTypeEnumeration::DateTime => PrimitiveValue::DateTime(from_reader(reader)?),
             PrimitiveTypeEnumeration::UInt16 => PrimitiveValue::UInt16(read_bytes(reader)?),
             PrimitiveTypeEnumeration::UInt32 => PrimitiveValue::UInt32(read_bytes(reader)?),
             PrimitiveTypeEnumeration::UInt64 => PrimitiveValue::UInt64(read_bytes(reader)?),

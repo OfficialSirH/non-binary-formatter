@@ -1,27 +1,45 @@
-use std::io::Read;
+use std::fmt;
 
-use crate::errors::Error;
+use serde::{de::Visitor, Deserialize};
 
 #[derive(Debug)]
 pub struct Single {
     pub value: f32,
 }
 
-impl Single {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
-        let mut buffer = [0u8; 4];
-        reader.read_exact(&mut buffer)?;
-        let value = f32::from_le_bytes(buffer);
+// region: Single Deserialization
+struct SingleVisitor;
 
+impl<'de> Visitor<'de> for SingleVisitor {
+    type Value = Single;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("struct Single")
+    }
+
+    fn visit_f32<E>(self, value: f32) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
         Ok(Single { value })
     }
 }
+
+impl<'de> Deserialize<'de> for Single {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        deserializer.deserialize_f32(SingleVisitor)
+    }
+}
+// endregion
 
 #[cfg(test)]
 mod tests {
     use std::io::Cursor;
 
-    use crate::common::data_types::Single;
+    use crate::{common::data_types::Single, deserializer::from_reader};
 
     #[test]
     fn test_single_deserialize() {
@@ -30,10 +48,8 @@ mod tests {
         ];
 
         let mut reader = Cursor::new(&encoded_single);
-        let result = Single::deserialize(&mut reader);
+        let single: Single = from_reader(&mut reader).unwrap();
 
-        assert!(result.is_ok());
-        let value = result.unwrap();
-        assert_eq!(10.0, value.value);
+        assert_eq!(10.0, single.value);
     }
 }
