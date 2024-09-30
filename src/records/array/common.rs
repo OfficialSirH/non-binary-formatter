@@ -1,6 +1,6 @@
-use std::io::Read;
+use std::fmt;
 
-use crate::{errors::Error, readers::read_bytes};
+use serde::{de::Visitor, Deserialize};
 
 /// The [`ArrayInfo`] is a common structure that is used by Array records.
 #[derive(Debug)]
@@ -9,12 +9,38 @@ pub struct ArrayInfo {
     pub length: i32,
 }
 
-impl ArrayInfo {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
-        let object_id = read_bytes(reader)?;
+// region: ArrayInfo Deserialization
+impl<'de> Deserialize<'de> for ArrayInfo {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        struct ArrayInfoVisitor;
 
-        let length = read_bytes(reader)?;
+        impl<'de> Visitor<'de> for ArrayInfoVisitor {
+            type Value = ArrayInfo;
 
-        Ok(ArrayInfo { object_id, length })
+            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+                formatter.write_str("struct ArrayInfo")
+            }
+
+            fn visit_seq<A>(self, mut seq: A) -> Result<Self::Value, A::Error>
+            where
+                A: serde::de::SeqAccess<'de>,
+            {
+                let object_id = seq
+                    .next_element()?
+                    .ok_or_else(|| serde::de::Error::invalid_length(0, &self))?;
+                let length = seq
+                    .next_element()?
+                    .ok_or_else(|| serde::de::Error::invalid_length(1, &self))?;
+
+                Ok(ArrayInfo { object_id, length })
+            }
+        }
+
+        const FIELDS: &[&str] = &["object_id", "length"];
+        deserializer.deserialize_struct("ArrayInfo", FIELDS, ArrayInfoVisitor)
     }
 }
+// endregion

@@ -45,7 +45,7 @@ impl<'de> Visitor<'de> for BinaryTypeEnumerationVisitor {
     type Value = BinaryTypeEnumeration;
 
     fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        formatter.write_str("an integer between 0 and 127")
+        formatter.write_str("an integer between 0 and 7")
     }
 
     fn visit_u8<E>(self, v: u8) -> Result<Self::Value, E>
@@ -189,7 +189,7 @@ impl<'de> Visitor<'de> for PrimitiveTypeEnumerationVisitor {
     type Value = PrimitiveTypeEnumeration;
 
     fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        formatter.write_str("an integer between 0 and 127")
+        formatter.write_str("an integer between 0 and 18")
     }
 
     fn visit_u8<E>(self, v: u8) -> Result<Self::Value, E>

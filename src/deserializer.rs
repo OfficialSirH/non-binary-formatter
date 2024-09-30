@@ -2,7 +2,7 @@ use std::io::Read;
 
 use num_traits::FromBytes;
 use serde::{
-    de::{self, DeserializeSeed, SeqAccess, Visitor},
+    de::{self, DeserializeSeed, EnumAccess, SeqAccess, VariantAccess, Visitor},
     Deserialize,
 };
 
@@ -315,12 +315,13 @@ impl<'de, 'a, R: Read> de::Deserializer<'de> for &'a mut Deserializer<'de, R> {
         self,
         _name: &'static str,
         _variants: &'static [&'static str],
-        _visitor: V,
+        visitor: V,
     ) -> std::result::Result<V::Value, Self::Error>
     where
         V: Visitor<'de>,
     {
-        panic!("Unsupported Method: No enum deserialization")
+        visitor.visit_enum(Enum::new(self))
+        // panic!("Unsupported Method: No enum deserialization")
     }
 
     /// # UNSUPPORTED OPERATION
@@ -360,5 +361,59 @@ impl<'de, 'a, R: Read> SeqAccess<'de> for GeneralSequence<'a, 'de, R> {
         T: DeserializeSeed<'de>,
     {
         seed.deserialize(&mut *self.de).map(Some)
+    }
+}
+
+// An attempt at getting enum deserialization to work
+struct Enum<'a, 'de: 'a, R: Read> {
+    de: &'a mut Deserializer<'de, R>,
+}
+
+impl<'a, 'de, R: Read> Enum<'a, 'de, R> {
+    fn new(de: &'a mut Deserializer<'de, R>) -> Self {
+        Enum { de }
+    }
+}
+
+impl<'de, 'a, R: Read> EnumAccess<'de> for Enum<'a, 'de, R> {
+    type Error = Error;
+    type Variant = Self;
+
+    fn variant_seed<V>(self, seed: V) -> Result<(V::Value, Self::Variant)>
+    where
+        V: DeserializeSeed<'de>,
+    {
+        let val = seed.deserialize(&mut *self.de)?;
+
+        Ok((val, self))
+    }
+}
+
+impl<'de, 'a, R: Read> VariantAccess<'de> for Enum<'a, 'de, R> {
+    type Error = Error;
+
+    fn unit_variant(self) -> Result<()> {
+        Err(Error::InvalidEnum)
+    }
+
+    fn newtype_variant_seed<T>(self, seed: T) -> Result<T::Value>
+    where
+        T: DeserializeSeed<'de>,
+    {
+        seed.deserialize(self.de)
+    }
+
+    fn tuple_variant<V>(self, _len: usize, visitor: V) -> Result<V::Value>
+    where
+        V: Visitor<'de>,
+    {
+        de::Deserializer::deserialize_seq(self.de, visitor)
+    }
+
+    fn struct_variant<V>(self, _fields: &'static [&'static str], visitor: V) -> Result<V::Value>
+    where
+        V: Visitor<'de>,
+    {
+        de::Deserializer::deserialize_seq(self.de, visitor)
     }
 }

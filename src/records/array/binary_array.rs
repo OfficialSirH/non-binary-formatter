@@ -1,8 +1,8 @@
 use std::io::Read;
 
 use crate::{
-    common::enumerations::BinaryTypeEnumeration, errors::Error, readers::read_bytes,
-    records::AdditionalTypeInfo,
+    common::enumerations::BinaryTypeEnumeration, deserializer::from_reader, errors::Error,
+    readers::read_bytes, records::AdditionalTypeInfo,
 };
 
 use super::BinaryArrayTypeEnumeration;
@@ -24,7 +24,7 @@ impl BinaryArray {
     pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
         let object_id = read_bytes(reader)?;
 
-        let binary_array_type_enumeration = BinaryArrayTypeEnumeration::deserialize(reader)?;
+        let binary_array_type_enumeration: BinaryArrayTypeEnumeration = from_reader(reader)?;
 
         let rank = read_bytes(reader)?;
 

@@ -1,8 +1,10 @@
-use std::io::Read;
+use std::fmt;
 
+use serde::{
+    de::{self, Visitor},
+    Deserialize,
+};
 use strum::FromRepr;
-
-use crate::{errors::Error, readers::read_bytes};
 
 /// The [`BinaryArrayTypeEnumeration`] is used to denote the type of an Array. The size of the enumeration
 /// is 1 byte. It is used by the Array records.
@@ -25,10 +27,33 @@ pub enum BinaryArrayTypeEnumeration {
     RectangularOffset = 5,
 }
 
-impl BinaryArrayTypeEnumeration {
-    pub fn deserialize<R: Read>(reader: &mut R) -> Result<Self, Error> {
-        let value = read_bytes(reader)?;
+// region: BinaryArrayTypeEnumeration Deserialization
+struct BinaryArrayTypeEnumerationVisitor;
 
-        BinaryArrayTypeEnumeration::from_repr(value).ok_or(Error::InvalidEnum)
+impl<'de> Visitor<'de> for BinaryArrayTypeEnumerationVisitor {
+    type Value = BinaryArrayTypeEnumeration;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("an integer between 0 and 5")
+    }
+
+    fn visit_u8<E>(self, v: u8) -> Result<Self::Value, E>
+    where
+        E: de::Error,
+    {
+        BinaryArrayTypeEnumeration::from_repr(v).ok_or(E::custom(format!(
+            "u8 value doesn't map to any BinaryArrayTypeEnumeration variant: {}",
+            v
+        )))
     }
 }
+
+impl<'de> Deserialize<'de> for BinaryArrayTypeEnumeration {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        deserializer.deserialize_u8(BinaryArrayTypeEnumerationVisitor)
+    }
+}
+// endregion
