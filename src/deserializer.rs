@@ -1,4 +1,4 @@
-use std::io::Read;
+use std::{io::Read, result};
 
 use num_traits::FromBytes;
 use serde::{
@@ -27,6 +27,13 @@ where
 {
     let mut deserializer = Deserializer::from_reader(r);
     T::deserialize(&mut deserializer)
+}
+
+pub fn from_deserializer<'de, D: serde::Deserializer<'de>, T>(d: D) -> result::Result<T, D::Error>
+where
+    T: Deserialize<'de>,
+{
+    T::deserialize(d)
 }
 
 impl<'de, R: Read> Deserializer<'de, R> {

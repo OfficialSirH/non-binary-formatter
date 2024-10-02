@@ -1,6 +1,7 @@
 use std::io::Read;
 
 use member_reference::ObjectNull;
+use serde::Deserialize;
 
 use crate::{
     common::{
@@ -9,7 +10,7 @@ use crate::{
         },
         enumerations::{BinaryTypeEnumeration, PrimitiveTypeEnumeration},
     },
-    deserializer::from_reader,
+    deserializer::{from_deserializer, from_reader},
     errors::Error,
     readers::read_bytes,
 };
@@ -20,7 +21,7 @@ pub mod member_reference;
 pub mod method_invocation;
 pub mod other;
 
-#[derive(Debug)]
+#[derive(Debug, Deserialize)]
 pub enum AdditionalTypeInfo {
     Primitive(PrimitiveTypeEnumeration),
     SystemClass(LengthPrefixedString),
@@ -29,20 +30,48 @@ pub enum AdditionalTypeInfo {
     None,
 }
 
-impl<R: Read> TryFrom<(&mut R, &BinaryTypeEnumeration)> for AdditionalTypeInfo {
-    type Error = Error;
+// impl<R: Read> TryFrom<(&mut R, &BinaryTypeEnumeration)> for AdditionalTypeInfo {
+//     type Error = Error;
 
-    fn try_from(
-        (reader, binary_type_enum): (&mut R, &BinaryTypeEnumeration),
-    ) -> Result<Self, Self::Error> {
+//     fn try_from(
+//         (reader, binary_type_enum): (&mut R, &BinaryTypeEnumeration),
+//     ) -> Result<Self, Self::Error> {
+//         let res = match binary_type_enum {
+//             BinaryTypeEnumeration::Primitive => AdditionalTypeInfo::Primitive(from_reader(reader)?),
+//             BinaryTypeEnumeration::SystemClass => {
+//                 AdditionalTypeInfo::SystemClass(from_reader(reader)?)
+//             }
+//             BinaryTypeEnumeration::Class => AdditionalTypeInfo::Class(from_reader(reader)?),
+//             BinaryTypeEnumeration::PrimitiveArray => {
+//                 AdditionalTypeInfo::PrimitiveArray(from_reader(reader)?)
+//             }
+//             BinaryTypeEnumeration::String
+//             | BinaryTypeEnumeration::Object
+//             | BinaryTypeEnumeration::ObjectArray
+//             | BinaryTypeEnumeration::StringArray => AdditionalTypeInfo::None,
+//         };
+
+//         Ok(res)
+//     }
+// }
+
+impl<'de, D> TryFrom<(D, &BinaryTypeEnumeration)> for AdditionalTypeInfo
+where
+    D: serde::Deserializer<'de>,
+{
+    type Error = D::Error;
+
+    fn try_from((d, binary_type_enum): (D, &BinaryTypeEnumeration)) -> Result<Self, Self::Error> {
         let res = match binary_type_enum {
-            BinaryTypeEnumeration::Primitive => AdditionalTypeInfo::Primitive(from_reader(reader)?),
-            BinaryTypeEnumeration::SystemClass => {
-                AdditionalTypeInfo::SystemClass(from_reader(reader)?)
+            BinaryTypeEnumeration::Primitive => {
+                AdditionalTypeInfo::Primitive(from_deserializer(d)?)
             }
-            BinaryTypeEnumeration::Class => AdditionalTypeInfo::Class(from_reader(reader)?),
+            BinaryTypeEnumeration::SystemClass => {
+                AdditionalTypeInfo::SystemClass(from_deserializer(d)?)
+            }
+            BinaryTypeEnumeration::Class => AdditionalTypeInfo::Class(from_deserializer(d)?),
             BinaryTypeEnumeration::PrimitiveArray => {
-                AdditionalTypeInfo::PrimitiveArray(from_reader(reader)?)
+                AdditionalTypeInfo::PrimitiveArray(from_deserializer(d)?)
             }
             BinaryTypeEnumeration::String
             | BinaryTypeEnumeration::Object
