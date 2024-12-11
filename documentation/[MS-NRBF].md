@@ -1124,15 +1124,15 @@ The BinaryTypeEnumeration identifies the **[Remoting Type](#remoting-type)** of 
     <tbody>
         <tr>
             <td>Primitive</br>0</td>
-            <td>The Remoting Type is defined in [PrimitiveTypeEnumeration](#2123-primitivetypeenumeration) and the Remoting Type is not a string.</td>
+            <td>The Remoting Type is defined in <a href="#2123-primitivetypeenumeration">PrimitiveTypeEnumeration</a> and the Remoting Type is not a string.</td>
         </tr>
         <tr>
             <td>String</br>1</td>
-            <td>The Remoting Type is a [LengthPrefixedString](#2116-lengthprefixedstring).</td>
+            <td>The Remoting Type is a <a href="#2116-lengthprefixedstring">LengthPrefixedString</a>.</td>
         </tr>
         <tr>
             <td>Object</br>2</td>
-            <td>The Remoting Type is [System.Object](#systemobject).</td>
+            <td>The Remoting Type is <a href="#systemobject">System.Object</a>.</td>
         </tr>
         <tr>
             <td>SystemClass</br>3</td>
