@@ -1,29 +1,70 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    flake-utils.url = "github:numtide/flake-utils"; 
-    rust-overlay = {
-      url = "github:oxalica/rust-overlay";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-utils.follows = "flake-utils";
-      };
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, rust-overlay }:
-  flake-utils.lib.eachDefaultSystem (system:
+  outputs = { self, nixpkgs, fenix }:
     let
-      overlays = [ (import rust-overlay) ];
-      pkgs = import nixpkgs {
-        inherit system overlays;
-      };
-    in
-    with pkgs;
-    {
-      devShells.default = mkShell {
-        buildInputs = [ rust-bin.nightly.latest.default ];
-      };
-    }
-  );
+      systems = ["x86_64-linux" "aarch64-linux"];
+      
+      forAllSystems = f:
+        nixpkgs.lib.genAttrs systems (system:
+          f {
+            pkgs =
+              import nixpkgs {
+                inherit system;
+                overlays = [self.overlays.default];
+              };
+          });
+  
+    in {
+      overlays.default = final: prev: {
+			rustToolchain = with fenix.packages.${prev.stdenv.hostPlatform.system};
+				combine (
+					(with stable; [clippy rustc cargo rust-src rust-analyzer])
+					++ [default.rustfmt]
+				);
+    	};
+		      
+      packages =
+      			forAllSystems ({pkgs}: {
+      					default =
+      						(pkgs.makeRustPlatform {
+      								cargo = pkgs.rustToolchain;
+      								rustc = pkgs.rustToolchain;
+      							}).buildRustPackage {
+      							pname = "non-binary-formatter";
+      							version = "0.0.1";
+      							src = ./.;
+      							cargoLock.lockFile = ./Cargo.lock;
+      						};
+      				});
+      				      
+      devShells.default =
+        forAllSystems ({pkgs}:
+          pkgs.mkShell {
+            packages = with pkgs; [
+              rustToolchain
+              pkg-config
+              cargo-deny
+              cargo-edit
+              cargo-semver-checks
+              cargo-watch
+              cargo-show-asm
+              bacon
+              gccNGPackages_15.libquadmath
+            ];
+
+            shellHook = ''
+              export LD_LIBRARY_PATH="${pkgs.gccNGPackages_15.libquadmath.lib}/lib:$LD_LIBRARY_PATH"
+            '';
+
+            env.RUST_SRC_PATH = "${pkgs.rustToolchain}/lib/rustlib/src/rust/library";
+          });
+
+    };
 }
