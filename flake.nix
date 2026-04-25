@@ -44,9 +44,10 @@
       						};
       				});
       				      
-      devShells.default =
-        forAllSystems ({pkgs}:
-          pkgs.mkShell {
+			devShells = forAllSystems (
+        { pkgs }:
+        {
+          default = pkgs.mkShell {
             packages = with pkgs; [
               rustToolchain
               pkg-config
@@ -56,15 +57,17 @@
               cargo-watch
               cargo-show-asm
               bacon
-              gccNGPackages_15.libquadmath
             ];
 
-            shellHook = ''
-              export LD_LIBRARY_PATH="${pkgs.gccNGPackages_15.libquadmath.lib}/lib:$LD_LIBRARY_PATH"
-            '';
+            buildInputs = with pkgs; [
+              gcc.cc.lib
+            ];
 
-            env.RUST_SRC_PATH = "${pkgs.rustToolchain}/lib/rustlib/src/rust/library";
-          });
+            LD_LIBRARY_PATH = "${pkgs.lib.makeLibraryPath (with pkgs; [gcc.cc.lib])}:$LD_LIBRARY_PATH";
+            RUST_SRC_PATH = "${pkgs.rustToolchain}/lib/rustlib/src/rust/library";
+          };
+        }
+      );
 
     };
 }
